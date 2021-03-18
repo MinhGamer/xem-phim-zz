@@ -1,9 +1,10 @@
 import React, { useState, useCallback } from 'react';
 
-import { API_URL } from '../../util/config';
+import { API_URL } from '../util/config';
 
 export default function useHttp() {
-  const [loading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const sendRequest = useCallback(async (uri, method = 'GET', body = null) => {
     try {
@@ -20,5 +21,5 @@ export default function useHttp() {
     }
   }, []);
 
-  return { sendRequest };
+  return { sendRequest, isLoading, error };
 }

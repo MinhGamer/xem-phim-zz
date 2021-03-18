@@ -1,0 +1,43 @@
+.form-control {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 1rem auto;
+  flex-wrap: wrap;
+  transition: all 0.2s;
+}
+
+.form-control label {
+  font-size: 1.1rem;
+  font-weight: 700;
+  width: 25%;
+}
+
+.form-control input {
+  border-radius: 5px;
+  width: 75%;
+  height: 30px;
+  border: 1px solid #ccc;
+  background: #f8f8f8;
+  padding: 0.15rem 0.25rem;
+  transition: all 0.2s;
+}
+
+.form-control__error-text {
+  color: red;
+}
+
+.form-control input:focus,
+.form-control textarea:focus {
+  outline: none;
+  background: #ebebeb;
+  border: 3px solid #428bca;
+}
+
+.form-control--invalid input {
+  border-left: 5px solid #ed213a;
+}
+
+.form-control--valid input {
+  border-left: 5px solid #38ef7d;
+}
