@@ -1,0 +1,29 @@
+.button {
+  background-color: #fff;
+  color: #363636;
+  font-size: 1.1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  justify-content: center;
+  padding: calc(0.375em - 1px) 0.75em;
+  text-align: center;
+}
+
+.button-primary {
+  background-color: #cf2122;
+  border-color: transparent;
+  color: #fff;
+}
+
+.button-primary:hover {
+  background-color: transparent;
+  border-color: #ff4b2b;
+  color: #ff4b2b;
+  outline: none;
+}
+
+.button-primary:active {
+  background-color: #b91d1e;
+  border-color: transparent;
+  color: #fff;
+}
