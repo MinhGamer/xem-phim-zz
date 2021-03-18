@@ -1,5 +1,17 @@
 import React from 'react';
 
-export default function MovieList() {
-  return <div>Movie List</div>;
+import MovieItem from '../movieItem/MovieItem';
+
+import './MovieList.css';
+
+export default function MovieList(props) {
+  const { movies } = props;
+
+  return (
+    <div className='movie-list'>
+      {movies.map((movie) => (
+        <MovieItem movie={movie} />
+      ))}
+    </div>
+  );
 }
