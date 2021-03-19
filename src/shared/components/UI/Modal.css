@@ -1,0 +1,44 @@
+.modal {
+  z-index: 5;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 0 2px 1px #ccc;
+  width: 70%;
+  position: fixed;
+  top: 22vh;
+  left: 15%;
+  color: #000000;
+}
+
+.modal-header {
+  font-size: 2rem;
+  padding: 1rem;
+  background-color: #23d160;
+  color: #ffffff;
+}
+
+.modal-content {
+  font-size: 1.5rem;
+}
+
+/* animate modal */
+.modal-enter {
+  transform: translateY(-10rem);
+  opacity: 0;
+  transition: all 0.2s;
+}
+
+.modal-enter-active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.modal-exit {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.2s;
+}
+.modal-exit-active {
+  opacity: 0;
+  transform: translateY(-10rem);
+}

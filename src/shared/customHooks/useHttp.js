@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
 import { API_URL } from '../util/config';
 
@@ -7,6 +7,7 @@ export default function useHttp() {
   const [error, setError] = useState(null);
 
   const sendRequest = useCallback(async (uri, method = 'GET', body = null) => {
+    setIsLoading(true);
     try {
       const res = await fetch(`${API_URL}/${uri}`, {
         method,
@@ -15,11 +16,22 @@ export default function useHttp() {
 
       const resData = await res.json();
 
+      if (!res.ok) {
+        throw resData;
+      }
+
+      setIsLoading(false);
       return resData;
     } catch (err) {
+      setIsLoading(false);
+      setError(err.message);
       throw err;
     }
   }, []);
 
-  return { sendRequest, isLoading, error };
+  const clearError = () => {
+    setError(null);
+  };
+
+  return { sendRequest, isLoading, error, clearError };
 }

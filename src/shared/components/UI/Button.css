@@ -10,6 +10,7 @@
   font-weight: 500;
 }
 
+/* primary */
 .button-primary {
   background-color: #cf2122;
   border-color: transparent;
@@ -23,6 +24,7 @@
   outline: none;
 }
 
+/* secondary */
 .button-secondary {
   background-color: #428bca;
   border-color: transparent;
@@ -37,5 +39,18 @@
   background-color: transparent;
   border-color: #428bca;
   color: #428bca;
+  outline: none;
+}
+
+/* darkblue */
+.button-dark-blue {
+  background-color: #3273dc;
+  border-color: transparent;
+  color: #fff;
+}
+.button-dark-blue:hover {
+  background-color: transparent;
+  border-color: #3273dc;
+  color: #3273dc;
   outline: none;
 }

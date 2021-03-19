@@ -7,6 +7,7 @@ import Button from '../../shared/components/UI/Button';
 import { VALIDATOR_REQUIRE } from '../../shared/util/validators';
 
 import useHttp from '../../shared/customHooks/useHttp';
+import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
 
 import './AddMoviePage.css';
 
@@ -25,7 +26,7 @@ export default function AddMoviePage() {
     false
   );
 
-  const {} = useHttp();
+  const { sendRequest, isLoading, error } = useHttp();
 
   useEffect(() => {
     console.log(formState);
@@ -38,27 +39,31 @@ export default function AddMoviePage() {
   };
 
   return (
-    <form className='form-add-movie' onSubmit={submitHandler}>
-      <h1>Form Add Movie</h1>
-      <Input
-        id='titleEng'
-        label='Title English'
-        initialValue=''
-        validators={[VALIDATOR_REQUIRE()]}
-        onInput={inputHandler}
-        type='text'
-      />
-      <Input
-        id='titleVn'
-        label='Title Vietnamese'
-        initialValue=''
-        validators={[VALIDATOR_REQUIRE()]}
-        onInput={inputHandler}
-        type='text'
-      />
-      <Button disabled={!formState.isValid} isSecondary>
-        Submit
-      </Button>
-    </form>
+    <>
+      <form className='form-add-movie' onSubmit={submitHandler}>
+        {isLoading && <LoadingSpinner asOverlay />}
+
+        <h1>Form Add Movie</h1>
+        <Input
+          id='titleEng'
+          label='Title English'
+          initialValue=''
+          validators={[VALIDATOR_REQUIRE()]}
+          onInput={inputHandler}
+          type='text'
+        />
+        <Input
+          id='titleVn'
+          label='Title Vietnamese'
+          initialValue=''
+          validators={[VALIDATOR_REQUIRE()]}
+          onInput={inputHandler}
+          type='text'
+        />
+        <Button disabled={!formState.isValid} isSecondary>
+          Submit
+        </Button>
+      </form>
+    </>
   );
 }

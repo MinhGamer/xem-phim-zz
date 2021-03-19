@@ -2,25 +2,33 @@ import React, { useState, useEffect } from 'react';
 
 import MovieList from '../../components/movieList/MovieList';
 
+import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
+
+import ErrorModal from '../../shared/components/UI/ErrorModal';
+
 import useHttp from '../../shared/customHooks/useHttp';
 
 export default function HomePage() {
-  const { sendRequest } = useHttp();
+  const { sendRequest, isLoading, error, clearError } = useHttp();
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const data = await sendRequest('movie/');
-
-      setMovies(data.movies);
+      try {
+        const data = await sendRequest('movie');
+        setMovies(data.movies);
+      } catch (err) {}
     };
 
     fetchMovies();
   }, [sendRequest]);
 
   return (
-    <div>
-      <MovieList movies={movies} />
-    </div>
+    <>
+      {true && <ErrorModal error={error} clearError={clearError} />}
+
+      {isLoading && <LoadingSpinner asOverlay />}
+      {!isLoading && movies && <MovieList movies={movies} />}
+    </>
   );
 }

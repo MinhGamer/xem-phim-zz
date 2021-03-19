@@ -1,0 +1,14 @@
+.modal-error__title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  background-color: #cf2122;
+  color: #ffffff;
+  padding: 0.4rem;
+}
+.modal-error__content {
+  font-size: 1.5rem;
+  padding: 0.6rem;
+}
+.modal-error__footer {
+  padding: 0.6rem;
+}
