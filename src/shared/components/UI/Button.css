@@ -54,3 +54,16 @@
   color: #3273dc;
   outline: none;
 }
+
+/* green */
+.button-green {
+  background-color: #23d160;
+  border-color: transparent;
+  color: #fff;
+}
+.button-green:hover {
+  background-color: transparent;
+  border-color: #23d160;
+  color: #23d160;
+  outline: none;
+}

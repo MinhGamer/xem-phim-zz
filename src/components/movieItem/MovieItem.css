@@ -1,11 +1,13 @@
 .movie-item {
   width: 20%;
   padding: 1.5rem;
+  font-weight: 700;
 }
 
 .movie-item__image {
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .movie-item__overlay {
@@ -13,9 +15,9 @@
   background-color: rgba(0, 0, 0, 0.6);
   top: 0;
   left: 0;
-  width: 300%;
+  width: 400%;
   height: 100%;
-  transform: translateX(-400vh) skewX(40deg);
+  transform: translateX(-300vh) skewX(40deg);
   transition: all 0.5s;
 }
 
@@ -59,14 +61,14 @@
 }
 
 .movie-item__title--eng {
-  font-size: 1.1rem;
-  margin-top: 0.6rem;
-  margin-bottom: 0rem;
+  color: #7a7a7a;
+  font-size: 1rem;
 }
 
 .movie-item .movie-item__title--vn {
-  color: #7a7a7a;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
+  margin-top: 0.6rem;
+  margin-bottom: 0rem;
 }
 
 @media screen and (max-width: 1408px) {

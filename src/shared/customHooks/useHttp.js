@@ -6,28 +6,32 @@ export default function useHttp() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const sendRequest = useCallback(async (uri, method = 'GET', body = null) => {
-    setIsLoading(true);
-    try {
-      const res = await fetch(`${API_URL}/${uri}`, {
-        method,
-        body,
-      });
+  const sendRequest = useCallback(
+    async (uri, method = 'GET', body = null, headers) => {
+      setIsLoading(true);
+      try {
+        const res = await fetch(`${API_URL}/${uri}`, {
+          method,
+          body,
+          headers,
+        });
 
-      const resData = await res.json();
+        const resData = await res.json();
 
-      if (!res.ok) {
-        throw resData;
+        if (!res.ok) {
+          throw resData;
+        }
+
+        setIsLoading(false);
+        return resData;
+      } catch (err) {
+        setIsLoading(false);
+        setError(err.message);
+        throw err;
       }
-
-      setIsLoading(false);
-      return resData;
-    } catch (err) {
-      setIsLoading(false);
-      setError(err.message);
-      throw err;
-    }
-  }, []);
+    },
+    []
+  );
 
   const clearError = () => {
     setError(null);

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import useForm from '../../shared/customHooks/useForm';
 import Input from '../../shared/components/FormElement/Input';
@@ -8,6 +8,11 @@ import { VALIDATOR_REQUIRE } from '../../shared/util/validators';
 
 import useHttp from '../../shared/customHooks/useHttp';
 import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
+
+import ImageUpload from '../../shared/components/FormElement/ImageUpload';
+
+import ErrorModal from '../../shared/components/UI/ErrorModal';
+import Modal from '../../shared/components/UI/Modal';
 
 import './AddMoviePage.css';
 
@@ -22,24 +27,71 @@ export default function AddMoviePage() {
         value: '',
         isValid: false,
       },
+      image: {
+        value: null,
+        isValid: false,
+      },
     },
     false
   );
 
-  const { sendRequest, isLoading, error } = useHttp();
+  const { sendRequest, isLoading, error, clearError } = useHttp();
 
-  useEffect(() => {
-    console.log(formState);
-  }, [formState]);
+  const { createMovie, setCreateMovie } = useState(false);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
-    console.log(formState);
+    let titleEng = formState.inputs.titleEng.value;
+    const newMovie = {
+      titleEng,
+      titleVn: formState.inputs.titleVn.value,
+    };
+
+    const fromData = new FormData();
+    fromData.append('image', formState.inputs.image.value);
+
+    // console.log(formState.inputs.image.value);
+
+    //this title used to add to image name
+    const imageName = titleEng.toLowerCase().replaceAll(' ', '-');
+    // console.log(imageName);
+
+    try {
+      //send request to create new movie
+      const data = await sendRequest(
+        'movie',
+        'POST',
+        JSON.stringify(newMovie),
+        { 'Content-Type': 'application/json ' }
+      );
+
+      console.log(data);
+
+      //get id created by serve
+      const movieId = data.newMovie.id;
+
+      //use this id to add the image to database
+      await sendRequest(
+        `movie/image/${movieId}/${imageName}`,
+        'POST',
+        fromData
+      );
+
+      setCreateMovie(true);
+    } catch (err) {}
   };
 
   return (
     <>
+      {createMovie && (
+        <Modal>
+          <h1>Success</h1>
+        </Modal>
+      )}
+
+      {error && <ErrorModal error={error} clearError={clearError} />}
+
       <form className='form-add-movie' onSubmit={submitHandler}>
         {isLoading && <LoadingSpinner asOverlay />}
 
@@ -60,6 +112,9 @@ export default function AddMoviePage() {
           onInput={inputHandler}
           type='text'
         />
+
+        <ImageUpload onInput={inputHandler} center id='image' />
+
         <Button disabled={!formState.isValid} isSecondary>
           Submit
         </Button>
