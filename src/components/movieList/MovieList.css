@@ -5,3 +5,43 @@
   width: 90%;
   margin: auto;
 }
+
+.movie-list .pagination {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.movie-list .pagination-page {
+  display: flex;
+  align-items: center;
+}
+
+.movie-list .pagination-page span {
+  font-size: 1.1rem;
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 3px;
+  border: 1px solid #dbdbdb;
+  color: #dbdbdb;
+  background-color: transparent;
+  margin: 0 0.5rem;
+}
+
+.movie-list .pagination-page p {
+  margin: 0 0.7rem;
+}
+
+.movie-list .pagination-page span:hover {
+  cursor: pointer;
+  background-color: #428bca;
+  border-color: #428bca;
+  color: #fff;
+}
+
+.movie-list span.pagination-page--active {
+  background-color: #428bca;
+  border-color: #428bca;
+  color: #fff;
+}

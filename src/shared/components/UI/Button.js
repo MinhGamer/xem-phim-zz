@@ -7,15 +7,21 @@ export default function Button(props) {
   const buttonSecondary = (props.isSecondary && 'button-secondary') || '';
   const buttonDarkblue = (props.isDarkblue && 'button-dark-blue') || '';
   const buttonGreen = (props.isGreen && 'button-green') || '';
+  const buttonClear = (props.isClear && 'button-clear') || '';
 
   return (
     <button
+      style={props.style}
       type={props.type}
       disabled={props.disabled}
       onClick={props.onClick}
       className={`button ${
-        buttonPrimary || buttonSecondary || buttonDarkblue || buttonGreen
-      }`}>
+        buttonPrimary ||
+        buttonSecondary ||
+        buttonDarkblue ||
+        buttonGreen ||
+        buttonClear
+      } ${props.className}`}>
       {props.children}
     </button>
   );

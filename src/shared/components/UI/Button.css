@@ -31,10 +31,6 @@
   color: #fff;
 }
 
-.button-secondary:disabled {
-  cursor: not-allowed;
-}
-
 .button-secondary:hover {
   background-color: transparent;
   border-color: #428bca;
@@ -66,4 +62,25 @@
   border-color: #23d160;
   color: #23d160;
   outline: none;
+}
+
+/* clear */
+.button-clear {
+  border-color: #dbdbdb;
+  color: #dbdbdb;
+  min-width: 2.25em;
+  background-color: transparent;
+}
+.button-clear:hover {
+  background-color: transparent;
+  border-color: #3273dc;
+  color: #3273dc;
+  outline: none;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  border-color: #7a7a7a;
+  color: #7a7a7a;
+  background-color: transparent;
 }

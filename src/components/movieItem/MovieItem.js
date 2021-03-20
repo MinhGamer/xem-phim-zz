@@ -5,10 +5,6 @@ import './MovieItem.css';
 export default function MovieItem(props) {
   const { titleEng, titleVn, imageUrl } = props.movie;
 
-  console.log(imageUrl);
-
-  console.log(props.movie);
-
   return (
     <div className='movie-item'>
       <div className='movie-item__image'>
