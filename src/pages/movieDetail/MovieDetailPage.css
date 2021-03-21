@@ -138,12 +138,17 @@
 }
 
 .movie-detail__trailers-item {
-  padding-right: 1rem;
+  margin-right: 1rem;
   border-radius: 4px;
   width: 30%;
   height: 180px;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
 }
 
 .movie-detail__trailers-item iframe {
+  position: relative;
+  z-index: -1;
   width: 100%;
 }

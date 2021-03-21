@@ -1,0 +1,14 @@
+.movie-trailer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.movie-trailer iframe {
+  position: fixed;
+  z-index: 15;
+  width: 60%;
+  height: 70%;
+}

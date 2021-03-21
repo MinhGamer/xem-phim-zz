@@ -1,5 +1,23 @@
 import React from 'react';
 
-export default function MovieTrailer() {
-  return <div></div>;
+import BackDrop from '../../shared/components/UI/Backdrop';
+
+import './MovieTrailer.css';
+
+export default function MovieTrailer(props) {
+  const { backdropClick, trailer } = props;
+  console.log('MovieTrailer', trailer);
+  return (
+    <>
+      <BackDrop onClick={backdropClick} />
+      <div className='movie-trailer'>
+        <iframe
+          src={trailer}
+          title='YouTube video player'
+          frameborder='0'
+          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+          allowfullscreen></iframe>
+      </div>
+    </>
+  );
 }
