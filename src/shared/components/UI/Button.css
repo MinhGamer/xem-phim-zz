@@ -10,6 +10,10 @@
   font-weight: 500;
 }
 
+.button-full {
+  width: 100%;
+}
+
 /* primary */
 .button-primary {
   background-color: #cf2122;

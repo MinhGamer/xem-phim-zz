@@ -8,6 +8,16 @@ export default function Button(props) {
   const buttonDarkblue = (props.isDarkblue && 'button-dark-blue') || '';
   const buttonGreen = (props.isGreen && 'button-green') || '';
   const buttonClear = (props.isClear && 'button-clear') || '';
+  const buttonFull = (props.isFull && 'button-full') || '';
+
+  const buttonStyled = [
+    buttonPrimary,
+    buttonSecondary,
+    buttonDarkblue,
+    buttonGreen,
+    buttonClear,
+    buttonFull,
+  ].join(' ');
 
   return (
     <button
@@ -15,13 +25,7 @@ export default function Button(props) {
       type={props.type}
       disabled={props.disabled}
       onClick={props.onClick}
-      className={`button ${
-        buttonPrimary ||
-        buttonSecondary ||
-        buttonDarkblue ||
-        buttonGreen ||
-        buttonClear
-      } ${props.className}`}>
+      className={`button ${buttonStyled} ${props.className}`}>
       {props.children}
     </button>
   );

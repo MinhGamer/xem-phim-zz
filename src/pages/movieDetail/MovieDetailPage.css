@@ -19,22 +19,131 @@
 }
 
 .movie-detail__content {
-  position: relative;
-  top: 0;
+  position: absolute;
+  top: 40%;
+  left: 0;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: flex-start;
   height: 600px;
+  width: 100%;
+  z-index: 3;
+  padding: 0 6rem;
 }
 
 .movie-detail__image {
-  position: absolute;
-  z-index: 3;
-  width: 20%;
-  top: -50%;
-  left: 10%;
+  width: 23%;
+  top: 0;
+  left: 0;
 }
 
 .movie-detail__image img {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.movie-detail__image .fa-play {
+  margin-right: 1.2rem;
+}
+
+.movie-detail__info {
+  width: 70%;
+}
+
+.movie-detail__title-eng {
+  font-size: 2.7rem;
+  font-weight: 600;
+}
+
+.movie-detail__title-vn {
+  color: #b5b5b5;
+  font-size: 1.7rem;
+}
+
+.movie-detail__length {
+  font-size: 1.4rem;
+  margin-top: 3rem;
+}
+
+.movie-detail__IMDb {
+  margin-top: 1rem;
+}
+
+.movie-detail__IMDb--icon {
+  color: #000;
+  background-color: rgb(255, 193, 7);
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 0.2rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+
+.movie-detail__share {
+  margin-top: 2rem;
+}
+
+.movie-detail__share span {
+  cursor: pointer;
+  padding: 0.5rem 0.9rem;
+  border-radius: 5px;
+}
+
+.movie-detail__share--facebook {
+  background-color: rgba(50, 115, 220, 0.93);
+  border-color: transparent;
+  margin-right: 1rem;
+}
+
+.movie-detail__share--facebook .fa-facebook {
+  margin-right: 1rem;
+  font-size: 1.3rem;
+}
+
+.movie-detail__share--bookmark {
+  background-color: #23d160;
+  border-color: transparent;
+}
+
+.movie-detail__share--bookmark .fa-bookmark {
+  margin-right: 1rem;
+  font-size: 1.3rem;
+}
+
+.movie-detail__sub-info {
+  margin-top: 8rem;
+}
+
+.movie-detail__sub-info--label {
+  display: inline-block;
+  font-size: 1.1rem;
+  color: #7a7a7a;
+  width: 130px;
+}
+.movie-detail__sub-info--value {
+  font-size: 1.1rem;
+}
+
+.movie-detail__description {
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  color: #b5b5b5 !important;
+}
+
+.movie-detail__trailers {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.movie-detail__trailers-item {
+  padding-right: 1rem;
+  border-radius: 4px;
+  width: 30%;
+  height: 180px;
+}
+
+.movie-detail__trailers-item iframe {
   width: 100%;
 }
