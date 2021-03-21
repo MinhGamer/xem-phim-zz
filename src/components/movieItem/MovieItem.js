@@ -1,13 +1,20 @@
 import React from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import './MovieItem.css';
 
 export default function MovieItem(props) {
-  const { titleEng, titleVn, imageUrl } = props.movie;
+  const { id, titleEng, titleVn, imageUrl } = props.movie;
+  const history = useHistory();
+
+  const gotoMovieDetailPage = () => {
+    history.push(`/movie/${id}`);
+  };
 
   return (
     <div className='movie-item'>
-      <div className='movie-item__image'>
+      <div onClick={gotoMovieDetailPage} className='movie-item__image'>
         <img src={imageUrl} alt={titleEng} />
         <div className='movie-item__overlay'></div>
         <div className='movie-item__play-icon'>

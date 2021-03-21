@@ -1,0 +1,40 @@
+.movie-detail__background-image {
+  background-size: cover;
+  background-position: 50% 0;
+  background-repeat: no-repeat;
+  position: relative;
+  height: 600px;
+  z-index: 2;
+  top: 0;
+  left: 0;
+}
+
+.movie-detail__background-image:before {
+  position: absolute;
+  content: '';
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(2, 13, 24, 0.75);
+}
+
+.movie-detail__content {
+  position: relative;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 600px;
+}
+
+.movie-detail__image {
+  position: absolute;
+  z-index: 3;
+  width: 20%;
+  top: -50%;
+  left: 10%;
+}
+
+.movie-detail__image img {
+  width: 100%;
+}

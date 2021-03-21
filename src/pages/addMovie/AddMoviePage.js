@@ -16,8 +16,12 @@ import Modal from '../../shared/components/UI/Modal';
 
 import './AddMoviePage.css';
 
+import Select from '../../shared/components/FormElement/Select';
+
+import { GENRES_LIST, NATION_LIST } from '../../shared/util/config';
+
 export default function AddMoviePage() {
-  const { formState, inputHandler, setFormData } = useForm(
+  const { formState, inputHandler, setFormData, selectHandler } = useForm(
     {
       titleEng: {
         value: '',
@@ -28,6 +32,10 @@ export default function AddMoviePage() {
         isValid: false,
       },
       image: {
+        value: null,
+        isValid: false,
+      },
+      genres: {
         value: null,
         isValid: false,
       },
@@ -42,10 +50,14 @@ export default function AddMoviePage() {
   const submitHandler = async (e) => {
     e.preventDefault();
 
+    console.log(formState.inputs);
+
     let titleEng = formState.inputs.titleEng.value;
     const newMovie = {
       titleEng,
       titleVn: formState.inputs.titleVn.value,
+      genres: formState.inputs.genres.value,
+      nation: formState.inputs.nation.value,
     };
 
     const fromData = new FormData();
@@ -95,10 +107,10 @@ export default function AddMoviePage() {
       <form className='form-add-movie' onSubmit={submitHandler}>
         {isLoading && <LoadingSpinner asOverlay />}
 
-        <h1>Form Add Movie</h1>
+        <h1>Thêm phim</h1>
         <Input
           id='titleEng'
-          label='Title English'
+          label='Tên Tiếng Anh'
           initialValue=''
           validators={[VALIDATOR_REQUIRE()]}
           onInput={inputHandler}
@@ -106,12 +118,32 @@ export default function AddMoviePage() {
         />
         <Input
           id='titleVn'
-          label='Title Vietnamese'
+          label='Tên Tiếng Việt'
           initialValue=''
           validators={[VALIDATOR_REQUIRE()]}
           onInput={inputHandler}
           type='text'
         />
+
+        <div className='form-add-movie__select-container'>
+          <Select
+            required
+            id='genres'
+            onSelect={selectHandler}
+            options={GENRES_LIST}
+            label='Thể loại'
+            onChange={() => {}}
+          />
+
+          <Select
+            required
+            id='nation'
+            onSelect={selectHandler}
+            options={NATION_LIST}
+            label='Quốc gia'
+            onChange={() => {}}
+          />
+        </div>
 
         <ImageUpload onInput={inputHandler} center id='image' />
 

@@ -3,3 +3,9 @@
   margin: auto;
   position: relative;
 }
+
+.form-add-movie__select-container {
+  display: flex;
+  justify-content: start;
+  align-items: flex-start;
+}

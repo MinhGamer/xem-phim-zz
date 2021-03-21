@@ -6,6 +6,7 @@ import Header from './shared/components/Header/Header';
 
 import './App.css';
 import AddMoviePage from './pages/addMovie/AddMoviePage';
+import MovieFilter from './components/movieFilter/MovieFilter';
 
 function App() {
   return (
@@ -13,8 +14,9 @@ function App() {
       <Header />
       <Switch>
         <Route exact path='/' component={HomePage} />
-        <Route exact path='/movie' component={MovieDetailPage} />
+        <Route exact path='/movie/:movieId' component={MovieDetailPage} />
         <Route exact path='/add-movie' component={AddMoviePage} />
+        <Route exact path='/filter-movie' component={MovieFilter} />
       </Switch>
     </BrowserRouter>
   );

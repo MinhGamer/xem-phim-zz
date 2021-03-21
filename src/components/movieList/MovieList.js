@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import MovieItem from '../movieItem/MovieItem';
 
@@ -11,12 +11,13 @@ import {
 import Button from '../../shared/components/UI/Button';
 
 export default function MovieList(props) {
+  const { movies, filterTermArr } = props;
   const [currentPage, setCurrentPage] = useState(1);
-  const { movies } = props;
+  const [filteredMovies, setFilteredMovies] = useState(movies);
 
   const numberOfPages = Math.ceil(movies.length / MOVIES_PER_PAGE);
 
-  const pagination = (page) => {
+  const pagination = (movies, page) => {
     const start = (page - 1) * MOVIES_PER_PAGE;
     const end = page * MOVIES_PER_PAGE;
 
@@ -35,10 +36,26 @@ export default function MovieList(props) {
     setCurrentPage(page);
   };
 
-  const renderPageNumbers = () => {
+  const renderPageNumbers = (movies) => {
     const pageNumbers = [];
 
-    if (currentPage > numberOfPages - MOVIES_PAGINATION_RANGE) {
+    const numberOfPages = Math.ceil(movies.length / MOVIES_PER_PAGE);
+
+    if (numberOfPages <= 5) {
+      for (let page = 1; page <= numberOfPages; page++) {
+        pageNumbers.push(
+          <span
+            className={page === currentPage ? 'pagination-page--active' : ''}
+            onClick={() => gotoPage(page)}>
+            {page}
+          </span>
+        );
+      }
+
+      return pageNumbers;
+    }
+
+    if (currentPage > numberOfPages - MOVIES_PAGINATION_RANGE + 1) {
       pageNumbers.unshift(
         <span onClick={() => gotoPage(currentPage - 2)}>{currentPage - 2}</span>
       );
@@ -67,7 +84,7 @@ export default function MovieList(props) {
     }
 
     //reander first few pages
-    if (currentPage <= MOVIES_PAGINATION_RANGE) {
+    if (currentPage <= MOVIES_PAGINATION_RANGE - 1) {
       pageNumbers.push(
         <span onClick={() => gotoPage(currentPage + 2)}>{currentPage + 2}</span>
       );
@@ -88,16 +105,49 @@ export default function MovieList(props) {
     return pageNumbers;
   };
 
+  const filterMovies = useCallback(
+    (movies) => {
+      console.log(filterTermArr);
+
+      let filteredMovies = [...movies];
+
+      // filterTermArr.length ===
+      // user don't search
+      if (filterTermArr.length > 0)
+        filterTermArr.forEach((_filter) => {
+          if (_filter.type === 'nation') {
+            filteredMovies = filteredMovies.filter(
+              (movie) => movie.nation === _filter.value
+            );
+          }
+          if (_filter.type === 'genres') {
+            filteredMovies = filteredMovies.filter(
+              (movie) => movie.genres === _filter.value
+            );
+          }
+        });
+
+      setFilteredMovies(filteredMovies);
+    },
+    [filterTermArr]
+  );
+
+  useEffect(() => {
+    filterMovies(movies);
+  }, [filterTermArr, filterMovies, movies]);
+
   return (
     <>
       <div className='movie-list'>
-        {pagination(currentPage).map((movie) => (
+        {pagination(filteredMovies, currentPage).map((movie) => (
           <MovieItem movie={movie} />
         ))}
 
         <div className='pagination'>
           {/* page numbers */}
-          <div className='pagination-page'>{renderPageNumbers()}</div>
+          <div className='pagination-page'>
+            {renderPageNumbers(filteredMovies)}
+          </div>
 
           {/* next and prev button */}
           <div>
