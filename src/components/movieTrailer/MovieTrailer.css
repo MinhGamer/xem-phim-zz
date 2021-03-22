@@ -9,6 +9,6 @@
 .movie-trailer iframe {
   position: fixed;
   z-index: 15;
-  width: 60%;
-  height: 70%;
+  width: 50%;
+  height: 75%;
 }

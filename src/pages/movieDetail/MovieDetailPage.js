@@ -29,17 +29,10 @@ export default function MovieDetailPage() {
 
   //get single movie
 
-  console.log(movie);
-
-  const backdropClickHander = () => {
-    console.log('bg click');
-    setTrailer('');
-  };
-
   return (
     <>
       {movie && trailer && (
-        <MovieTrailer trailer={trailer} backdropClick={backdropClickHander} />
+        <MovieTrailer trailer={trailer} backdropClick={() => setTrailer('')} />
       )}
 
       {movie && (
