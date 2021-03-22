@@ -106,5 +106,10 @@ export default function useForm(initialInputs, isFormValid) {
     dispatch({ type: 'SET_DATA', inputs: inputData, isValid });
   }, []);
 
+  const inputArrHandler = useCallback((id, value, isValid) => {
+    // dispatch({ type: 'INPUT_ARR_CHANGE', value, isValid, inputId: id });
+    // console.log()
+  }, []);
+
   return { formState, inputHandler, setFormData, selectHandler };
 }

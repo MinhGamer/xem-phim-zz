@@ -17,6 +17,7 @@ import Modal from '../../shared/components/UI/Modal';
 import './AddMoviePage.css';
 
 import Select from '../../shared/components/FormElement/Select';
+import InputArrTrailer from '../../shared/components/FormElement/InputArr';
 
 import { GENRES_LIST, NATION_LIST } from '../../shared/util/config';
 
@@ -39,6 +40,10 @@ export default function AddMoviePage() {
         value: null,
         isValid: false,
       },
+      trailer: {
+        value: [],
+        isValid: false,
+      },
     },
     false
   );
@@ -58,16 +63,14 @@ export default function AddMoviePage() {
       titleVn: formState.inputs.titleVn.value,
       genres: formState.inputs.genres.value,
       nation: formState.inputs.nation.value,
+      trailer: formState.inputs.nation.value,
     };
 
     const fromData = new FormData();
     fromData.append('image', formState.inputs.image.value);
 
-    // console.log(formState.inputs.image.value);
-
     //this title used to add to image name
     const imageName = titleEng.toLowerCase().replaceAll(' ', '-');
-    // console.log(imageName);
 
     try {
       //send request to create new movie
@@ -93,6 +96,8 @@ export default function AddMoviePage() {
       setCreateMovie(true);
     } catch (err) {}
   };
+
+  console.log(formState.inputs);
 
   return (
     <>
@@ -146,6 +151,8 @@ export default function AddMoviePage() {
         </div>
 
         <ImageUpload onInput={inputHandler} center id='image' />
+
+        <InputArrTrailer onInput={inputHandler} id='trailer' />
 
         <Button disabled={!formState.isValid} isSecondary>
           Submit

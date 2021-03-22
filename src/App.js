@@ -8,14 +8,17 @@ import './App.css';
 import AddMoviePage from './pages/addMovie/AddMoviePage';
 import MovieFilter from './components/movieFilter/MovieFilter';
 import Slider from './shared/components/Slider/Slider';
+import InputArr from './shared/components/FormElement/InputArr';
 
 function App() {
   return (
     <BrowserRouter>
       <Header />
+
       <Switch>
         <Route exact path='/' component={HomePage} />
         <Route exact path='/movie/:movieId' component={MovieDetailPage} />
+        <Route exact path='/input-arr' component={InputArr} />
         <Route exact path='/slider' component={Slider} />
         <Route exact path='/add-movie' component={AddMoviePage} />
         <Route exact path='/filter-movie' component={MovieFilter} />

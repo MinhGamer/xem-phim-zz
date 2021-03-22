@@ -7,6 +7,7 @@ import Button from '../../shared/components/UI/Button';
 import useHttp from '../../shared/customHooks/useHttp';
 
 import MovieTrailer from '../../components/movieTrailer/MovieTrailer';
+import Slider from '../../shared/components/Slider/Slider';
 
 import './MovieDetailPage.css';
 
@@ -109,8 +110,12 @@ export default function MovieDetailPage() {
                 </p>
               </div>
 
-              <div className='movie-detail__casts'></div>
+              <div className='movie-detail__casts'>
+                <div className='movie-detail__casts--title'>Diễn viên</div>
+                <Slider />
+              </div>
 
+              <div className='movie-detail__trailers--title'>Trailer</div>
               <div className='movie-detail__trailers'>
                 {movie.trailers.map((trailer) => (
                   <div

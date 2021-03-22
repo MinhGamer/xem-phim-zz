@@ -130,11 +130,26 @@
   color: #b5b5b5 !important;
 }
 
+.movie-detail__casts {
+  margin-top: 1.3rem;
+  width: 70%;
+}
+
+.movie-detail__casts--title {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.movie-detail__trailers--title {
+  margin-top: 1rem;
+  font-size: 1.3rem;
+}
+
 .movie-detail__trailers {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  margin-top: 3rem;
+  margin-top: 1rem;
 }
 
 .movie-detail__trailers-item {
