@@ -1,0 +1,12 @@
+.date-picker {
+  margin-top: 7rem;
+}
+
+.react-datepicker-wrapper input {
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding-left: 7px;
+  height: 30px;
+  border-radius: 3px;
+  box-shadow: 0 0 1px 1px #ccc;
+}
