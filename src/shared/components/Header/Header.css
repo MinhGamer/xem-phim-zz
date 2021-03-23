@@ -21,13 +21,13 @@
   align-items: center;
 }
 
-.header a {
+.header a.navlinks__item {
   text-decoration: none;
   color: #fff;
   padding: 1rem;
 }
 
-.header a:hover {
+.header a.navlinks__item:hover {
   text-decoration: none;
   background-color: #102c48;
   color: #428bca;
@@ -50,21 +50,21 @@
 }
 
 .login {
-  width: 30%;
+  max-width: 250px;
+  position: relative;
 }
 
-.header__user-dropdown {
-  display: flex;
-  align-items: center;
-}
-
-.header__user-dropdown .fa {
-  margin-left: 0.5rem;
+.login .arrow-expand {
+  margin-left: 0.6rem;
 }
 
 @media screen and (max-width: 768px) {
   .navlinks__item {
     display: none;
+  }
+
+  .navlinks__item.fixed {
+    display: block;
   }
   .login {
     width: 30%;

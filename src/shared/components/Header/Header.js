@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
@@ -9,22 +9,28 @@ import Button from '../UI/Button';
 import { AuthContext } from '../../context/AuthContext';
 
 import logo from '../../../assets/image/logo-full.png';
+import HeaderDropdown from './HeaderDropdown/HeaderDropdown';
 
 export default function Header() {
+  const [showDropdown, setShowDropdown] = useState(false);
   const auth = useContext(AuthContext);
 
   const renderLogin = () => {
     return (
-      <div className='header__user-dropdown'>
-        <NavLink className='navlinks__item' to='/user'>
-          {auth.user.name}
-          <i class='fa fa-chevron-down arrow-expand'></i>
-        </NavLink>
-      </div>
+      <>
+        <div onMouseLeave={() => setShowDropdown(false)}>
+          <NavLink
+            onMouseEnter={() => setShowDropdown(true)}
+            className='navlinks__item fixed'
+            to='/user'>
+            {auth.user.name}
+            <i class='fa fa-chevron-down arrow-expand'></i>
+          </NavLink>
+          {showDropdown && <HeaderDropdown username={auth.user.name} />}
+        </div>
+      </>
     );
   };
-
-  console.log(auth.user);
 
   return (
     <header className='header'>
@@ -43,14 +49,18 @@ export default function Header() {
           <NavLink className='navlinks__item' to='/FQA'>
             FQA
           </NavLink>
-          <NavLink to='/search'>
-            <i class='fa fa-search'></i> Tìm kiếm
+          <NavLink className='navlinks__item fixed' to='/search'>
+            <i class='fa fa-search '></i> Tìm kiếm
           </NavLink>
         </nav>
       </div>
 
       <div className='login'>
-        {!auth.isLoggedIn && <Button isPrimary>Đăng nhập</Button>}
+        {!auth.isLoggedIn && (
+          <NavLink to='/auth'>
+            <Button isPrimary>Đăng nhập</Button>
+          </NavLink>
+        )}
 
         {auth.isLoggedIn && renderLogin()}
       </div>
