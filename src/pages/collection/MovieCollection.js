@@ -38,6 +38,18 @@ export default function MovieCollection() {
     fetchMovies();
   }, [auth.user, sendRequest]);
 
+  const renderMovies = (movies) => {
+    if (!movies || movies.length === 0) {
+      return (
+        <h1>
+          Bạn chưa có phim nào. Hãy thêm phim vào danh sách để thưởng thức
+        </h1>
+      );
+    }
+
+    return movies.map((item) => <MovieItem movie={item.movie} />);
+  };
+
   return (
     <div className='movie-collection'>
       <h1 className='text-center fs-1'>Bộ sưu tập phim của bạn</h1>
@@ -45,15 +57,13 @@ export default function MovieCollection() {
       {/* liked movies */}
       <h1 className='fs-1'>Các phim bạn muốn xem:</h1>
       <div className='movie-collection__liked-movies'>
-        {likedMovies &&
-          likedMovies.map((item) => <MovieItem movie={item.movie} />)}
+        {renderMovies(likedMovies)}
       </div>
 
       {/* finished movies */}
       <h1 className='fs-1'>Các phim bạn đã xem:</h1>
       <div className='movie-collection__finished-movies'>
-        {finishedMovies &&
-          finishedMovies.map((item) => <MovieItem movie={item.movie} />)}
+        {renderMovies(finishedMovies)}
       </div>
     </div>
   );

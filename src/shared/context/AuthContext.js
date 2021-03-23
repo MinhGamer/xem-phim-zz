@@ -14,7 +14,6 @@ export function AuthContextWrapper(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const login = useCallback((token, user) => {
-    console.log({ token, user });
     setToken(token);
     setUser(user);
     setIsLoggedIn(true);

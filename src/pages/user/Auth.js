@@ -17,6 +17,8 @@ import {
   VALIDATOR_REQUIRE,
 } from '../../shared/util/validators';
 
+import { LOCAL_STORAGE_KEY } from '../../shared/util/config';
+
 import './Auth.css';
 
 export default function Auth() {
@@ -58,6 +60,8 @@ export default function Auth() {
       );
 
       auth.login(token, logginedUser);
+
+      saveTokenLocalStorage(`Bearer ${token}`);
     } else {
       //sign up
       const newUser = {
@@ -74,6 +78,30 @@ export default function Auth() {
 
       auth.login(newUser.email, token);
     }
+  };
+
+  useEffect(() => {
+    const signinWithToken = async () => {
+      const token = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+
+      if (!token) {
+        return;
+      }
+
+      try {
+        const data = await sendRequest('user', 'GET', null, {
+          Authorization: token,
+        });
+
+        auth.login(token, data.user);
+      } catch (err) {}
+    };
+
+    signinWithToken();
+  }, []);
+
+  const saveTokenLocalStorage = (token) => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(token));
   };
 
   //change from signup to login and vice-versa

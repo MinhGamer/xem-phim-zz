@@ -7,20 +7,16 @@ export default function useHttp() {
   const [error, setError] = useState(null);
 
   const sendRequest = useCallback(
-    async (
-      uri,
-      method = 'GET',
-      body = null,
-      headers = {
-        'Content-Type': 'application/json',
-      }
-    ) => {
+    async (uri, method = 'GET', body = null, headers) => {
       setIsLoading(true);
       try {
         const res = await fetch(`${API_URL}/${uri}`, {
           method,
           body,
-          headers,
+          headers: {
+            'Content-Type': 'application/json',
+            ...headers,
+          },
         });
 
         const resData = await res.json();

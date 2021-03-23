@@ -15,19 +15,21 @@ export default function Header() {
   const [showDropdown, setShowDropdown] = useState(false);
   const auth = useContext(AuthContext);
 
+  console.log(auth.user);
+
   const renderLogin = () => {
     return (
       <>
-        <div onMouseLeave={() => setShowDropdown(false)}>
-          <NavLink
-            onMouseEnter={() => setShowDropdown(true)}
-            className='navlinks__item fixed'
-            to='/user'>
+        <NavLink
+          to='/user'
+          className='navlinks__item fixed'
+          onMouseLeave={() => setShowDropdown(false)}>
+          <div onMouseEnter={() => setShowDropdown(true)} to='/user'>
             {auth.user.name}
             <i class='fa fa-chevron-down arrow-expand'></i>
-          </NavLink>
+          </div>
           {showDropdown && <HeaderDropdown username={auth.user.name} />}
-        </div>
+        </NavLink>
       </>
     );
   };

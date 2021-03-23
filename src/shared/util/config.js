@@ -28,3 +28,5 @@ export const NATION_LIST = [
   { optionValue: 'Japan', optionLabel: 'Nhật Bản' },
   { optionValue: 'Vietnam', optionLabel: 'Việt Nam' },
 ];
+
+export const LOCAL_STORAGE_KEY = 'xem-phim-zz';

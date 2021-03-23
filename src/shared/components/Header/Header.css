@@ -27,6 +27,10 @@ a.navlinks__item {
   padding: 1rem;
 }
 
+.navlinks__item.fixed {
+  display: block;
+}
+
 .header a.navlinks__item:hover {
   text-decoration: none;
   background-color: #102c48;
@@ -50,6 +54,7 @@ a.navlinks__item {
 }
 
 .login {
+  /* width: 25%; */
   max-width: 250px;
   position: relative;
 }
