@@ -1,3 +1,8 @@
+/* .modal-error {
+  z-index: 20;
+  position: relative;
+} */
+
 .modal-error__title {
   font-size: 1.6rem;
   font-weight: 700;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import Input from '../../shared/components/FormElement/Input';
 import Button from '../../shared/components/UI/Button';
@@ -7,6 +7,9 @@ import useForm from '../../shared/customHooks/useForm';
 import useHttp from '../../shared/customHooks/useHttp';
 
 import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
+import ErrorModal from '../../shared/components/UI/ErrorModal';
+
+import { AuthContext } from '../../shared/context/AuthContext';
 
 import {
   VALIDATOR_EMAIL,
@@ -17,6 +20,8 @@ import {
 import './Auth.css';
 
 export default function Auth() {
+  const auth = useContext(AuthContext);
+
   const [isLoginMode, setIsLoginMode] = useState(true);
 
   const { formState, inputHandler, setFormData } = useForm(
@@ -46,9 +51,13 @@ export default function Auth() {
         password: password.value,
       };
 
-      const res = await sendRequest('user/login', 'POST', JSON.stringify(user));
+      const { token, logginedUser } = await sendRequest(
+        'user/login',
+        'POST',
+        JSON.stringify(user)
+      );
 
-      console.log(res);
+      auth.login(token, logginedUser);
     } else {
       //sign up
       const newUser = {
@@ -57,13 +66,13 @@ export default function Auth() {
         name: formState.inputs.name.value,
       };
 
-      const res = await sendRequest(
+      const token = await sendRequest(
         'user/signup',
         'POST',
         JSON.stringify(newUser)
       );
 
-      console.log(res);
+      auth.login(newUser.email, token);
     }
   };
 
@@ -112,6 +121,10 @@ export default function Auth() {
       <div className='auth-container'>
         <h1 className='auth-title'>Đăng nhập</h1>
         <div className='auth-card'>
+          {error && !isLoading && (
+            <ErrorModal error={error} clearError={clearError} />
+          )}
+
           {isLoading && <LoadingSpinner asOverlay />}
 
           {!isLoading && (

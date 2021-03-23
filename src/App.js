@@ -9,23 +9,26 @@ import AddMoviePage from './pages/addMovie/AddMoviePage';
 import MovieFilter from './components/movieFilter/MovieFilter';
 import Slider from './shared/components/Slider/Slider';
 
-import CustomDatePicker from './shared/components/DatePicker/DatePicker';
 import Auth from './pages/user/Auth';
+
+import { AuthContextWrapper } from './shared/context/AuthContext';
 
 function App() {
   return (
     <BrowserRouter>
-      <Header />
+      <AuthContextWrapper>
+        <Header />
 
-      <Switch>
-        <Route exact path='/' component={HomePage} />
-        <Route exact path='/movie/:movieId' component={MovieDetailPage} />
+        <Switch>
+          <Route exact path='/' component={HomePage} />
+          <Route exact path='/movie/:movieId' component={MovieDetailPage} />
 
-        <Route exact path='/auth' component={Auth} />
-        <Route exact path='/slider' component={Slider} />
-        <Route exact path='/add-movie' component={AddMoviePage} />
-        <Route exact path='/filter-movie' component={MovieFilter} />
-      </Switch>
+          <Route exact path='/auth' component={Auth} />
+          <Route exact path='/slider' component={Slider} />
+          <Route exact path='/add-movie' component={AddMoviePage} />
+          <Route exact path='/filter-movie' component={MovieFilter} />
+        </Switch>
+      </AuthContextWrapper>
     </BrowserRouter>
   );
 }

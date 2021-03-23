@@ -62,7 +62,6 @@ export default function Input(props) {
   const { id, onInput } = props;
   useEffect(() => {
     onInput(id, inputState.value, inputState.isValid);
-    console.log('render', id);
   }, [id, inputState.value, inputState.isValid, onInput]);
 
   //set style for form control
