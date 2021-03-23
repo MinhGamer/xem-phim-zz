@@ -1,0 +1,18 @@
+.movie-collection {
+  margin-top: 4rem;
+}
+
+.movie-collection__title {
+  text-align: center;
+  font-size: 2rem;
+}
+
+.movie-collection__liked-movies {
+  display: flex;
+  align-items: center;
+}
+
+.movie-collection__finished-movies {
+  display: flex;
+  align-items: center;
+}

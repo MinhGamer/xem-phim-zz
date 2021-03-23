@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, NavLink, Route, Switch } from 'react-router-dom';
 
 import MovieDetailPage from './pages/movieDetail/MovieDetailPage';
 import HomePage from './pages/homePage/HomePage';
@@ -12,6 +12,7 @@ import Slider from './shared/components/Slider/Slider';
 import Auth from './pages/user/Auth';
 
 import { AuthContextWrapper } from './shared/context/AuthContext';
+import MovieCollection from './pages/collection/MovieCollection';
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
           <Route exact path='/movie/:movieId' component={MovieDetailPage} />
 
           <Route exact path='/auth' component={Auth} />
-          <Route exact path='/slider' component={Slider} />
+          <Route exact path='/collection' component={MovieCollection} />
           <Route exact path='/add-movie' component={AddMoviePage} />
           <Route exact path='/filter-movie' component={MovieFilter} />
         </Switch>

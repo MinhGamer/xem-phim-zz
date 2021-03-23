@@ -8,6 +8,8 @@ export default function MovieItem(props) {
   const { id, titleEng, titleVn, imageUrl } = props.movie;
   const history = useHistory();
 
+  console.log(props.movie.movie);
+
   const gotoMovieDetailPage = () => {
     history.push(`/movie/${id}`);
   };

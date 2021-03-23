@@ -21,7 +21,7 @@
   align-items: center;
 }
 
-.header a.navlinks__item {
+a.navlinks__item {
   text-decoration: none;
   color: #fff;
   padding: 1rem;

@@ -12,6 +12,7 @@ import Button from '../../shared/components/UI/Button';
 
 export default function MovieList(props) {
   const { movies, filterTermArr } = props;
+
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredMovies, setFilteredMovies] = useState(movies);
 

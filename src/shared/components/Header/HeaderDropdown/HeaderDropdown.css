@@ -18,6 +18,9 @@
 .header-dropdown__item {
   cursor: pointer;
   padding: 0.5rem;
+  text-decoration: none;
+  color: #fff;
+  display: block;
 }
 
 .header-dropdown__item span {
