@@ -4,7 +4,12 @@ import useForm from '../../shared/customHooks/useForm';
 import Input from '../../shared/components/FormElement/Input';
 import Button from '../../shared/components/UI/Button';
 
-import { VALIDATOR_REQUIRE } from '../../shared/util/validators';
+import {
+  VALIDATOR_MAX,
+  VALIDATOR_MIN,
+  VALIDATOR_NUMBER_ONLY,
+  VALIDATOR_REQUIRE,
+} from '../../shared/util/validators';
 
 import useHttp from '../../shared/customHooks/useHttp';
 import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
@@ -18,6 +23,7 @@ import './AddMoviePage.css';
 
 import Select from '../../shared/components/FormElement/Select';
 import InputArrTrailer from '../../shared/components/FormElement/InputArr';
+import DatePicker from '../../shared/components/DatePicker/DatePicker';
 
 import { GENRES_LIST, NATION_LIST } from '../../shared/util/config';
 
@@ -121,6 +127,7 @@ export default function AddMoviePage() {
           onInput={inputHandler}
           type='text'
         />
+
         <Input
           id='titleVn'
           label='Tên Tiếng Việt'
@@ -130,6 +137,42 @@ export default function AddMoviePage() {
           type='text'
         />
 
+        <Input
+          id='length'
+          label='Độ dài phim (phút)'
+          initialValue=''
+          validators={[VALIDATOR_REQUIRE(), VALIDATOR_NUMBER_ONLY()]}
+          onInput={inputHandler}
+          type='text'
+          placeholder='phút'
+        />
+
+        <Input
+          id='imdb'
+          label='Điểm IMDb (1-10)'
+          initialValue=''
+          validators={[
+            VALIDATOR_REQUIRE(),
+            VALIDATOR_MAX(10),
+            VALIDATOR_MIN(1),
+          ]}
+          onInput={inputHandler}
+          type='number'
+        />
+
+        <Input
+          id='director'
+          label='Đạo diễn'
+          initialValue=''
+          validators={[VALIDATOR_REQUIRE()]}
+          onInput={inputHandler}
+          type='number'
+        />
+
+        <h3>Ngày khởi chiếu</h3>
+        <DatePicker />
+
+        {/* select thể loại, quốc gia */}
         <div className='form-add-movie__select-container'>
           <Select
             required
@@ -150,8 +193,26 @@ export default function AddMoviePage() {
           />
         </div>
 
-        <ImageUpload onInput={inputHandler} center id='image' />
+        <div className='form-add-movie__image-container'>
+          <div className='form-add-movie__image-container--image'>
+            <ImageUpload
+              onInput={inputHandler}
+              center
+              id='image'
+              content={'Pick movie'}
+            />
+          </div>
+          <div className='form-add-movie__image-container--bg-image'>
+            <ImageUpload
+              onInput={inputHandler}
+              center
+              id='bg-image'
+              content={'Pick movie background'}
+            />
+          </div>
+        </div>
 
+        {/* up trailer links */}
         <InputArrTrailer onInput={inputHandler} id='trailer' />
 
         <Button disabled={!formState.isValid} isSecondary>

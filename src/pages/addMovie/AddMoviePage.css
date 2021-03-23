@@ -1,5 +1,6 @@
 .form-add-movie {
   width: 80%;
+  padding-top: 5rem;
   margin: auto;
   position: relative;
 }
@@ -8,4 +9,17 @@
   display: flex;
   justify-content: start;
   align-items: flex-start;
+}
+
+.form-add-movie__image-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.form-add-movie__image-container--image {
+  width: 25%;
+}
+.form-add-movie__image-container--bg-image {
+  width: 50%;
 }

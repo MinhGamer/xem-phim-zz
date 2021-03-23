@@ -5,6 +5,7 @@ const VALIDATOR_TYPE_MIN = 'MIN';
 const VALIDATOR_TYPE_MAX = 'MAX';
 const VALIDATOR_TYPE_EMAIL = 'EMAIL';
 const VALIDATOR_TYPE_FILE = 'FILE';
+const VALIDATOR_TYPE_NUMBER_ONLY = 'NUMBER_ONLY';
 
 //----------------------------------------------
 export const VALIDATOR_REQUIRE = () => ({ type: VALIDATOR_TYPE_REQUIRE });
@@ -26,6 +27,10 @@ export const VALIDATOR_MAX = (val) => ({ type: VALIDATOR_TYPE_MAX, val: val });
 
 export const VALIDATOR_EMAIL = () => ({ type: VALIDATOR_TYPE_EMAIL });
 
+export const VALIDATOR_NUMBER_ONLY = () => ({
+  type: VALIDATOR_TYPE_NUMBER_ONLY,
+});
+
 //-----------------------------------------
 export const validate = (value, validators) => {
   let errorText = [];
@@ -33,21 +38,23 @@ export const validate = (value, validators) => {
   for (const validator of validators) {
     if (validator.type === VALIDATOR_TYPE_REQUIRE) {
       isValid &= value.trim().length > 0;
-      !isValid && errorText.push('This field is required');
+      !isValid && errorText.push('Trường này không được để trống');
     }
     if (validator.type === VALIDATOR_TYPE_MINLENGTH) {
       isValid &= value.trim().length >= validator.val;
       !isValid &&
-        errorText.push(`Please enter at least ${validator.val} characters`);
+        errorText.push(`Xin nhập tối thiểu là ${validator.val} ký tự`);
     }
     if (validator.type === VALIDATOR_TYPE_MAXLENGTH) {
       isValid &= value.trim().length <= validator.val;
     }
     if (validator.type === VALIDATOR_TYPE_MIN) {
       isValid &= +value >= validator.val;
+      !isValid && errorText.push(`Giá trị tối thiểu là ${validator.val}`);
     }
     if (validator.type === VALIDATOR_TYPE_MAX) {
       isValid &= +value <= validator.val;
+      !isValid && errorText.push(`Giá trị tối đa là ${validator.val}`);
     }
 
     if (validator.type === VALIDATOR_TYPE_EMAIL) {
@@ -55,7 +62,13 @@ export const validate = (value, validators) => {
         value
       );
 
-      !isValid && errorText.push('Please enter valid email');
+      !isValid && errorText.push('Xin hãy nhập đúng email');
+    }
+
+    if (validator.type === VALIDATOR_TYPE_NUMBER_ONLY) {
+      isValid &= /^\d+$/.test(value);
+
+      !isValid && errorText.push('Xin hãy nhập số nguyên');
     }
   }
   return [isValid, errorText];

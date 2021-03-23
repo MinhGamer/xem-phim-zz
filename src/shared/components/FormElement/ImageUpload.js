@@ -5,7 +5,7 @@ import './ImageUpload.css';
 import Button from '../UI/Button';
 
 export default function ImageUpload(props) {
-  const { id, center } = props;
+  const { id, center, content } = props;
 
   const [file, setFile] = useState();
   const [previewUrl, setPreviewUrl] = useState(null);
@@ -61,7 +61,7 @@ export default function ImageUpload(props) {
           {!previewUrl && <p>Please pick an image</p>}
         </div>
         <Button isGreen type='button' onClick={pichImageHandlder}>
-          PICK MOVIE IMAGE
+          {content}
         </Button>
       </div>
       {!isValid && <p>{props.errorText}</p>}

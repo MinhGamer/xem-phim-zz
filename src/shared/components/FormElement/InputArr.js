@@ -49,10 +49,16 @@ export default function InputArr(props) {
     setCount((prevCount) => ++prevCount);
   };
 
+  const removeInput = () => {
+    if (count <= 1) return;
+    setCount((prevCount) => --prevCount);
+  };
+
   return (
     <div className='input-arr'>
       <div>{rendersInputTrailers()}</div>
       <i onClick={addInput} class='fa fa-plus'></i>
+      {count > 1 && <i onClick={removeInput} class='fa fa-minus'></i>}
     </div>
   );
 }

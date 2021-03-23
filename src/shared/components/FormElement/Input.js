@@ -62,6 +62,7 @@ export default function Input(props) {
   const { id, onInput } = props;
   useEffect(() => {
     onInput(id, inputState.value, inputState.isValid);
+    console.log('render', id);
   }, [id, inputState.value, inputState.isValid, onInput]);
 
   //set style for form control
@@ -73,9 +74,11 @@ export default function Input(props) {
 
   return (
     <>
-      <div className={formControlStyle}>
+      <div className={` ${formControlStyle}`}>
         <label htmlFor={props.id}>{props.label}</label>
         <input
+          className='form-input'
+          placeholder={props.placeholder}
           type={props.type}
           id={props.id}
           onBlur={touchHandler}

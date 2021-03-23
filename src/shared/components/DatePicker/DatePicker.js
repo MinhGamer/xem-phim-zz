@@ -9,7 +9,6 @@ export default function CustomDatePicker() {
   const [startDate, setStartDate] = useState(new Date());
   return (
     <div className='date-picker'>
-      <h1>Date Picker</h1>
       <DatePicker
         selected={startDate}
         onChange={(date) => setStartDate(date)}

@@ -7,7 +7,14 @@ export default function useHttp() {
   const [error, setError] = useState(null);
 
   const sendRequest = useCallback(
-    async (uri, method = 'GET', body = null, headers) => {
+    async (
+      uri,
+      method = 'GET',
+      body = null,
+      headers = {
+        'Content-Type': 'application/json',
+      }
+    ) => {
       setIsLoading(true);
       try {
         const res = await fetch(`${API_URL}/${uri}`, {
