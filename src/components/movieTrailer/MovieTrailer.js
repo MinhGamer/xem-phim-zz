@@ -12,7 +12,7 @@ export default function MovieTrailer(props) {
       <BackDrop onClick={backdropClick} />
       <div className='movie-trailer'>
         <iframe
-          src={trailer}
+          src={`https://www.youtube.com/embed/${trailer.key}`}
           title='YouTube video player'
           frameborder='0'
           allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'

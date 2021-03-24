@@ -9,30 +9,36 @@ import useHttp from '../../shared/customHooks/useHttp';
 import MovieTrailer from '../../components/movieTrailer/MovieTrailer';
 import Slider from '../../shared/components/Slider/Slider';
 
+import { API_MOVIE_IMAGE } from '../../shared/util/config';
+
 import './MovieDetailPage.css';
 
 export default function MovieDetailPage() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const [trailer, setTrailer] = useState('');
-  const { sendRequest, isLoading, error, clearError } = useHttp();
+  const {
+    sendRequest,
+    isLoading,
+    error,
+    clearError,
+    fetchMovieDetails,
+  } = useHttp();
 
   useEffect(() => {
     const fetchMovie = async () => {
-      const data = await sendRequest(`/movie/${movieId}`, 'GET');
+      const data = await fetchMovieDetails(`movie/${movieId}`, 'GET');
 
       console.log(data);
-      setMovie(data.movie);
+      setMovie(data);
     };
 
     fetchMovie();
   }, [sendRequest, movieId]);
 
-  const convertMovieLength = () => {
-    const { length } = movie;
-
-    const minutes = +length % 60;
-    const hours = Math.floor(+length / 60);
+  const convertMovieLength = (runtime) => {
+    const minutes = +runtime % 60;
+    const hours = Math.floor(+runtime / 60);
 
     return `${hours} giờ ${minutes} phút`;
   };
@@ -48,14 +54,17 @@ export default function MovieDetailPage() {
           {/* background */}
           <div
             style={{
-              backgroundImage: `url("${movie.backgroundUrl}")`,
+              backgroundImage: `url("${API_MOVIE_IMAGE}/${movie.backdrop_path}")`,
             }}
             className='movie-detail__background-image'></div>
 
           {/* content */}
           <div className='movie-detail__content'>
             <div className='movie-detail__image'>
-              <img src={movie.imageUrl} alt={movie.titleEng} />
+              <img
+                src={`${API_MOVIE_IMAGE}/${movie.poster_path}`}
+                alt={movie.original_title}
+              />
 
               <Button isFull isPrimary>
                 <i class='fa fa-play'></i>
@@ -63,13 +72,17 @@ export default function MovieDetailPage() {
               </Button>
             </div>
             <div className='movie-detail__info'>
-              <div className='movie-detail__title-eng'>{movie.titleEng}</div>
-              <div className='movie-detail__title-vn'>{movie.titleVn}</div>
-              <div className='movie-detail__length'>{convertMovieLength()}</div>
+              <div className='movie-detail__title-eng'>
+                {movie.original_title}
+              </div>
+              <div className='movie-detail__title-vn'>{movie.title}</div>
+              <div className='movie-detail__length'>
+                {convertMovieLength(movie.runtime)}
+              </div>
 
               <div className='movie-detail__IMDb'>
                 <span className='movie-detail__IMDb--icon'>IMDb</span>
-                {movie.imdb}
+                {movie.vote_average}
               </div>
 
               <div className='movie-detail__share'>
@@ -105,28 +118,29 @@ export default function MovieDetailPage() {
                     KHỞI CHIẾU
                   </span>
                   <span className='movie-detail__sub-info--value'>
-                    {movie.openingDay}
+                    {movie.release_date}
                   </span>
                 </p>
               </div>
 
               <div className='movie-detail__description'>
-                <p>{movie.description}</p>
+                <p>{movie.overview}</p>
               </div>
 
               <div className='movie-detail__casts'>
                 <div className='movie-detail__casts--title'>Diễn viên</div>
-                <Slider />
+                <Slider cast={movie.credits.cast.slice(0, 20)} />
               </div>
 
               <div className='movie-detail__trailers--title'>Trailer</div>
               <div className='movie-detail__trailers'>
-                {movie.trailers.map((trailer) => (
+                {/* just use for render icon */}
+                {movie.videos.results.map((trailer) => (
                   <div
                     onClick={() => setTrailer(trailer)}
                     className='movie-detail__trailers-item'>
                     <iframe
-                      src={trailer}
+                      src={`https://www.youtube.com/embed/${trailer.key}`}
                       title='YouTube video player'
                       frameborder='0'></iframe>
                   </div>

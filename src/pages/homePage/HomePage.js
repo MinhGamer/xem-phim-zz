@@ -12,23 +12,22 @@ import MovieFilter from '../../components/movieFilter/MovieFilter';
 import './HomePage.css';
 
 export default function HomePage() {
-  const { sendRequest, isLoading, error, clearError } = useHttp();
+  const { fetchMovies, sendRequest, isLoading, error, clearError } = useHttp();
   const [movies, setMovies] = useState([]);
 
   const [filterTermArr, setFilterTermArr] = useState([]);
 
   useEffect(() => {
-    const fetchMovies = async () => {
+    const fetchMovieList = async () => {
       try {
-        const data = await sendRequest('movie/popular');
+        const data = await fetchMovies('movie/popular', 'GET', 2);
 
-        console.log(data);
-        // setMovies(data.movies);
+        setMovies(data);
       } catch (err) {}
     };
 
-    fetchMovies();
-  }, [sendRequest]);
+    fetchMovieList();
+  }, [fetchMovies]);
 
   const filterHandler = (_filer) => {
     //user don't search anything before
