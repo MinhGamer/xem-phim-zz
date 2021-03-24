@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/xem-phim-zz/static/css/main.7f18050a.chunk.css",
+    "main.js": "/xem-phim-zz/static/js/main.b1dd75d3.chunk.js",
+    "main.js.map": "/xem-phim-zz/static/js/main.b1dd75d3.chunk.js.map",
+    "runtime-main.js": "/xem-phim-zz/static/js/runtime-main.61574894.js",
+    "runtime-main.js.map": "/xem-phim-zz/static/js/runtime-main.61574894.js.map",
+    "static/css/2.153de236.chunk.css": "/xem-phim-zz/static/css/2.153de236.chunk.css",
+    "static/js/2.4133f511.chunk.js": "/xem-phim-zz/static/js/2.4133f511.chunk.js",
+    "static/js/2.4133f511.chunk.js.map": "/xem-phim-zz/static/js/2.4133f511.chunk.js.map",
+    "static/js/3.0c19b274.chunk.js": "/xem-phim-zz/static/js/3.0c19b274.chunk.js",
+    "static/js/3.0c19b274.chunk.js.map": "/xem-phim-zz/static/js/3.0c19b274.chunk.js.map",
+    "index.html": "/xem-phim-zz/index.html",
+    "static/css/2.153de236.chunk.css.map": "/xem-phim-zz/static/css/2.153de236.chunk.css.map",
+    "static/css/main.7f18050a.chunk.css.map": "/xem-phim-zz/static/css/main.7f18050a.chunk.css.map",
+    "static/js/2.4133f511.chunk.js.LICENSE.txt": "/xem-phim-zz/static/js/2.4133f511.chunk.js.LICENSE.txt",
+    "static/media/slick-theme.css": "/xem-phim-zz/static/media/slick.c94f7671.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.61574894.js",
+    "static/css/2.153de236.chunk.css",
+    "static/js/2.4133f511.chunk.js",
+    "static/css/main.7f18050a.chunk.css",
+    "static/js/main.b1dd75d3.chunk.js"
+  ]
+}
