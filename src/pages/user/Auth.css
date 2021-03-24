@@ -20,6 +20,12 @@
   margin-bottom: 1rem;
 }
 
+.auth-title__success-login {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
 .auth-form {
   width: 100%;
 }

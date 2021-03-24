@@ -15,8 +15,6 @@ export default function Header() {
   const [showDropdown, setShowDropdown] = useState(false);
   const auth = useContext(AuthContext);
 
-  console.log(auth.user);
-
   const renderLogin = () => {
     return (
       <>

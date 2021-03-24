@@ -108,8 +108,6 @@ export default function MovieList(props) {
 
   const filterMovies = useCallback(
     (movies) => {
-      console.log(filterTermArr);
-
       let filteredMovies = [...movies];
 
       // filterTermArr.length ===
@@ -141,7 +139,7 @@ export default function MovieList(props) {
     <>
       <div className='movie-list'>
         {pagination(filteredMovies, currentPage).map((movie) => (
-          <MovieItem movie={movie} />
+          <MovieItem key={movie.id} movie={movie} />
         ))}
 
         <div className='pagination'>

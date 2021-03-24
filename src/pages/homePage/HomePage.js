@@ -9,6 +9,8 @@ import ErrorModal from '../../shared/components/UI/ErrorModal';
 import useHttp from '../../shared/customHooks/useHttp';
 import MovieFilter from '../../components/movieFilter/MovieFilter';
 
+import './HomePage.css';
+
 export default function HomePage() {
   const { sendRequest, isLoading, error, clearError } = useHttp();
   const [movies, setMovies] = useState([]);
@@ -50,7 +52,7 @@ export default function HomePage() {
   };
 
   return (
-    <>
+    <div className='home-page'>
       {true && <ErrorModal error={error} clearError={clearError} />}
 
       {isLoading && <LoadingSpinner asOverlay />}
@@ -60,6 +62,6 @@ export default function HomePage() {
       {!isLoading && movies && (
         <MovieList filterTermArr={filterTermArr} movies={movies} />
       )}
-    </>
+    </div>
   );
 }

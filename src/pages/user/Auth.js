@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import Input from '../../shared/components/FormElement/Input';
 import Button from '../../shared/components/UI/Button';
 
@@ -23,6 +25,8 @@ import './Auth.css';
 
 export default function Auth() {
   const auth = useContext(AuthContext);
+
+  const history = useHistory();
 
   const [isLoginMode, setIsLoginMode] = useState(true);
 
@@ -80,29 +84,24 @@ export default function Auth() {
     }
   };
 
-  useEffect(() => {
-    const signinWithToken = async () => {
-      const token = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-
-      if (!token) {
-        return;
-      }
-
-      try {
-        const data = await sendRequest('user', 'GET', null, {
-          Authorization: token,
-        });
-
-        auth.login(token, data.user);
-      } catch (err) {}
-    };
-
-    signinWithToken();
-  }, []);
-
   const saveTokenLocalStorage = (token) => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(token));
   };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      //get token from local storage
+      const token = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+
+      const data = await sendRequest('user', 'GET', null, {
+        Authorization: token,
+      });
+
+      auth.login(token, data.user);
+    };
+
+    fetchUser();
+  }, []);
 
   //change from signup to login and vice-versa
   useEffect(() => {
@@ -144,10 +143,73 @@ export default function Auth() {
     }
   }, [isLoginMode]);
 
+  const renderFormLogin = () => {
+    let formCard;
+
+    if (auth.isLoggedIn) {
+      formCard = (
+        <>
+          <h1 className='auth-title__success-login'>
+            Bạn đã đăng nhập thành công
+          </h1>
+          <Button onClick={() => history.push('/')} isFull isSecondary>
+            Quay về trang chủ
+          </Button>
+        </>
+      );
+    } else {
+      formCard = !isLoading && (
+        <form onSubmit={submitHandler} className='auth-form'>
+          <Input
+            id='email'
+            initialValue=''
+            validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
+            onInput={inputHandler}
+            type='email'
+            placeholder='Email'
+          />
+
+          {!isLoginMode && (
+            <Input
+              id='name'
+              initialValue=''
+              validators={[VALIDATOR_REQUIRE()]}
+              onInput={inputHandler}
+              type='text'
+              placeholder='Tên bạn'
+            />
+          )}
+
+          <Input
+            id='password'
+            initialValue=''
+            validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
+            onInput={inputHandler}
+            type='password'
+            placeholder='Password'
+          />
+
+          <Button disabled={!formState.isValid} isFull isSecondary>
+            {isLoginMode ? 'Đăng nhập' : 'Đăng ký'}
+          </Button>
+          <div className='auth-form__divied'>
+            <p className='auth-form__divied-text'>Hoặc</p>
+          </div>
+          <Button isFull isPrimary>
+            <i class='fab fa-google'></i>
+            Đăng nhập với Google
+          </Button>
+        </form>
+      );
+    }
+
+    return formCard;
+  };
+
   return (
     <div className='auth'>
       <div className='auth-container'>
-        <h1 className='auth-title'>Đăng nhập</h1>
+        <h1 className='auth-title'>{!auth.isLoggedIn && 'Đăng nhập'}</h1>
         <div className='auth-card'>
           {error && !isLoading && (
             <ErrorModal error={error} clearError={clearError} />
@@ -155,56 +217,16 @@ export default function Auth() {
 
           {isLoading && <LoadingSpinner asOverlay />}
 
-          {!isLoading && (
-            <form onSubmit={submitHandler} className='auth-form'>
-              <Input
-                id='email'
-                initialValue=''
-                validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
-                onInput={inputHandler}
-                type='email'
-                placeholder='Email'
-              />
-
-              {!isLoginMode && (
-                <Input
-                  id='name'
-                  initialValue=''
-                  validators={[VALIDATOR_REQUIRE()]}
-                  onInput={inputHandler}
-                  type='text'
-                  placeholder='Tên bạn'
-                />
-              )}
-
-              <Input
-                id='password'
-                initialValue=''
-                validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
-                onInput={inputHandler}
-                type='password'
-                placeholder='Password'
-              />
-
-              <Button disabled={!formState.isValid} isFull isSecondary>
-                {isLoginMode ? 'Đăng nhập' : 'Đăng ký'}
-              </Button>
-              <div className='auth-form__divied'>
-                <p className='auth-form__divied-text'>Hoặc</p>
-              </div>
-              <Button isFull isPrimary>
-                <i class='fab fa-google'></i>
-                Đăng nhập với Google
-              </Button>
-            </form>
-          )}
+          {renderFormLogin()}
         </div>
 
-        <h1
-          onClick={() => setIsLoginMode(!isLoginMode)}
-          className='auth-signup'>
-          {isLoginMode ? 'Đăng ký' : 'Đăng nhập'}
-        </h1>
+        {!auth.isLoggedIn && (
+          <h1
+            onClick={() => setIsLoginMode(!isLoginMode)}
+            className='auth-signup'>
+            {isLoginMode ? 'Đăng ký' : 'Đăng nhập'}
+          </h1>
+        )}
       </div>
     </div>
   );

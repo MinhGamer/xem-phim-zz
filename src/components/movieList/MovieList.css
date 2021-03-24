@@ -2,8 +2,6 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  width: 90%;
-  margin: auto;
   padding-top: 7rem;
 }
 

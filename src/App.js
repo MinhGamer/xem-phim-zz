@@ -14,44 +14,37 @@ import Auth from './pages/user/Auth';
 import { AuthContextWrapper, AuthContext } from './shared/context/AuthContext';
 import MovieCollection from './pages/collection/MovieCollection';
 
+import PrivateRoute from './shared/components/PrivateRoute/PrivateRoute';
+
 function App() {
   const auth = useContext(AuthContext);
 
-  const routes = () => {
-    //only for NOT login user
-    if (!auth.isLoggedIn) {
-      return (
-        <>
-          <Route exact path='/auth' component={Auth} />
-          <Redirect to='/' />
-        </>
-      );
-    }
-
-    //only for  login user
-    return (
-      <>
-        <Route exact path='/collection' component={MovieCollection} />
-        <Route exact path='/add-movie' component={AddMoviePage} />
-        <Redirect to='/' />;
-      </>
-    );
-  };
-
   return (
-    <BrowserRouter>
-      <AuthContextWrapper>
+    <AuthContextWrapper>
+      <BrowserRouter>
         <Header />
         <Switch>
           {/* access for everyone */}
           <Route exact path='/' component={HomePage} />
           <Route exact path='/movie/:movieId' component={MovieDetailPage} />
-
-          {/* only for login user or NOT login user */}
-          {routes()}
+          <Route exact path='/auth' component={Auth} />
+          {/* only for login user*/}
+          <PrivateRoute
+            exact
+            path='/add-movie'
+            component={AddMoviePage}
+            redirectTo='/'
+          />
+          <PrivateRoute
+            exact
+            path='/collection'
+            component={MovieCollection}
+            redirectTo='/'
+          />
+          <Redirect to='/' />;
         </Switch>
-      </AuthContextWrapper>
-    </BrowserRouter>
+      </BrowserRouter>
+    </AuthContextWrapper>
   );
 }
 export default App;

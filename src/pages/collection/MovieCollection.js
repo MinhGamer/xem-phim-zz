@@ -47,7 +47,9 @@ export default function MovieCollection() {
       );
     }
 
-    return movies.map((item) => <MovieItem movie={item.movie} />);
+    return movies.map((item) => (
+      <MovieItem key={item.movie.id} movie={item.movie} />
+    ));
   };
 
   return (
