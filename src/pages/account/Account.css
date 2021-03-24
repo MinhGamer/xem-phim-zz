@@ -1,0 +1,21 @@
+.account-container {
+  padding-top: 7rem;
+  width: 50%;
+  margin: auto;
+}
+
+.account-info__name {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.account-info__email {
+  font-size: 1.3rem;
+  margin: 0.4rem;
+  font-weight: 700;
+}
+
+.account-info__join-date {
+  margin-left: 0.4rem;
+  font-weight: 700;
+}

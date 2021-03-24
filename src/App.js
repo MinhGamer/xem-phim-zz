@@ -1,5 +1,3 @@
-import { useContext } from 'react';
-
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import MovieDetailPage from './pages/movieDetail/MovieDetailPage';
@@ -11,14 +9,13 @@ import AddMoviePage from './pages/addMovie/AddMoviePage';
 
 import Auth from './pages/user/Auth';
 
-import { AuthContextWrapper, AuthContext } from './shared/context/AuthContext';
+import { AuthContextWrapper } from './shared/context/AuthContext';
 import MovieCollection from './pages/collection/MovieCollection';
 
 import PrivateRoute from './shared/components/PrivateRoute/PrivateRoute';
+import Account from './pages/account/Account';
 
 function App() {
-  const auth = useContext(AuthContext);
-
   return (
     <AuthContextWrapper>
       <BrowserRouter>
@@ -29,18 +26,9 @@ function App() {
           <Route exact path='/movie/:movieId' component={MovieDetailPage} />
           <Route exact path='/auth' component={Auth} />
           {/* only for login user*/}
-          <PrivateRoute
-            exact
-            path='/add-movie'
-            component={AddMoviePage}
-            redirectTo='/'
-          />
-          <PrivateRoute
-            exact
-            path='/collection'
-            component={MovieCollection}
-            redirectTo='/'
-          />
+          <PrivateRoute exact path='/account' component={Account} />
+          <PrivateRoute exact path='/add-movie' component={AddMoviePage} />
+          <PrivateRoute exact path='/collection' component={MovieCollection} />
           <Redirect to='/' />;
         </Switch>
       </BrowserRouter>

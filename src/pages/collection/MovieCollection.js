@@ -6,6 +6,9 @@ import MovieItem from '../../components/movieItem/MovieItem';
 
 import { AuthContext } from '../../shared/context/AuthContext';
 
+import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
+import ErrorModal from '../../shared/components/UI/ErrorModal';
+
 import useHttp from '../../shared/customHooks/useHttp';
 
 export default function MovieCollection() {
@@ -41,30 +44,36 @@ export default function MovieCollection() {
   const renderMovies = (movies) => {
     if (!movies || movies.length === 0) {
       return (
-        <h1>
-          Bạn chưa có phim nào. Hãy thêm phim vào danh sách để thưởng thức
-        </h1>
+        !isLoading && (
+          <h1>
+            Bạn chưa có phim nào. Hãy thêm phim vào danh sách để thưởng thức
+          </h1>
+        )
       );
     }
 
     return movies.map((item) => (
-      <MovieItem key={item.movie.id} movie={item.movie} />
+      <>{!isLoading && <MovieItem key={item.movie.id} movie={item.movie} />}</>
     ));
   };
 
   return (
     <div className='movie-collection'>
+      {error && <ErrorModal error={error} clearError={clearError} />}
+
       <h1 className='text-center fs-1'>Bộ sưu tập phim của bạn</h1>
 
       {/* liked movies */}
       <h1 className='fs-1'>Các phim bạn muốn xem:</h1>
       <div className='movie-collection__liked-movies'>
+        {isLoading && <LoadingSpinner />}
         {renderMovies(likedMovies)}
       </div>
 
       {/* finished movies */}
       <h1 className='fs-1'>Các phim bạn đã xem:</h1>
       <div className='movie-collection__finished-movies'>
+        {isLoading && <LoadingSpinner />}
         {renderMovies(finishedMovies)}
       </div>
     </div>
