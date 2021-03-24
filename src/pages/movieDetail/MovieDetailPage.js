@@ -28,7 +28,14 @@ export default function MovieDetailPage() {
     fetchMovie();
   }, [sendRequest, movieId]);
 
-  //get single movie
+  const convertMovieLength = () => {
+    const { length } = movie;
+
+    const minutes = +length % 60;
+    const hours = Math.floor(+length / 60);
+
+    return `${hours} giờ ${minutes} phút`;
+  };
 
   return (
     <>
@@ -58,11 +65,11 @@ export default function MovieDetailPage() {
             <div className='movie-detail__info'>
               <div className='movie-detail__title-eng'>{movie.titleEng}</div>
               <div className='movie-detail__title-vn'>{movie.titleVn}</div>
-              <div className='movie-detail__length'>4 giờ 2 phút</div>
+              <div className='movie-detail__length'>{convertMovieLength()}</div>
 
               <div className='movie-detail__IMDb'>
                 <span className='movie-detail__IMDb--icon'>IMDb</span>
-                8.9
+                {movie.imdb}
               </div>
 
               <div className='movie-detail__share'>
@@ -82,32 +89,29 @@ export default function MovieDetailPage() {
                     ĐẠO DIỄN
                   </span>
                   <span className='movie-detail__sub-info--value'>
-                    Zack Snyde
+                    {movie.director}
                   </span>
                 </p>
                 <p>
                   <span className='movie-detail__sub-info--label'>
                     QUỐC GIA
                   </span>
-                  <span className='movie-detail__sub-info--value'>Mỹ</span>
+                  <span className='movie-detail__sub-info--value'>
+                    {movie.nation}
+                  </span>
                 </p>
                 <p>
                   <span className='movie-detail__sub-info--label'>
                     KHỞI CHIẾU
                   </span>
                   <span className='movie-detail__sub-info--value'>
-                    3/18/2021
+                    {movie.openingDay}
                   </span>
                 </p>
               </div>
 
               <div className='movie-detail__description'>
-                <p>
-                  Để đảm bảo sự hi sinh của Superman không trở thành vô ích,
-                  Bruce Wayne liên kết lực lượng với Diana Prince và lên kế
-                  hoạch chiêu mộ một đội metahuman để bảo vệ thế giới khỏi mối
-                  đe dọa thảm khốc đang đến gần.
-                </p>
+                <p>{movie.description}</p>
               </div>
 
               <div className='movie-detail__casts'>

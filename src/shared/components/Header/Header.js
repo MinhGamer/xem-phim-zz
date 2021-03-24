@@ -14,6 +14,7 @@ import HeaderDropdown from './HeaderDropdown/HeaderDropdown';
 export default function Header() {
   const [showDropdown, setShowDropdown] = useState(false);
   const auth = useContext(AuthContext);
+  const [changeNavbarColor, setChangeNavbarColor] = useState(false);
 
   const renderLogin = () => {
     return (
@@ -32,8 +33,19 @@ export default function Header() {
     );
   };
 
+  const changeBackgroundColor = () => {
+    //fixed height of navbar
+    if (window.scrollY >= 70) {
+      setChangeNavbarColor(true);
+    } else {
+      setChangeNavbarColor(false);
+    }
+  };
+
+  window.addEventListener('scroll', changeBackgroundColor);
+
   return (
-    <header className='header'>
+    <header className={`header ${changeNavbarColor ? 'active' : ''}`}>
       <div className='header--wrapper'>
         <NavLink to='/' className='logo'>
           <img src={logo} alt='logo' />

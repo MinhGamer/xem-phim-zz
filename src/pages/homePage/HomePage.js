@@ -20,8 +20,10 @@ export default function HomePage() {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const data = await sendRequest('movie');
-        setMovies(data.movies);
+        const data = await sendRequest('movie/popular');
+
+        console.log(data);
+        // setMovies(data.movies);
       } catch (err) {}
     };
 

@@ -6,8 +6,14 @@
   position: fixed;
   top: 0;
   left: 0;
-  padding: 1rem 0.5rem;
+  padding: 0.7rem 0.5rem;
   width: 100%;
+  height: 70px;
+}
+
+.header.active {
+  /* background-color: #efefbb; */
+  background-color: rgba(142, 45, 226, 0.8);
 }
 
 .header .header--wrapper {

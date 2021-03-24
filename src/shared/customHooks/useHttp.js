@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 
-import { API_URL } from '../util/config';
+import { API_MOVIE, API_KEY } from '../util/config';
 
 export default function useHttp() {
   const [isLoading, setIsLoading] = useState(false);
@@ -8,9 +8,17 @@ export default function useHttp() {
 
   const sendRequest = useCallback(
     async (uri, method = 'GET', body = null, headers) => {
+      //append params to url
+      var url = new URL(`${API_MOVIE}/${uri}`),
+        params = { api_key: API_KEY, language: 'vi', page: 5 };
+
+      Object.keys(params).forEach((key) =>
+        url.searchParams.append(key, params[key])
+      );
+
       setIsLoading(true);
       try {
-        const res = await fetch(`${API_URL}/${uri}`, {
+        const res = await fetch(url, {
           method,
           body,
           headers: {
