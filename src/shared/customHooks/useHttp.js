@@ -86,6 +86,7 @@ export default function useHttp() {
           }
         );
 
+        //vietnamese
         const resDataDetails = await resDetails.json();
 
         const resDataVideosAndCast = await resVideosAndCast.json();
@@ -94,8 +95,40 @@ export default function useHttp() {
           throw resDetails;
         }
 
+        // console.log(resDataVideosAndCast);
+
+        const { crew } = resDataVideosAndCast.credits;
+
+        // console.log(crew);
+
+        let directors = [];
+        for (let i = 0; i < crew.length; i++) {
+          if (
+            crew[i].department === 'Directing' &&
+            crew[i].job === 'Director'
+          ) {
+            directors.push(crew[i].name);
+          }
+        }
+
+        const resData = {
+          backdrop_path: resDataVideosAndCast.backdrop_path,
+          credits: resDataVideosAndCast.credits,
+          genres: resDataDetails.genres,
+          vote_average: resDataVideosAndCast.vote_average,
+          original_title: resDataDetails.original_title,
+          overview: resDataDetails.overview,
+          poster_path: resDataVideosAndCast.poster_path,
+          release_date: resDataVideosAndCast.release_date,
+          runtime: resDataVideosAndCast.runtime,
+          title: resDataDetails.title,
+          videos: resDataVideosAndCast.videos,
+          production_countries: resDataDetails.production_countries[0].name,
+          directors,
+        };
+
         setIsLoading(false);
-        return { ...resDataVideosAndCast, ...resDataDetails };
+        return resData;
       } catch (err) {
         setIsLoading(false);
         setError(err.message);
@@ -104,6 +137,29 @@ export default function useHttp() {
     },
     []
   );
+
+  const fetchPersonDetails = useCallback(async (uri, method = 'GET') => {
+    // 1 page = 20 movies
+
+    setIsLoading(true);
+    try {
+      //get info for an person
+      const resPerson = await fetch(
+        `${API_MOVIE}/${uri}?api_key=${API_KEY}&append_to_response=credits,images`
+      );
+
+      //vietnamese
+      const resPersonData = await resPerson.json();
+
+      setIsLoading(false);
+
+      return { ...resPersonData };
+    } catch (err) {
+      setIsLoading(false);
+      setError(err.message);
+      throw err;
+    }
+  }, []);
 
   const fetchMovies = useCallback(
     async (uri, method = 'GET', numberOfPages = 1) => {
@@ -130,8 +186,6 @@ export default function useHttp() {
 
           const data = await res.json();
 
-          // console.log(data.results);
-
           responseList.push(...data.results);
         }
 
@@ -154,6 +208,7 @@ export default function useHttp() {
     fetchMovies,
     fetchMovieDetails,
     sendRequest,
+    fetchPersonDetails,
     isLoading,
     error,
     clearError,

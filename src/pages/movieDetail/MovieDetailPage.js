@@ -43,6 +43,27 @@ export default function MovieDetailPage() {
     return `${hours} giờ ${minutes} phút`;
   };
 
+  const renderGenres = (genres) => {
+    return genres.map((genre) => {
+      genre.name = genre.name.replace('Phim', '');
+
+      return (
+        <span key={genre.id} className='movie-detail__genres--item'>
+          {genre.name}
+        </span>
+      );
+    });
+  };
+
+  const renderDirectors = (directors) =>
+    directors.map((director, index) =>
+      index === directors.length - 1 ? (
+        <span>{director} </span>
+      ) : (
+        <span>{director}, </span>
+      )
+    );
+
   return (
     <>
       {movie && trailer && (
@@ -96,13 +117,17 @@ export default function MovieDetailPage() {
                 </span>
               </div>
 
+              <div className='movie-detail__genres text-right'>
+                {renderGenres(movie.genres)}
+              </div>
+
               <div className='movie-detail__sub-info'>
                 <p>
                   <span className='movie-detail__sub-info--label'>
                     ĐẠO DIỄN
                   </span>
                   <span className='movie-detail__sub-info--value'>
-                    {movie.director}
+                    {renderDirectors(movie.directors)}
                   </span>
                 </p>
                 <p>
@@ -110,7 +135,7 @@ export default function MovieDetailPage() {
                     QUỐC GIA
                   </span>
                   <span className='movie-detail__sub-info--value'>
-                    {movie.nation}
+                    {movie.production_countries}
                   </span>
                 </p>
                 <p>

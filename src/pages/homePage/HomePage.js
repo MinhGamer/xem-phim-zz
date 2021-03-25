@@ -20,7 +20,7 @@ export default function HomePage() {
   useEffect(() => {
     const fetchMovieList = async () => {
       try {
-        const data = await fetchMovies('movie/popular', 'GET', 2);
+        const data = await fetchMovies('movie/popular', 'GET', 3);
 
         setMovies(data);
       } catch (err) {}

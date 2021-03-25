@@ -1,0 +1,93 @@
+.person-container {
+  width: 90%;
+  margin: auto;
+  padding-top: 6rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* info */
+
+.person-info {
+  width: 20%;
+}
+
+.person-info img {
+  width: 100%;
+}
+
+.person-info--header {
+  font-size: 1.4rem;
+  margin: 0.5rem 0;
+}
+
+.person-info--title {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+.person-info--value {
+  font-size: 1rem;
+  color: #b5b5b5;
+}
+
+.person-wrapper {
+  width: 75%;
+}
+
+/* biography */
+
+.person-biography {
+  font-size: 1rem;
+}
+
+.person-biography--name {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.person-biography--title {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.person-biography--content {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: #b5b5b5;
+}
+
+/* movies */
+.person-movies {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.person-movies--item {
+  color: #fff;
+  text-decoration: none;
+  width: 25%;
+  padding: 1rem;
+}
+
+.person-movies--item img {
+  width: 100%;
+}
+
+/* personal image */
+.person-images {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.person-images--item {
+  width: 25%;
+  padding: 1rem;
+}
+
+.person-images--item img {
+  width: 100%;
+}
