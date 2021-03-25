@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-
+import axios from 'axios';
 import { useParams, NavLink } from 'react-router-dom';
 
+import { googleApiKey } from '../../shared/util/googleApiKey';
 import { API_MOVIE_IMAGE } from '../../shared/util/config';
 
 import './Person.css';
@@ -15,12 +16,26 @@ export default function PersonPage() {
   const { personId } = useParams();
 
   useEffect(() => {
-    // console.log(personId);
     const fetchPerson = async () => {
       const data = await fetchPersonDetails(`person/${personId}`);
 
-      console.log(data);
-      setActor(data);
+      //translate biography to vietnamese
+      const translation = await axios.post(
+        'https://translation.googleapis.com/language/translate/v2',
+        {},
+        {
+          params: {
+            q: data.biography,
+            target: 'vi',
+            key: googleApiKey,
+          },
+        }
+      );
+
+      const translatedBiography =
+        translation.data.data.translations[0].translatedText;
+
+      setActor({ ...data, biography: translatedBiography });
     };
 
     fetchPerson();
@@ -28,7 +43,10 @@ export default function PersonPage() {
 
   const renderMovies = (movies) =>
     movies.splice(0, 10).map((movie) => (
-      <NavLink to={`/movie/${movie.id}`} className='person-movies--item'>
+      <NavLink
+        key={movie.id}
+        to={`/movie/${movie.id}`}
+        className='person-movies--item'>
         <img src={`${API_MOVIE_IMAGE}${movie.poster_path}`} alt={movie.title} />
         <p>{movie.title}</p>
       </NavLink>
@@ -36,7 +54,7 @@ export default function PersonPage() {
 
   const renderImages = (images) =>
     images.map((img) => (
-      <div className='person-images--item'>
+      <div key={img.title} className='person-images--item'>
         <img src={`${API_MOVIE_IMAGE}${img.file_path}`} alt={img.title} />
       </div>
     ));

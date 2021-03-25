@@ -147,6 +147,8 @@
   color: #b5b5b5 !important;
 }
 
+/* movie cast */
+
 .movie-detail__casts {
   margin-top: 1.3rem;
   width: 90%;
@@ -156,6 +158,8 @@
   font-size: 1.1rem;
   margin-bottom: 1rem;
 }
+
+/* movie trailer */
 
 .movie-detail__trailers--title {
   margin-top: 1rem;
