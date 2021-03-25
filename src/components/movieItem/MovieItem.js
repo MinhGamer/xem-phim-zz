@@ -26,7 +26,9 @@ export default function MovieItem(props) {
         </div>
       </div>
       <p className='movie-item__title--vn'>{title}</p>
-      <p className='movie-item__title--eng'>{original_title}</p>
+      {!props.noVnTitle && (
+        <p className='movie-item__title--eng'>{original_title}</p>
+      )}
     </div>
   );
 }

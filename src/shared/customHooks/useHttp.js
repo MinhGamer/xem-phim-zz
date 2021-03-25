@@ -200,6 +200,26 @@ export default function useHttp() {
     []
   );
 
+  const searchMovie = useCallback(async (query) => {
+    setIsLoading(true);
+    try {
+      const resPerson = await fetch(
+        `${API_MOVIE}/search/multi?api_key=${API_KEY}&query=${query}`
+      );
+
+      //vietnamese
+      const resPersonData = await resPerson.json();
+
+      setIsLoading(false);
+
+      return { ...resPersonData };
+    } catch (err) {
+      setIsLoading(false);
+      setError(err.message);
+      throw err;
+    }
+  }, []);
+
   const clearError = () => {
     setError(null);
   };
@@ -209,6 +229,7 @@ export default function useHttp() {
     fetchMovieDetails,
     sendRequest,
     fetchPersonDetails,
+    searchMovie,
     isLoading,
     error,
     clearError,

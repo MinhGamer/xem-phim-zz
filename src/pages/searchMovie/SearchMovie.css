@@ -1,0 +1,19 @@
+.search-container {
+  padding-top: 7rem;
+  width: 90%;
+  margin: auto;
+}
+
+.search-container input {
+  width: 80%;
+  height: 50px;
+  font-size: 1.5rem;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+}
+
+.search-movies {
+  display: flex;
+  flex-wrap: wrap;
+}

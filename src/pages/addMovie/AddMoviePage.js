@@ -61,8 +61,6 @@ export default function AddMoviePage() {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    console.log(formState.inputs);
-
     let titleEng = formState.inputs.titleEng.value;
     const newMovie = {
       titleEng,

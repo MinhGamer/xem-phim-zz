@@ -76,6 +76,7 @@ export default function Input(props) {
       <div className={` ${formControlStyle}`}>
         <label htmlFor={props.id}>{props.label}</label>
         <input
+          ref={props.ref}
           className='form-input'
           placeholder={props.placeholder}
           type={props.type}
