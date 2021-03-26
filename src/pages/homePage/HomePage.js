@@ -17,7 +17,7 @@ export default function HomePage() {
 
   const [filterTerm, setFilterTerm] = useState({
     genres: '',
-    nation: '',
+    language: '',
   });
 
   useEffect(() => {
@@ -37,7 +37,11 @@ export default function HomePage() {
 
     filterUpdate[type] = id;
 
+    // console.log(filterUpdate);
+
     const filteredMovies = await filterMovies(filterUpdate);
+
+    console.log(filteredMovies);
 
     setMovies(filteredMovies);
 

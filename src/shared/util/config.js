@@ -35,85 +35,6 @@ export const NATION_LIST = [
 
 export const LOCAL_STORAGE_KEY = 'xem-phim-zz';
 
-export const GENRES_LIST_ENG = [
-  {
-    id: 28,
-    name: 'Action',
-  },
-  {
-    id: 12,
-    name: 'Adventure',
-  },
-  {
-    id: 16,
-    name: 'Animation',
-  },
-  {
-    id: 35,
-    name: 'Comedy',
-  },
-  {
-    id: 80,
-    name: 'Crime',
-  },
-  {
-    id: 99,
-    name: 'Documentary',
-  },
-  {
-    id: 18,
-    name: 'Drama',
-  },
-  {
-    id: 10751,
-    name: 'Family',
-  },
-  {
-    id: 14,
-    name: 'Fantasy',
-  },
-  {
-    id: 36,
-    name: 'History',
-  },
-  {
-    id: 27,
-    name: 'Horror',
-  },
-  {
-    id: 10402,
-    name: 'Music',
-  },
-  {
-    id: 9648,
-    name: 'Mystery',
-  },
-  {
-    id: 10749,
-    name: 'Romance',
-  },
-  {
-    id: 878,
-    name: 'Science Fiction',
-  },
-  {
-    id: 10770,
-    name: 'TV Movie',
-  },
-  {
-    id: 53,
-    name: 'Thriller',
-  },
-  {
-    id: 10752,
-    name: 'War',
-  },
-  {
-    id: 37,
-    name: 'Western',
-  },
-];
-
 export const GENRES_LIST_VN = [
   {
     id: 28,
@@ -190,5 +111,76 @@ export const GENRES_LIST_VN = [
   {
     id: 37,
     name: 'Miền Tây',
+  },
+];
+
+export const LANGUAGE_LIST_VN = [
+  {
+    id: 'ja',
+    name: 'Nhật',
+  },
+  {
+    id: 'vi',
+    name: 'Việt Nam',
+  },
+  {
+    id: 'fr',
+    name: 'Pháp',
+  },
+  {
+    id: 'ko',
+    name: 'Hàn Quốc',
+  },
+  {
+    id: 'ru',
+    name: 'Nga',
+  },
+  {
+    id: 'en',
+    name: 'Mỹ',
+  },
+  {
+    id: 'CN',
+    name: 'Trung Quốc',
+  },
+  {
+    id: 'nl',
+    name: 'Hà Lan',
+  },
+  {
+    id: 'pt',
+    name: 'Bồ Đào Nha',
+  },
+  {
+    id: 'es',
+    name: 'Tây Ban Nha',
+  },
+  {
+    id: 'in',
+    name: 'Ấn Độ',
+  },
+  {
+    id: 'ml',
+    name: 'Malaysia',
+  },
+  {
+    id: 'th',
+    name: 'Thái Lan',
+  },
+  {
+    id: 'de',
+    name: 'Đức',
+  },
+  {
+    id: 'it',
+    name: 'Ý',
+  },
+  {
+    id: 'sv',
+    name: 'Thụy Điển',
+  },
+  {
+    id: 'cs',
+    name: 'Cộng Hòa Czech',
   },
 ];

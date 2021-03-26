@@ -228,17 +228,16 @@ export default function useHttp() {
     //   length: '',
     // };
 
-    console.log(filter);
-
     const genres = filter.genres && `&with_genres=${filter.genres}`;
 
-    // const nation = filter.genres && '&with_original_language=vi';
+    const language =
+      filter.language && `&with_original_language=${filter.language}`;
 
     // const filterTerm =
 
     setIsLoading(true);
     try {
-      const url = `${API_MOVIE}/discover/movie?api_key=${API_KEY}${genres}&sort_by=popularity.desc`;
+      const url = `${API_MOVIE}/discover/movie?api_key=${API_KEY}${genres}${language}&language=vi&sort_by=popularity.desc`;
 
       const res = await fetch(url);
 
