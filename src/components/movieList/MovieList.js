@@ -11,7 +11,7 @@ import {
 import Button from '../../shared/components/UI/Button';
 
 export default function MovieList(props) {
-  const { movies, filterTermArr } = props;
+  const { movies } = props;
 
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredMovies, setFilteredMovies] = useState(movies);
@@ -106,39 +106,39 @@ export default function MovieList(props) {
     return pageNumbers;
   };
 
-  const filterMovies = useCallback(
-    (movies) => {
-      let filteredMovies = [...movies];
+  // const filterMovies = useCallback(
+  //   (movies) => {
+  //     let filteredMovies = [...movies];
 
-      // filterTermArr.length ===
-      // user don't search
-      if (filterTermArr.length > 0)
-        filterTermArr.forEach((_filter) => {
-          if (_filter.type === 'nation') {
-            filteredMovies = filteredMovies.filter(
-              (movie) => movie.nation === _filter.value
-            );
-          }
-          if (_filter.type === 'genres') {
-            filteredMovies = filteredMovies.filter(
-              (movie) => movie.genres === _filter.value
-            );
-          }
-        });
+  //     // filterTermArr.length ===
+  //     // user don't search
+  //     if (filterTermArr.length > 0)
+  //       filterTermArr.forEach((_filter) => {
+  //         if (_filter.type === 'nation') {
+  //           filteredMovies = filteredMovies.filter(
+  //             (movie) => movie.nation === _filter.value
+  //           );
+  //         }
+  //         if (_filter.type === 'genres') {
+  //           filteredMovies = filteredMovies.filter(
+  //             (movie) => movie.genres === _filter.value
+  //           );
+  //         }
+  //       });
 
-      setFilteredMovies(filteredMovies);
-    },
-    [filterTermArr]
-  );
+  //     setFilteredMovies(filteredMovies);
+  //   },
+  //   [filterTermArr]
+  // );
 
-  useEffect(() => {
-    filterMovies(movies);
-  }, [filterTermArr, filterMovies, movies]);
+  // useEffect(() => {
+  //   filterMovies(movies);
+  // }, [filterTermArr, filterMovies, movies]);
 
   return (
     <>
       <div className='movie-list'>
-        {pagination(filteredMovies, currentPage).map((movie) => (
+        {pagination(movies, currentPage).map((movie) => (
           <MovieItem key={movie.id} movie={movie} />
         ))}
 

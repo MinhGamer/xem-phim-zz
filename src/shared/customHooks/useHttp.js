@@ -220,6 +220,42 @@ export default function useHttp() {
     }
   }, []);
 
+  const filterMovies = useCallback(async (filter) => {
+    // filter = {
+    //   genres: '',
+    //   year: '',
+    //   nation: '',
+    //   length: '',
+    // };
+
+    console.log(filter);
+
+    const genres = filter.genres && `&with_genres=${filter.genres}`;
+
+    // const nation = filter.genres && '&with_original_language=vi';
+
+    // const filterTerm =
+
+    setIsLoading(true);
+    try {
+      const url = `${API_MOVIE}/discover/movie?api_key=${API_KEY}${genres}&sort_by=popularity.desc`;
+
+      const res = await fetch(url);
+
+      const resData = await res.json();
+
+      setIsLoading(false);
+
+      console.log(resData.results);
+
+      return resData.results;
+    } catch (err) {
+      setIsLoading(false);
+      setError(err.message);
+      throw err;
+    }
+  }, []);
+
   const clearError = () => {
     setError(null);
   };
@@ -228,6 +264,7 @@ export default function useHttp() {
     fetchMovies,
     fetchMovieDetails,
     sendRequest,
+    filterMovies,
     fetchPersonDetails,
     searchMovie,
     isLoading,

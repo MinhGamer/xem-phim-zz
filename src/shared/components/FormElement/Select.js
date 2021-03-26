@@ -5,23 +5,24 @@ import './Select.css';
 import { validate, VALIDATOR_REQUIRE } from '../../util/validators';
 
 export default function CustomSelect(props) {
-  const { options, label, onChange, type, id } = props;
+  const { options, label, id, onChange } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [errorText, setErrorText] = useState(null);
 
   const selectRef = useRef();
 
-  const selectOptionHandler = (optionEng, optionVn) => {
-    setSelectedOption(optionVn);
+  const selectOptionHandler = (optionId, name) => {
+    setSelectedOption(name);
     setIsOpen(false);
-    onChange({ value: optionEng, type });
 
     //handle require
-    const [isValid, error] = validate(optionEng, [VALIDATOR_REQUIRE()]);
+    const [isValid, error] = validate(name, [VALIDATOR_REQUIRE()]);
     setErrorText(error.join(' '));
 
-    props.onSelect(id, optionEng, isValid);
+    // id: genres, nation ... to define type of filter
+    //optionId: Ex: 28 - 'Hành động" : config by server
+    onChange(id, optionId, isValid);
   };
 
   const toggleOpenHandler = () => {
@@ -33,12 +34,10 @@ export default function CustomSelect(props) {
       <div className='dropdown-list'>
         {options.map((option) => (
           <div
-            key={option.optionValue}
-            onClick={() =>
-              selectOptionHandler(option.optionValue, option.optionLabel)
-            }
+            key={option.id}
+            onClick={() => selectOptionHandler(option.id, option.name)}
             className='dropdown-list--item'>
-            {option.optionLabel}
+            {option.name}
           </div>
         ))}
       </div>
@@ -69,41 +68,3 @@ export default function CustomSelect(props) {
     </div>
   );
 }
-
-// export function Select(props) {
-//   const [optionValue, setOptionValue] = useState(null);
-
-//   const changeHandler = (e) => {
-//     console.log(e.target.value);
-//   };
-
-//   const { id, onInput } = props;
-//   useEffect(() => {
-//     // onInput(id, optionValue);
-//   }, [id, optionValue, onInput]);
-
-//   return (
-//     <>
-//       <div className='select-field'>
-//         <label className='select-label' htmlFor={props.id}>
-//           {props.label}
-//         </label>
-//         <div className='select-control'>
-//           {/* use to handle event */}
-//           <select
-//             style={{ display: 'none' }}
-//             id={props.id}
-//             onChange={changeHandler}
-//             value={optionValue}>
-//             {props.options.map((opt) => (
-//               <option value={opt.optionValue}>{opt.optionLabel}</option>
-//             ))}
-//           </select>
-
-//           {/* use to render ONLY */}
-//           <CustomSelect options={props.options} />
-//         </div>
-//       </div>
-//     </>
-//   );
-// }

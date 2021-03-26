@@ -12,10 +12,13 @@ import MovieFilter from '../../components/movieFilter/MovieFilter';
 import './HomePage.css';
 
 export default function HomePage() {
-  const { fetchMovies, sendRequest, isLoading, error, clearError } = useHttp();
+  const { fetchMovies, filterMovies, isLoading, error, clearError } = useHttp();
   const [movies, setMovies] = useState([]);
 
-  const [filterTermArr, setFilterTermArr] = useState([]);
+  const [filterTerm, setFilterTerm] = useState({
+    genres: '',
+    nation: '',
+  });
 
   useEffect(() => {
     const fetchMovieList = async () => {
@@ -29,27 +32,16 @@ export default function HomePage() {
     fetchMovieList();
   }, [fetchMovies]);
 
-  const filterHandler = (_filer) => {
-    //user don't search anything before
-    if (filterTermArr.length === 0) {
-      setFilterTermArr([_filer]);
-      return;
-    }
+  const filterHandler = async (type, id) => {
+    const filterUpdate = { ...filterTerm };
 
-    //user alreay filter
-    const termIndex = filterTermArr.findIndex(
-      (term) => term.type === _filer.type
-    );
+    filterUpdate[type] = id;
 
-    if (termIndex === -1) {
-      //and then filter in another type
-      setFilterTermArr([...filterTermArr, _filer]);
-    } else {
-      //and then filter in the same type
-      const updateFilter = [...filterTermArr];
-      updateFilter[termIndex] = _filer;
-      setFilterTermArr(updateFilter);
-    }
+    const filteredMovies = await filterMovies(filterUpdate);
+
+    setMovies(filteredMovies);
+
+    setFilterTerm(filterUpdate);
   };
 
   return (
@@ -60,9 +52,7 @@ export default function HomePage() {
 
       <MovieFilter filterHandler={filterHandler} />
 
-      {!isLoading && movies && (
-        <MovieList filterTermArr={filterTermArr} movies={movies} />
-      )}
+      {!isLoading && movies && <MovieList movies={movies} />}
     </div>
   );
 }

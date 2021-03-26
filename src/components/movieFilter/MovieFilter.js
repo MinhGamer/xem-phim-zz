@@ -4,11 +4,7 @@ import './MovieFilter.css';
 
 import Select from '../../shared/components/FormElement/Select';
 
-import { GENRES_LIST, NATION_LIST } from '../../shared/util/config';
-
-//filterTerm
-
-// filterTermArr: [{ filterTerm: '', filterType: 'genres' }];
+import { GENRES_LIST_VN } from '../../shared/util/config';
 
 export default function MovieFilter(props) {
   const { filterHandler } = props;
@@ -18,17 +14,17 @@ export default function MovieFilter(props) {
       <Select
         onChange={filterHandler}
         label={'Thể loại: '}
-        type='genres'
-        options={GENRES_LIST}
+        id='genres'
+        options={GENRES_LIST_VN}
         onSelect={() => {}}
       />
-      <Select
+      {/* <Select
         onChange={filterHandler}
         label={'Quốc gia: '}
         type='nation'
-        options={NATION_LIST}
+        options={GENRES_LIST_VN}
         onSelect={() => {}}
-      />
+      /> */}
     </div>
   );
 }
