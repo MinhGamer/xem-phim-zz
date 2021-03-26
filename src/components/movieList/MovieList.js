@@ -106,35 +106,6 @@ export default function MovieList(props) {
     return pageNumbers;
   };
 
-  // const filterMovies = useCallback(
-  //   (movies) => {
-  //     let filteredMovies = [...movies];
-
-  //     // filterTermArr.length ===
-  //     // user don't search
-  //     if (filterTermArr.length > 0)
-  //       filterTermArr.forEach((_filter) => {
-  //         if (_filter.type === 'nation') {
-  //           filteredMovies = filteredMovies.filter(
-  //             (movie) => movie.nation === _filter.value
-  //           );
-  //         }
-  //         if (_filter.type === 'genres') {
-  //           filteredMovies = filteredMovies.filter(
-  //             (movie) => movie.genres === _filter.value
-  //           );
-  //         }
-  //       });
-
-  //     setFilteredMovies(filteredMovies);
-  //   },
-  //   [filterTermArr]
-  // );
-
-  // useEffect(() => {
-  //   filterMovies(movies);
-  // }, [filterTermArr, filterMovies, movies]);
-
   return (
     <>
       <div className='movie-list'>

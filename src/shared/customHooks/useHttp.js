@@ -221,23 +221,40 @@ export default function useHttp() {
   }, []);
 
   const filterMovies = useCallback(async (filter) => {
-    // filter = {
-    //   genres: '',
-    //   year: '',
-    //   nation: '',
-    //   length: '',
-    // };
+    console.log(filter);
 
     const genres = filter.genres && `&with_genres=${filter.genres}`;
 
     const language =
       filter.language && `&with_original_language=${filter.language}`;
 
-    // const filterTerm =
+    const year = filter.year && `&primary_release_year=${filter.year}`;
+
+    //length greater than
+    const lengthMin =
+      filter.length.min && `&with_runtime.gte=${filter.length.min}`;
+
+    //length less than
+    const lengthMax =
+      filter.length.max && `&with_runtime.lte=${filter.length.max}`;
+
+    //sort descending
+    const sort = filter.sort && `&sort_by=${filter.sort}.desc`;
+
+    const filterCombied = [
+      genres,
+      language,
+      year,
+      lengthMin,
+      lengthMax,
+      sort,
+    ].join('');
 
     setIsLoading(true);
     try {
-      const url = `${API_MOVIE}/discover/movie?api_key=${API_KEY}${genres}${language}&language=vi&sort_by=popularity.desc`;
+      const url = `${API_MOVIE}/discover/movie?api_key=${API_KEY}${filterCombied}&language=vi`;
+
+      console.log(url);
 
       const res = await fetch(url);
 

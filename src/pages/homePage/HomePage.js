@@ -18,6 +18,9 @@ export default function HomePage() {
   const [filterTerm, setFilterTerm] = useState({
     genres: '',
     language: '',
+    year: '',
+    length: '',
+    sort: '',
   });
 
   useEffect(() => {
@@ -37,11 +40,9 @@ export default function HomePage() {
 
     filterUpdate[type] = id;
 
-    // console.log(filterUpdate);
-
     const filteredMovies = await filterMovies(filterUpdate);
 
-    console.log(filteredMovies);
+    // // console.log(filteredMovies);
 
     setMovies(filteredMovies);
 

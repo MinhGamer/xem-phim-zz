@@ -35,6 +35,8 @@ export const NATION_LIST = [
 
 export const LOCAL_STORAGE_KEY = 'xem-phim-zz';
 
+//name: to show on the select in the filter movies
+//id: to send to movies db
 export const GENRES_LIST_VN = [
   {
     id: 28,
@@ -182,5 +184,66 @@ export const LANGUAGE_LIST_VN = [
   {
     id: 'cs',
     name: 'Cộng Hòa Czech',
+  },
+];
+
+const genrateYear = () => {
+  let years = [];
+  for (let y = 2021; y >= 2011; y--) {
+    years.push({ id: y.toString(), name: y.toString() });
+  }
+  return years;
+};
+
+export const RELEASE_YEAR = genrateYear();
+
+export const LENGTH = [
+  {
+    id: {
+      max: 60,
+    },
+    name: 'Dưới 1 tiếng',
+  },
+  {
+    id: {
+      min: 60,
+      max: 90,
+    },
+    name: '1 - 1.5 tiếng',
+  },
+  {
+    id: {
+      min: 90,
+      max: 120,
+    },
+    name: '1.5 - 2 tiếng',
+  },
+  {
+    id: {
+      min: 120,
+      max: 150,
+    },
+    name: '2 - 2.5 tiếng',
+  },
+  {
+    id: {
+      min: '150',
+    },
+    name: 'Trên 2.5 tiếng',
+  },
+];
+
+export const SORT = [
+  {
+    id: 'popularity',
+    name: 'Phổ biến',
+  },
+  {
+    id: 'vote_count',
+    name: 'Đánh giá',
+  },
+  {
+    id: 'revenue',
+    name: 'Doanh thu',
   },
 ];
