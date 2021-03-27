@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
 import MovieList from '../../components/movieList/MovieList';
 
@@ -38,10 +38,10 @@ export default function HomePage() {
   const fetchFilterMovies = async () => {
     const filteredMovies = await filterMovies(historySearch);
 
-    console.log(filteredMovies);
-
     setMovies(filteredMovies);
   };
+
+  console.log('Homepage');
 
   const convertQueryToFilter = (query) => {
     // console.log(query);
@@ -69,7 +69,7 @@ export default function HomePage() {
   //when location search change
   useEffect(() => {
     fetchFilterMovies();
-    console.log('change');
+
     convertQueryToFilter(historySearch);
   }, [historySearch]);
 
@@ -136,15 +136,22 @@ export default function HomePage() {
     setFilterTerm((prev) => ({ ...prev, ...filterUpdate }));
   };
 
+  const memoFilter = useMemo(
+    () => <MovieFilter filterTerm={filterTerm} filterHandler={filterHandler} />,
+    [filterTerm]
+  );
+
+  const memeMovieList = useMemo(() => <MovieList movies={movies} />, [movies]);
+
   return (
     <div className='home-page'>
       {true && <ErrorModal error={error} clearError={clearError} />}
 
       {isLoading && <LoadingSpinner asOverlay />}
 
-      <MovieFilter filterTerm={filterTerm} filterHandler={filterHandler} />
+      {memoFilter}
 
-      {!isLoading && movies && <MovieList movies={movies} />}
+      {!isLoading && movies.length > 0 && memeMovieList}
     </div>
   );
 }

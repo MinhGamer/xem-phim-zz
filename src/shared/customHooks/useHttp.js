@@ -221,8 +221,6 @@ export default function useHttp() {
   }, []);
 
   const filterMovies = useCallback(async (filter) => {
-    console.log(filter);
-
     filter = filter.replace('?', '&');
 
     setIsLoading(true);

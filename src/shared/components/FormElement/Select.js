@@ -35,7 +35,7 @@ export default function CustomSelect(props) {
 
     // id: genres, nation ... to define type of filter
     //optionId: Ex: 28 - 'Hành động" : config by server
-    onChange(id, optionId, isValid);
+    onChange(id, optionId.toString(), isValid);
   };
 
   const toggleOpenHandler = () => {
