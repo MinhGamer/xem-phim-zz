@@ -92,6 +92,7 @@ export default function MovieDetailPage() {
                 Xem phim
               </Button>
             </div>
+
             <div className='movie-detail__info'>
               <div className='movie-detail__title-eng'>
                 {movie.original_title}

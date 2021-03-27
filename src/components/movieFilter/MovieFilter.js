@@ -13,7 +13,9 @@ import {
 } from '../../shared/util/config';
 
 export default function MovieFilter(props) {
-  const { filterHandler } = props;
+  const { filterHandler, filterTerm } = props;
+
+  console.log(filterTerm);
 
   return (
     <div className='movie-filter'>
@@ -21,8 +23,9 @@ export default function MovieFilter(props) {
         <Select
           onChange={filterHandler}
           label={'Thể loại: '}
-          id='genres'
+          id='with_genres'
           options={GENRES_LIST_VN}
+          optionId={filterTerm.with_genres}
           onSelect={() => {}}
         />
       </div>
@@ -31,8 +34,9 @@ export default function MovieFilter(props) {
         <Select
           onChange={filterHandler}
           label={'Ngôn ngữ: '}
-          id='language'
+          id='with_original_language'
           options={LANGUAGE_LIST_VN}
+          optionId={filterTerm.with_original_language}
           onSelect={() => {}}
         />
       </div>
@@ -41,7 +45,8 @@ export default function MovieFilter(props) {
         <Select
           onChange={filterHandler}
           label={'Năm: '}
-          id='year'
+          id='primary_release_year'
+          optionId={filterTerm.primary_release_year}
           options={RELEASE_YEAR}
           onSelect={() => {}}
         />

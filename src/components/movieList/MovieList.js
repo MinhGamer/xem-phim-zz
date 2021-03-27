@@ -13,8 +13,9 @@ import Button from '../../shared/components/UI/Button';
 export default function MovieList(props) {
   const { movies } = props;
 
+  console.log(movies);
+
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredMovies, setFilteredMovies] = useState(movies);
 
   const numberOfPages = Math.ceil(movies.length / MOVIES_PER_PAGE);
 
@@ -115,9 +116,7 @@ export default function MovieList(props) {
 
         <div className='pagination'>
           {/* page numbers */}
-          <div className='pagination-page'>
-            {renderPageNumbers(filteredMovies)}
-          </div>
+          <div className='pagination-page'>{renderPageNumbers(movies)}</div>
 
           {/* next and prev button */}
           <div>

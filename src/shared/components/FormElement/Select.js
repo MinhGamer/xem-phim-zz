@@ -5,10 +5,23 @@ import './Select.css';
 import { validate, VALIDATOR_REQUIRE } from '../../util/validators';
 
 export default function CustomSelect(props) {
-  const { options, label, id, onChange } = props;
+  const { options, label, id, onChange, optionId } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [errorText, setErrorText] = useState(null);
+
+  //when query for history location change
+  useEffect(() => {
+    if (!optionId) {
+      setSelectedOption('Tất cả');
+    }
+
+    const index = options.findIndex((opt) => opt.id === optionId);
+
+    if (index === -1) return;
+
+    setSelectedOption(options[index].name);
+  }, [optionId]);
 
   const selectRef = useRef();
 

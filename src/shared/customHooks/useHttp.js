@@ -223,46 +223,17 @@ export default function useHttp() {
   const filterMovies = useCallback(async (filter) => {
     console.log(filter);
 
-    const genres = filter.genres && `&with_genres=${filter.genres}`;
-
-    const language =
-      filter.language && `&with_original_language=${filter.language}`;
-
-    const year = filter.year && `&primary_release_year=${filter.year}`;
-
-    //length greater than
-    const lengthMin =
-      filter.length.min && `&with_runtime.gte=${filter.length.min}`;
-
-    //length less than
-    const lengthMax =
-      filter.length.max && `&with_runtime.lte=${filter.length.max}`;
-
-    //sort descending
-    const sort = filter.sort && `&sort_by=${filter.sort}.desc`;
-
-    const filterCombied = [
-      genres,
-      language,
-      year,
-      lengthMin,
-      lengthMax,
-      sort,
-    ].join('');
+    filter = filter.replace('?', '&');
 
     setIsLoading(true);
     try {
-      const url = `${API_MOVIE}/discover/movie?api_key=${API_KEY}${filterCombied}&language=vi`;
-
-      console.log(url);
+      const url = `${API_MOVIE}/discover/movie?api_key=${API_KEY}${filter}&language=vi`;
 
       const res = await fetch(url);
 
       const resData = await res.json();
 
       setIsLoading(false);
-
-      console.log(resData.results);
 
       return resData.results;
     } catch (err) {

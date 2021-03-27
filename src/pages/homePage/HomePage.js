@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import MovieList from '../../components/movieList/MovieList';
+
+import { useHistory } from 'react-router-dom';
 
 import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
 
@@ -12,41 +14,126 @@ import MovieFilter from '../../components/movieFilter/MovieFilter';
 import './HomePage.css';
 
 export default function HomePage() {
+  const history = useHistory();
+
+  const historySearch = history.location.search;
+
   const { fetchMovies, filterMovies, isLoading, error, clearError } = useHttp();
+
   const [movies, setMovies] = useState([]);
 
   const [filterTerm, setFilterTerm] = useState({
-    genres: '',
-    language: '',
-    year: '',
-    length: '',
+    with_genres: '',
+    with_original_language: '',
+    primary_release_year: '',
+    'with_runtime.lte': '',
+    'with_runtime.gte': '',
     sort: '',
   });
 
-  useEffect(() => {
-    const fetchMovieList = async () => {
-      try {
-        const data = await fetchMovies('movie/popular', 'GET', 3);
+  window.addEventListener('load', () => {
+    history.push('/');
+  });
 
-        setMovies(data);
-      } catch (err) {}
-    };
+  const fetchFilterMovies = async () => {
+    const filteredMovies = await filterMovies(historySearch);
 
-    fetchMovieList();
-  }, [fetchMovies]);
-
-  const filterHandler = async (type, id) => {
-    const filterUpdate = { ...filterTerm };
-
-    filterUpdate[type] = id;
-
-    const filteredMovies = await filterMovies(filterUpdate);
-
-    // // console.log(filteredMovies);
+    console.log(filteredMovies);
 
     setMovies(filteredMovies);
+  };
+
+  const convertQueryToFilter = (query) => {
+    // console.log(query);
+
+    const myQuery = query.substring(1).split('&');
+
+    const filterUpdate = {
+      with_genres: '',
+      with_original_language: '',
+      primary_release_year: '',
+      'with_runtime.lte': '',
+      'with_runtime.gte': '',
+      sort: '',
+    };
+
+    myQuery.forEach((queryItem) => {
+      const [title, value] = queryItem.split('=');
+
+      filterUpdate[title] = value;
+    });
 
     setFilterTerm(filterUpdate);
+  };
+
+  //when location search change
+  useEffect(() => {
+    fetchFilterMovies();
+    console.log('change');
+    convertQueryToFilter(historySearch);
+  }, [historySearch]);
+
+  const covertFilterToQuery = (filter) => {
+    //use to params to hold state when user click backfilter.genres
+    const genres = filter.with_genres && `&with_genres=${filter.with_genres}`;
+
+    const language =
+      filter.with_original_language &&
+      `&with_original_language=${filter.with_original_language}`;
+
+    const year =
+      filter.primary_release_year &&
+      `&primary_release_year=${filter.primary_release_year}`;
+
+    //length greater than
+    const lengthMin =
+      filter['with_runtime.gte'] &&
+      `&with_runtime.gte=${filter['with_runtime.gte']}`;
+
+    //length less than
+    const lengthMax =
+      filter['with_runtime.lte'] &&
+      `&with_runtime.lte=${filter['with_runtime.lte']}`;
+
+    //sort descending
+    const sort = filter.sort && `&sort_by=${filter.sort}.desc`;
+
+    let filterCombied = [
+      genres,
+      language,
+      year,
+      lengthMin,
+      lengthMax,
+      sort,
+    ].join('');
+
+    filterCombied = filterCombied.replace('&', '');
+
+    return filterCombied;
+  };
+
+  //listen to user select filter movies
+  const filterHandler = (type, value) => {
+    const filterUpdate = { ...filterTerm };
+
+    if (type === 'length') {
+      filterUpdate['with_runtime.lte'] = value.max;
+
+      filterUpdate['with_runtime.gte'] = value.min;
+    } else {
+      filterUpdate[type] = value;
+    }
+
+    console.log(filterUpdate);
+
+    const query = covertFilterToQuery(filterUpdate);
+
+    history.push({
+      pathname: '/',
+      search: `${query}`,
+    });
+
+    setFilterTerm((prev) => ({ ...prev, ...filterUpdate }));
   };
 
   return (
@@ -55,7 +142,7 @@ export default function HomePage() {
 
       {isLoading && <LoadingSpinner asOverlay />}
 
-      <MovieFilter filterHandler={filterHandler} />
+      <MovieFilter filterTerm={filterTerm} filterHandler={filterHandler} />
 
       {!isLoading && movies && <MovieList movies={movies} />}
     </div>
