@@ -36,7 +36,7 @@ export default function HomePage() {
   });
 
   const fetchFilterMovies = async () => {
-    const filteredMovies = await filterMovies(historySearch);
+    const filteredMovies = await filterMovies('movie', historySearch, 3);
 
     setMovies(filteredMovies);
   };
@@ -141,7 +141,10 @@ export default function HomePage() {
     [filterTerm]
   );
 
-  const memeMovieList = useMemo(() => <MovieList movies={movies} />, [movies]);
+  const memeMovieList = useMemo(
+    () => <MovieList type='movie' movies={movies} />,
+    [movies]
+  );
 
   return (
     <div className='home-page'>

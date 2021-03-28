@@ -17,6 +17,7 @@ import Account from './pages/account/Account';
 
 import PersonPage from './pages/person/PersonPage';
 import SearchMovie from './pages/searchMovie/SearchMovie';
+import TvSeriesPage from './pages/tvSeries/TvSeriesPage';
 
 function App() {
   return (
@@ -26,7 +27,10 @@ function App() {
         <Switch>
           {/* access for everyone */}
           <Route exact path='/' component={HomePage} />
+          <Route exact path='/tv' component={TvSeriesPage} />
           <Route exact path='/movie/:movieId' component={MovieDetailPage} />
+          <Route exact path='/tv/:movieId' component={MovieDetailPage} />
+          <Route exact path='/tv/:movieId/season' component={MovieDetailPage} />
           <Route exact path='/auth' component={Auth} />
           {/* only for login user*/}
           <Route exact path='/search' component={SearchMovie} />

@@ -24,7 +24,7 @@ export default function Header() {
           className='navlinks__item fixed'
           onMouseLeave={() => setShowDropdown(false)}>
           <div onMouseEnter={() => setShowDropdown(true)} to='/user'>
-            {/* {auth.user.name} */}Minh
+            {auth.user.name}
             <i class='fa fa-chevron-down arrow-expand'></i>
           </div>
           {showDropdown && <HeaderDropdown username={'Minh'} />}
@@ -55,7 +55,7 @@ export default function Header() {
           <NavLink className='navlinks__item' to='/movie'>
             Phim lẻ
           </NavLink>
-          <NavLink className='navlinks__item' to='/show'>
+          <NavLink className='navlinks__item' to='/tv'>
             Phim bộ
           </NavLink>
           <NavLink className='navlinks__item' to='/FQA'>

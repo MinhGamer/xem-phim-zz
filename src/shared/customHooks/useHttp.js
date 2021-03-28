@@ -84,6 +84,7 @@ export default function useHttp() {
   );
 
   const fetchMovieDetails = useCallback(
+    // type: tv or movie
     async (uri, method = 'GET', body = null, headers) => {
       // 1 page = 20 movies
 
@@ -123,7 +124,11 @@ export default function useHttp() {
           throw resDetails;
         }
 
-        // console.log(resDataVideosAndCast);
+        // if (type === 'tv') {
+        //   console.log(resDataDetails);
+
+        //   return resDataDetails;
+        // }
 
         const { crew } = resDataVideosAndCast.credits;
 
@@ -139,6 +144,10 @@ export default function useHttp() {
           }
         }
 
+        console.log(resDataDetails);
+
+        console.log(resDataVideosAndCast);
+
         const resData = {
           backdrop_path: resDataVideosAndCast.backdrop_path,
           credits: resDataVideosAndCast.credits,
@@ -151,8 +160,98 @@ export default function useHttp() {
           runtime: resDataVideosAndCast.runtime,
           title: resDataDetails.title,
           videos: resDataVideosAndCast.videos,
-          production_countries: resDataDetails.production_countries[0].name,
+          // production_countries: resDataDetails.production_countries[0].name,
           directors,
+          name: resDataDetails.name,
+          seasons: resDataDetails.seasons,
+        };
+
+        setIsLoading(false);
+        return resData;
+      } catch (err) {
+        setIsLoading(false);
+        setError(err.message);
+        throw err;
+      }
+    },
+    []
+  );
+
+  const fetchTvDetails = useCallback(
+    // type: tv or movie
+    async (uri, method = 'GET', body = null, headers) => {
+      // 1 page = 20 movies
+
+      setIsLoading(true);
+      try {
+        //get details in vietnamese
+        const resDetails = await fetch(
+          `${API_MOVIE}/${uri}?api_key=${API_KEY}&language=vi`,
+          {
+            method,
+            body,
+            headers: {
+              'Content-Type': 'application/json',
+              ...headers,
+            },
+          }
+        );
+
+        const resVideosAndCast = await fetch(
+          `${API_MOVIE}/${uri}?api_key=${API_KEY}&append_to_response=credits,videos`,
+          {
+            method,
+            body,
+            headers: {
+              'Content-Type': 'application/json',
+              ...headers,
+            },
+          }
+        );
+
+        //vietnamese
+        const resDataDetails = await resDetails.json();
+
+        const resDataVideosAndCast = await resVideosAndCast.json();
+
+        if (!resDetails.ok) {
+          throw resDetails;
+        }
+
+        const { crew } = resDataVideosAndCast.credits;
+
+        // console.log(crew);
+
+        let directors = [];
+        for (let i = 0; i < crew.length; i++) {
+          if (
+            crew[i].department === 'Directing' &&
+            crew[i].job === 'Director'
+          ) {
+            directors.push(crew[i].name);
+          }
+        }
+
+        console.log(resDataDetails);
+
+        console.log(resDataVideosAndCast);
+
+        const resData = {
+          backdrop_path: resDataVideosAndCast.backdrop_path,
+          credits: resDataVideosAndCast.credits,
+          genres: resDataDetails.genres,
+          vote_average: resDataVideosAndCast.vote_average,
+          overview: resDataDetails.overview,
+          poster_path: resDataVideosAndCast.poster_path,
+          release_date: resDataVideosAndCast.release_date,
+          runtime: resDataVideosAndCast.runtime,
+          videos: resDataVideosAndCast.videos,
+          // production_countries: resDataDetails.production_countries[0].name,
+          directors,
+          name: resDataDetails.name,
+          original_name: resDataDetails.original_name,
+          seasons: resDataDetails.seasons,
+          episode_run_time: resDataDetails.episode_run_time,
         };
 
         setIsLoading(false);
@@ -198,14 +297,12 @@ export default function useHttp() {
       try {
         let responseList = [];
 
-        for (let i = 1; i <= numberOfPages; i++) {
+        for (let i = 0; i < numberOfPages; i++) {
           //append params to url
-          var url = new URL(`${API_MOVIE}/${uri}`),
-            params = { api_key: API_KEY, language: 'vi', page: i };
 
-          Object.keys(params).forEach((key) =>
-            url.searchParams.append(key, params[key])
-          );
+          const url = `${API_MOVIE}/${uri}/popular?api_key=${API_KEY}&language=vi&page=${
+            i + 1
+          }`;
 
           //make request to api
           const res = await fetch(url, {
@@ -216,8 +313,8 @@ export default function useHttp() {
 
           responseList.push(...data.results);
         }
-
         setIsLoading(false);
+
         return responseList;
       } catch (err) {
         setIsLoading(false);
@@ -287,20 +384,31 @@ export default function useHttp() {
     }
   }, []);
 
-  const filterMovies = useCallback(async (filter) => {
+  const filterMovies = useCallback(async (type, filter, numberOfPages = 1) => {
     filter = filter.replace('?', '&');
+
+    console.log('Hi');
 
     setIsLoading(true);
     try {
-      const url = `${API_MOVIE}/discover/movie?api_key=${API_KEY}${filter}&language=vi`;
+      let movies = [];
+      for (let i = 0; i < numberOfPages; i++) {
+        const url = `${API_MOVIE}/discover/${type}?api_key=${API_KEY}${filter}&language=vi&page=${
+          i + 1
+        }`;
 
-      const res = await fetch(url);
+        const res = await fetch(url);
 
-      const resData = await res.json();
+        const resData = await res.json();
+
+        movies.push(...resData.results);
+      }
 
       setIsLoading(false);
 
-      return resData.results;
+      console.log(movies);
+
+      return movies;
     } catch (err) {
       setIsLoading(false);
       setError(err.message);
@@ -351,5 +459,6 @@ export default function useHttp() {
     sendUser,
     fetchMoviesByIdList,
     fetchTvSerires,
+    fetchTvDetails,
   };
 }

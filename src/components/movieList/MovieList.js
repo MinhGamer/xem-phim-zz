@@ -11,9 +11,9 @@ import {
 import Button from '../../shared/components/UI/Button';
 
 export default function MovieList(props) {
-  const { movies } = props;
+  const { movies, type } = props;
 
-  console.log(movies);
+  console.log(type);
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -111,7 +111,7 @@ export default function MovieList(props) {
     <>
       <div className='movie-list'>
         {pagination(movies, currentPage).map((movie) => (
-          <MovieItem key={movie.id} movie={movie} />
+          <MovieItem type={type} key={movie.id} movie={movie} />
         ))}
 
         <div className='pagination'>

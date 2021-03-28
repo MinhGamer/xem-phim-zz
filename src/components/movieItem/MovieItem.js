@@ -7,13 +7,23 @@ import { API_MOVIE_IMAGE } from '../../shared/util/config';
 import './MovieItem.css';
 
 export default function MovieItem(props) {
-  const { id, original_title, title, poster_path } = props.movie;
+  const {
+    id,
+    original_title,
+    title,
+    poster_path,
+    name,
+    original_name,
+  } = props.movie;
+
+  const { type } = props;
+
   const history = useHistory();
 
   const imageUrl = `${API_MOVIE_IMAGE}/${poster_path}`;
 
   const gotoMovieDetailPage = () => {
-    history.push(`/movie/${id}`);
+    history.push(`/${type}/${id}`);
   };
 
   return (
@@ -25,9 +35,11 @@ export default function MovieItem(props) {
           <i className='fa fa-play '></i>
         </div>
       </div>
-      <p className='movie-item__title--vn'>{title}</p>
+      <p className='movie-item__title--vn'>{title || name}</p>
       {!props.noVnTitle && (
-        <p className='movie-item__title--eng'>{original_title}</p>
+        <p className='movie-item__title--eng'>
+          {original_title || original_name}
+        </p>
       )}
     </div>
   );

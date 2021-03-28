@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory, NavLink } from 'react-router-dom';
 
 import Button from '../../shared/components/UI/Button';
 
@@ -18,6 +18,8 @@ import Collection from '../../components/collection/Collection';
 
 export default function MovieDetailPage() {
   const auth = useContext(AuthContext);
+  const history = useHistory();
+  const type = history.location.pathname.split('/')[1];
   const { sendUser } = useHttp();
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
@@ -28,22 +30,35 @@ export default function MovieDetailPage() {
     error,
     clearError,
     fetchMovieDetails,
+    fetchTvDetails,
   } = useHttp();
 
+  //fetch movie when load page
   useEffect(() => {
     const fetchMovie = async () => {
-      const data = await fetchMovieDetails(`movie/${movieId}`, 'GET');
+      let data;
+
+      if (type === 'tv') {
+        data = await fetchTvDetails(`${type}/${movieId}`, 'GET');
+      } else {
+        data = await fetchMovieDetails(`${type}/${movieId}`, 'GET');
+      }
 
       console.log(data);
       setMovie(data);
     };
 
     fetchMovie();
+    //movie or tv
   }, [sendRequest, movieId]);
 
   const convertMovieLength = (runtime) => {
     const minutes = +runtime % 60;
     const hours = Math.floor(+runtime / 60);
+
+    if (hours <= 0 && type === 'tv') {
+      return `${minutes} phút / tập`;
+    }
 
     return `${hours} giờ ${minutes} phút`;
   };
@@ -68,6 +83,25 @@ export default function MovieDetailPage() {
         <span>{director}, </span>
       )
     );
+
+  const renderSeason = (seasons) => {
+    // console.log(seasons);
+    return seasons.map((season) => (
+      <>
+        <div className='movie-detail__seasons--item'>
+          <img src={`${API_MOVIE_IMAGE}/${season.poster_path}`} alt='season' />
+          <p className='movie-detail__seasons--item__content'>
+            <NavLink to={`/tv/${movie.id}/season/${season.season_number}`}>
+              Phần {season.season_number}
+            </NavLink>
+            <p>Số tập: {season.episode_count}</p>
+            <p>Ngày công chiếu: {season.air_date}</p>
+          </p>
+        </div>
+        <hr />
+      </>
+    ));
+  };
 
   const clickCollectionHandler = async (type) => {
     console.log(type, movieId);
@@ -154,11 +188,13 @@ export default function MovieDetailPage() {
 
             <div className='movie-detail__info'>
               <div className='movie-detail__title-eng'>
-                {movie.original_title}
+                {movie.original_title || movie.original_name}
               </div>
-              <div className='movie-detail__title-vn'>{movie.title}</div>
+              <div className='movie-detail__title-vn'>
+                {movie.title || movie.name}
+              </div>
               <div className='movie-detail__length'>
-                {convertMovieLength(movie.runtime)}
+                {convertMovieLength(movie.runtime || movie.episode_run_time)}
               </div>
 
               <div className='movie-detail__IMDb'>
@@ -232,6 +268,15 @@ export default function MovieDetailPage() {
                   </div>
                 ))}
               </div>
+
+              {movie.seasons && (
+                <>
+                  <div>Seasons</div>
+                  <div className='movie-detail__seasons'>
+                    {renderSeason(movie.seasons)}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

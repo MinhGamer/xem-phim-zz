@@ -192,3 +192,23 @@
   z-index: -1;
   width: 100%;
 }
+
+.movie-detail__seasons {
+  width: 100%;
+}
+
+.movie-detail__seasons--item {
+  width: 100%;
+  display: flex;
+  margin: 2rem 0;
+}
+
+.movie-detail__seasons img {
+  width: 15%;
+}
+
+.movie-detail__seasons--item__content {
+  font-size: 1.2rem;
+  margin-left: 2rem;
+  color: #b5b5b5;
+}
