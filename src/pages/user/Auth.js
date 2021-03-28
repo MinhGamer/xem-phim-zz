@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 
 import { useHistory } from 'react-router-dom';
+
+import { GoogleLogin } from 'react-google-login';
 
 import Input from '../../shared/components/FormElement/Input';
 import Button from '../../shared/components/UI/Button';
@@ -19,13 +21,13 @@ import {
   VALIDATOR_REQUIRE,
 } from '../../shared/util/validators';
 
-import { LOCAL_STORAGE_KEY } from '../../shared/util/config';
-
-import { signInWithGoogle } from '../../service/firebase';
+import { LOCAL_STORAGE_KEY, OAUTH_CLIENT_KEY } from '../../shared/util/config';
 
 import './Auth.css';
 
 export default function Auth() {
+  const googleLoginRef = useRef();
+
   const auth = useContext(AuthContext);
 
   const history = useHistory();
@@ -68,8 +70,6 @@ export default function Auth() {
       console.log(token, logginedUser);
 
       auth.login(token, logginedUser);
-
-      saveTokenLocalStorage(`Bearer ${token}`);
     } else {
       //sign up
       const newUser = {
@@ -88,23 +88,13 @@ export default function Auth() {
     }
   };
 
-  const saveTokenLocalStorage = (token) => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(token));
-  };
+  // const saveTokenLocalStorage = (token) => {
+  //   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(token));
+  // };
 
-  console.log(auth);
-  //auto login read token from local storage
-  useEffect(() => {
-    const fetchUser = async () => {
-      //get token from local storage
-      const token = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-      const data = await sendUser('user', 'GET', null, {
-        Authorization: token,
-      });
-      auth.login(token, data.user);
-    };
-    fetchUser();
-  }, []);
+  const responseGoogle = (response) => {
+    console.log(response);
+  };
 
   //change from signup to login and vice-versa
   useEffect(() => {
@@ -171,7 +161,6 @@ export default function Auth() {
             type='email'
             placeholder='Email'
           />
-
           {!isLoginMode && (
             <Input
               id='name'
@@ -182,7 +171,6 @@ export default function Auth() {
               placeholder='Tên bạn'
             />
           )}
-
           <Input
             id='password'
             initialValue=''
@@ -198,10 +186,24 @@ export default function Auth() {
           <div className='auth-form__divied'>
             <p className='auth-form__divied-text'>Hoặc</p>
           </div>
-          <Button isFull isPrimary>
-            <i class='fab fa-google'></i>
-            Đăng nhập với Google onClick={signInWithGoogle}
-          </Button>
+
+          <GoogleLogin
+            render={(renderProps) => (
+              <Button
+                isFull
+                isPrimary
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}>
+                <i class='fab fa-google'></i>
+                Đăng nhập với Google
+              </Button>
+            )}
+            clientId={OAUTH_CLIENT_KEY}
+            buttonText='Login'
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={'single_host_origin'}
+          />
         </form>
       );
     }

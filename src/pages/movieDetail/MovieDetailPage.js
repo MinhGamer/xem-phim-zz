@@ -78,7 +78,7 @@ export default function MovieDetailPage() {
       //wish list
       const updateWhisList = [...auth.user.whisList] || [];
 
-      const index = updateWhisList.findIndsex((mId) => mId === movieId);
+      const index = updateWhisList.findIndex((mId) => mId === movieId);
 
       if (index === -1) {
         //add to list
@@ -87,11 +87,9 @@ export default function MovieDetailPage() {
         updateWhisList.splice(index, 1);
       }
 
-      console.log(updateWhisList);
-
       updateUser = {
         whisList: updateWhisList,
-        ...updateUser,
+        finishList: auth.user.finishList,
       };
 
       auth.user.whisList = updateWhisList;
@@ -110,19 +108,19 @@ export default function MovieDetailPage() {
 
       updateUser = {
         finishList: updateFinishList,
-        ...updateUser,
+        whisList: auth.user.whisList,
       };
 
       auth.user.finishList = updateFinishList;
     }
 
-    console.log(auth.user);
+    console.log(updateUser);
 
-    // const data = await sendUser('user', 'PATCH', JSON.stringify(updateUser), {
-    //   Authorization: auth.token,
-    // });
+    const data = await sendUser('user', 'PATCH', JSON.stringify(updateUser), {
+      Authorization: 'Bearer ' + auth.token,
+    });
 
-    // console.log(data);
+    console.log(data);
   };
 
   return (
