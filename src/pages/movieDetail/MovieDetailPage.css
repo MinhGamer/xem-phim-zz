@@ -79,8 +79,14 @@
   margin-right: 0.5rem;
 }
 
-.movie-detail__share {
+.movie-detail__wrap-share-genres {
   margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.movie-detail__share {
   display: inline-block;
 }
 
@@ -102,8 +108,6 @@
 }
 
 .movie-detail__share--bookmark {
-  background-color: #23d160;
-  border-color: transparent;
 }
 
 .movie-detail__share--bookmark .fa-bookmark {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import { useParams } from 'react-router-dom';
 
@@ -11,9 +11,14 @@ import Slider from '../../shared/components/Slider/Slider';
 
 import { API_MOVIE_IMAGE } from '../../shared/util/config';
 
+import { AuthContext } from '../../shared/context/AuthContext';
+
 import './MovieDetailPage.css';
+import Collection from '../../components/collection/Collection';
 
 export default function MovieDetailPage() {
+  const auth = useContext(AuthContext);
+  const { sendUser } = useHttp();
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const [trailer, setTrailer] = useState('');
@@ -64,10 +69,66 @@ export default function MovieDetailPage() {
       )
     );
 
+  const clickCollectionHandler = async (type) => {
+    console.log(type, movieId);
+
+    let updateUser;
+
+    if (type === 'wishlist') {
+      //wish list
+      const updateWhisList = [...auth.user.whisList] || [];
+
+      const index = updateWhisList.findIndsex((mId) => mId === movieId);
+
+      if (index === -1) {
+        //add to list
+        updateWhisList.push(movieId);
+      } else {
+        updateWhisList.splice(index, 1);
+      }
+
+      console.log(updateWhisList);
+
+      updateUser = {
+        whisList: updateWhisList,
+        ...updateUser,
+      };
+
+      auth.user.whisList = updateWhisList;
+    } else {
+      //finish list
+      const updateFinishList = [...auth.user.finishList] || [];
+
+      const index = updateFinishList.findIndex((mId) => mId === movieId);
+
+      if (index === -1) {
+        //add to list
+        updateFinishList.push(movieId);
+      } else {
+        updateFinishList.splice(index, 1);
+      }
+
+      updateUser = {
+        finishList: updateFinishList,
+        ...updateUser,
+      };
+
+      auth.user.finishList = updateFinishList;
+    }
+
+    console.log(auth.user);
+
+    // const data = await sendUser('user', 'PATCH', JSON.stringify(updateUser), {
+    //   Authorization: auth.token,
+    // });
+
+    // console.log(data);
+  };
+
   return (
     <>
       {movie && trailer && (
-        <MovieTrailer trailer={trailer} backdropClick={() => setTrailer('')} />
+        <MovieTrailer trailer={trailer} backdropClick={() => setTrailer} />
       )}
 
       {movie && (
@@ -107,19 +168,20 @@ export default function MovieDetailPage() {
                 {movie.vote_average}
               </div>
 
-              <div className='movie-detail__share'>
-                <span className='movie-detail__share--facebook'>
-                  <i className='fab fa-facebook'></i>
-                  Chia sẻ
-                </span>
-                <span className='movie-detail__share--bookmark'>
-                  <i className='fa fa-bookmark'></i>
-                  Bộ sưu tập
-                </span>
-              </div>
+              <div className='movie-detail__wrap-share-genres'>
+                <div className='movie-detail__share'>
+                  <span className='movie-detail__share--facebook'>
+                    <i className='fab fa-facebook'></i>
+                    Chia sẻ
+                  </span>
+                  <span className='movie-detail__share--bookmark'>
+                    <Collection onClick={clickCollectionHandler} />
+                  </span>
+                </div>
 
-              <div className='movie-detail__genres text-right'>
-                {renderGenres(movie.genres)}
+                <div className='movie-detail__genres text-right'>
+                  {renderGenres(movie.genres)}
+                </div>
               </div>
 
               <div className='movie-detail__sub-info'>

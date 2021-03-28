@@ -21,6 +21,8 @@ import {
 
 import { LOCAL_STORAGE_KEY } from '../../shared/util/config';
 
+import { signInWithGoogle } from '../../service/firebase';
+
 import './Auth.css';
 
 export default function Auth() {
@@ -44,7 +46,7 @@ export default function Auth() {
     false
   );
 
-  const { sendRequest, isLoading, error, clearError } = useHttp();
+  const { sendRequest, isLoading, error, clearError, sendUser } = useHttp();
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -57,11 +59,13 @@ export default function Auth() {
         password: password.value,
       };
 
-      const { token, logginedUser } = await sendRequest(
+      const { token, logginedUser } = await sendUser(
         'user/login',
         'POST',
         JSON.stringify(user)
       );
+
+      console.log(token, logginedUser);
 
       auth.login(token, logginedUser);
 
@@ -88,18 +92,17 @@ export default function Auth() {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(token));
   };
 
+  console.log(auth);
+  //auto login read token from local storage
   useEffect(() => {
     const fetchUser = async () => {
       //get token from local storage
       const token = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-
-      const data = await sendRequest('user', 'GET', null, {
+      const data = await sendUser('user', 'GET', null, {
         Authorization: token,
       });
-
       auth.login(token, data.user);
     };
-
     fetchUser();
   }, []);
 
@@ -197,7 +200,7 @@ export default function Auth() {
           </div>
           <Button isFull isPrimary>
             <i class='fab fa-google'></i>
-            Đăng nhập với Google
+            Đăng nhập với Google onClick={signInWithGoogle}
           </Button>
         </form>
       );

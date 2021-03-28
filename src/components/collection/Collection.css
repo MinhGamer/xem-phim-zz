@@ -1,0 +1,29 @@
+.collection {
+  background-color: #23d160;
+  border-color: transparent;
+  position: relative;
+}
+
+.collection-dropdown {
+  border-radius: 5px;
+  background-color: #fff;
+  color: #000;
+  top: 2.2rem;
+  left: -2rem;
+  position: absolute;
+  width: 16rem;
+  font-size: 0.9rem;
+}
+
+.collection-dropdown--item {
+  padding: 0.2rem;
+}
+
+.collection-dropdown--item:hover {
+  background-color: wheat;
+}
+
+.collection-dropdown--item span {
+  font-weight: 700;
+  font-size: 1rem;
+}

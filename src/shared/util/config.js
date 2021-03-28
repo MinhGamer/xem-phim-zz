@@ -1,5 +1,7 @@
 export const API_KEY = '838c50953b29e1152a488ae92467e67c';
 
+export const API_USER = 'http://localhost:5000/xem-phim-zz/us-central1/api';
+
 export const API_MOVIE = 'https://api.themoviedb.org/3';
 
 export const API_MOVIE_IMAGE = 'https://image.tmdb.org/t/p/original';

@@ -1,10 +1,38 @@
 import { useState, useCallback } from 'react';
 
-import { API_MOVIE, API_KEY } from '../util/config';
+import { API_MOVIE, API_KEY, API_USER } from '../util/config';
 
 export default function useHttp() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  //save data of user`
+  const sendUser = useCallback(
+    async (uri, method = 'GET', body = null, headers) => {
+      setIsLoading(true);
+      try {
+        const res = await fetch(`${API_USER}/${uri}`, {
+          method,
+          body,
+          headers: {
+            'Content-Type': 'application/json',
+            ...headers,
+          },
+        });
+
+        const resData = await res.json();
+
+        setIsLoading(false);
+
+        return resData;
+      } catch (err) {
+        setIsLoading(false);
+        setError(err.message);
+        throw err;
+      }
+    },
+    []
+  );
 
   const sendRequest = useCallback(
     async (uri, method = 'GET', body = null, headers) => {
@@ -255,5 +283,6 @@ export default function useHttp() {
     isLoading,
     error,
     clearError,
+    sendUser,
   };
 }

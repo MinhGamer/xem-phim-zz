@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useRef, setState } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  setState,
+  useCallback,
+} from 'react';
 
 import './Select.css';
 

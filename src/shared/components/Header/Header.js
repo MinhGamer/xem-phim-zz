@@ -24,10 +24,10 @@ export default function Header() {
           className='navlinks__item fixed'
           onMouseLeave={() => setShowDropdown(false)}>
           <div onMouseEnter={() => setShowDropdown(true)} to='/user'>
-            {auth.user.name}
+            {/* {auth.user.name} */}Minh
             <i class='fa fa-chevron-down arrow-expand'></i>
           </div>
-          {showDropdown && <HeaderDropdown username={auth.user.name} />}
+          {showDropdown && <HeaderDropdown username={'Minh'} />}
         </NavLink>
       </>
     );
