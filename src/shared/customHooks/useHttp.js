@@ -228,6 +228,45 @@ export default function useHttp() {
     []
   );
 
+  const fetchTvSerires = useCallback(
+    async (uri, method = 'GET', numberOfPages = 1) => {
+      // 1 page = 20 movies
+
+      setIsLoading(true);
+
+      try {
+        let responseList = [];
+
+        for (let i = 1; i <= numberOfPages; i++) {
+          //append params to url
+          var url = new URL(`${API_MOVIE}/${uri}`),
+            params = { api_key: API_KEY, language: 'vi', page: i };
+
+          Object.keys(params).forEach((key) =>
+            url.searchParams.append(key, params[key])
+          );
+
+          //make request to api
+          const res = await fetch(url, {
+            method,
+          });
+
+          const data = await res.json();
+
+          responseList.push(...data.results);
+        }
+
+        setIsLoading(false);
+        return responseList;
+      } catch (err) {
+        setIsLoading(false);
+        setError(err.message);
+        throw err;
+      }
+    },
+    []
+  );
+
   const searchMovie = useCallback(async (query) => {
     setIsLoading(true);
     try {
@@ -273,6 +312,32 @@ export default function useHttp() {
     setError(null);
   };
 
+  const fetchMoviesByIdList = useCallback(async (idList) => {
+    setIsLoading(true);
+    console.log(idList);
+    try {
+      const urlList = [];
+
+      for (let i = 0; i < idList.length; i++) {
+        const url = `${API_MOVIE}/movie/${idList[i]}?api_key=${API_KEY}&language=vi`;
+
+        const res = await fetch(url);
+
+        const resData = await res.json();
+
+        urlList.push(resData);
+      }
+
+      setIsLoading(false);
+
+      return urlList;
+    } catch (err) {
+      setIsLoading(false);
+      setError(err.message);
+      throw err;
+    }
+  }, []);
+
   return {
     fetchMovies,
     fetchMovieDetails,
@@ -284,5 +349,7 @@ export default function useHttp() {
     error,
     clearError,
     sendUser,
+    fetchMoviesByIdList,
+    fetchTvSerires,
   };
 }

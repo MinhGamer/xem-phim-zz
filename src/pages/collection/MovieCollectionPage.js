@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 
-import './MovieCollection.css';
+import './MovieCollectionPage.css';
 
 import MovieItem from '../../components/movieItem/MovieItem';
 
@@ -11,35 +11,28 @@ import ErrorModal from '../../shared/components/UI/ErrorModal';
 
 import useHttp from '../../shared/customHooks/useHttp';
 
-export default function MovieCollection() {
-  const [likedMovies, setLikedMovies] = useState([]);
-  const [finishedMovies, setFinishedMovies] = useState([]);
+export default function MovieCollectionPage() {
+  // const [likedMovies, setLikedMovies] = useState([]);
+  const [whisedList, setWishedList] = useState([]);
+  const [finishedList, setFinishedList] = useState([]);
   const auth = useContext(AuthContext);
 
-  const { sendRequest, isLoading, error, clearError } = useHttp();
+  const { fetchMoviesByIdList, isLoading, error, clearError } = useHttp();
 
   useEffect(() => {
-    const { finishedList, likedList } = auth.user;
+    const { finishList, whisList } = auth.user;
 
     const fetchMovies = async () => {
-      const fetchLikedList = likedList.map((movieId) => {
-        return sendRequest(`/movie/${movieId}`);
-      });
+      const whisListResults = await fetchMoviesByIdList(whisList);
 
-      const fetchFinishedList = finishedList.map((movieId) => {
-        return sendRequest(`/movie/${movieId}`);
-      });
+      const finishListResults = await fetchMoviesByIdList(finishList);
 
-      const likedListResponse = await Promise.all(fetchLikedList);
-
-      const finishListRespons = await Promise.all(fetchFinishedList);
-
-      setLikedMovies(likedListResponse);
-      setFinishedMovies(finishListRespons);
+      setFinishedList(finishListResults);
+      setWishedList(whisListResults);
     };
 
     fetchMovies();
-  }, [auth.user, sendRequest]);
+  }, [auth.user, fetchMoviesByIdList]);
 
   const renderMovies = (movies) => {
     if (!movies || movies.length === 0) {
@@ -52,8 +45,8 @@ export default function MovieCollection() {
       );
     }
 
-    return movies.map((item) => (
-      <>{!isLoading && <MovieItem key={item.movie.id} movie={item.movie} />}</>
+    return movies.map((movie) => (
+      <>{!isLoading && <MovieItem key={movie.id} movie={movie} />}</>
     ));
   };
 
@@ -67,14 +60,14 @@ export default function MovieCollection() {
       <h1 className='fs-1'>Các phim bạn muốn xem:</h1>
       <div className='movie-collection__liked-movies'>
         {isLoading && <LoadingSpinner />}
-        {renderMovies(likedMovies)}
+        {renderMovies(whisedList)}
       </div>
 
       {/* finished movies */}
       <h1 className='fs-1'>Các phim bạn đã xem:</h1>
       <div className='movie-collection__finished-movies'>
         {isLoading && <LoadingSpinner />}
-        {renderMovies(finishedMovies)}
+        {renderMovies(finishedList)}
       </div>
     </div>
   );

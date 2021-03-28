@@ -10,7 +10,7 @@ import AddMoviePage from './pages/addMovie/AddMoviePage';
 import Auth from './pages/user/Auth';
 
 import { AuthContextWrapper } from './shared/context/AuthContext';
-import MovieCollection from './pages/collection/MovieCollection';
+import MovieCollectionPage from './pages/collection/MovieCollectionPage';
 
 import PrivateRoute from './shared/components/PrivateRoute/PrivateRoute';
 import Account from './pages/account/Account';
@@ -33,7 +33,11 @@ function App() {
           <Route exact path='/person/:personId' component={PersonPage} />
           <PrivateRoute exact path='/account' component={Account} />
           <PrivateRoute exact path='/add-movie' component={AddMoviePage} />
-          <PrivateRoute exact path='/collection' component={MovieCollection} />
+          <PrivateRoute
+            exact
+            path='/collection'
+            component={MovieCollectionPage}
+          />
           <Redirect to='/' />;
         </Switch>
       </BrowserRouter>
