@@ -1,11 +1,16 @@
 import React from 'react';
+import Slider from 'react-slick';
 
 import BackDrop from '../../shared/components/UI/Backdrop';
+
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 import './MovieTrailer.css';
 
 export default function MovieTrailer(props) {
   const { backdropClick, trailer } = props;
+
   console.log('MovieTrailer', trailer);
   return (
     <>

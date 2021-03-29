@@ -15,6 +15,7 @@ import { AuthContext } from '../../shared/context/AuthContext';
 
 import './MovieDetailPage.css';
 import Collection from '../../components/collection/Collection';
+import TrailerSlider from '../../components/trailerSlider/TrailerSlider';
 
 export default function MovieDetailPage() {
   const auth = useContext(AuthContext);
@@ -177,8 +178,12 @@ export default function MovieDetailPage() {
 
   return (
     <>
+      {/* show trailer with backdrop */}
       {movie && trailer && (
-        <MovieTrailer trailer={trailer} backdropClick={() => setTrailer} />
+        <MovieTrailer
+          trailer={trailer}
+          backdropClick={() => setTrailer(null)}
+        />
       )}
 
       {movie && (
@@ -288,18 +293,13 @@ export default function MovieDetailPage() {
               </div>
 
               <div className='movie-detail__trailers--title'>Trailer</div>
+
+              {/* just use for render icon */}
               <div className='movie-detail__trailers'>
-                {/* just use for render icon */}
-                {movie.videos.results.map((trailer) => (
-                  <div
-                    onClick={() => setTrailer(trailer)}
-                    className='movie-detail__trailers-item'>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${trailer.key}`}
-                      title='YouTube video player'
-                      frameborder='0'></iframe>
-                  </div>
-                ))}
+                <TrailerSlider
+                  onClickTrailer={setTrailer}
+                  trailers={movie.videos.results}
+                />
               </div>
 
               {movie.seasons && (
