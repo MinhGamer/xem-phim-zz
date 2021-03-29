@@ -101,25 +101,28 @@ export default function MovieDetailPage() {
       history.push(`/tv/${movieId}/season/${season.season_number}`);
     };
 
-    return seasons.map((season) => (
-      <>
-        <div className='movie-detail__seasons--item'>
-          <img
-            onClick={() => gotoSeasonDetailPage(season)}
-            src={`${API_MOVIE_IMAGE}/${season.poster_path}`}
-            alt='season'
-          />
-          <p className='movie-detail__seasons--item__content'>
-            <NavLink to={`/tv/${movieId}/season/${season.season_number}`}>
-              Phần {season.season_number}
-            </NavLink>
-            <p>Số tập: {season.episode_count}</p>
-            <p>Ngày công chiếu: {season.air_date}</p>
-          </p>
-        </div>
-        <hr />
-      </>
-    ));
+    return seasons.map(
+      (season) =>
+        season.season_number > 0 && (
+          <>
+            <div className='movie-detail__seasons--item'>
+              <img
+                onClick={() => gotoSeasonDetailPage(season)}
+                src={`${API_MOVIE_IMAGE}/${season.poster_path}`}
+                alt='season'
+              />
+              <p className='movie-detail__seasons--item__content'>
+                <NavLink to={`/tv/${movieId}/season/${season.season_number}`}>
+                  Season {season.season_number}
+                </NavLink>
+                <p>Số tập: {season.episode_count}</p>
+                <p>Ngày công chiếu: {season.air_date}</p>
+              </p>
+            </div>
+            <hr />
+          </>
+        )
+    );
   };
 
   const clickCollectionHandler = async (type) => {

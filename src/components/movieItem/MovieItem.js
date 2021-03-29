@@ -14,13 +14,14 @@ export default function MovieItem(props) {
     poster_path,
     name,
     original_name,
+    backdrop_path,
   } = props.movie;
 
-  const { type } = props;
+  const { type, clickMovieHandler } = props;
 
   const history = useHistory();
 
-  const imageUrl = `${API_MOVIE_IMAGE}/${poster_path}`;
+  const imageUrl = `${API_MOVIE_IMAGE}/${poster_path || backdrop_path}`;
 
   const gotoMovieDetailPage = () => {
     history.push(`/${type}/${id}`);
@@ -28,7 +29,9 @@ export default function MovieItem(props) {
 
   return (
     <div className='movie-item'>
-      <div onClick={gotoMovieDetailPage} className='movie-item__image'>
+      <div
+        onClick={type === 'series' ? clickMovieHandler : gotoMovieDetailPage}
+        className='movie-item__image'>
         <img src={imageUrl} alt={original_title} />
         <div className='movie-item__overlay'></div>
         <div className='movie-item__play-icon'>

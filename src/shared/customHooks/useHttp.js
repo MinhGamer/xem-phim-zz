@@ -232,7 +232,7 @@ export default function useHttp() {
           credits: resDataVideosAndCast.credits,
           genres: resDataDetails.genres,
           vote_average: resDataVideosAndCast.vote_average,
-          overview: resDataDetails.overview,
+          overview: resDataDetails.overview || resDataVideosAndCast.overview,
           poster_path: resDataVideosAndCast.poster_path,
           release_date: resDataVideosAndCast.release_date,
           videos: resDataVideosAndCast.videos,
@@ -455,6 +455,43 @@ export default function useHttp() {
     }
   }, []);
 
+  const fetchSeries = useCallback(async (seriesList) => {
+    // 1 page = 20 movies
+
+    setIsLoading(true);
+
+    try {
+      let requestList = [];
+
+      for (let i = 0; i < seriesList.length; i++) {
+        const url = `${API_MOVIE}/collection/${seriesList[i].id}?api_key=${API_KEY}&language=vi`;
+
+        //make request to api
+        // const res = await fetch(url);
+
+        // const data = await res.json();
+
+        requestList.push(fetch(url));
+
+        // responseList.push(...data.results);
+      }
+
+      const responseList = await Promise.all(requestList);
+
+      const resData = responseList.map((res) => res.json());
+
+      const data = await Promise.all(resData);
+
+      setIsLoading(false);
+
+      return data;
+    } catch (err) {
+      setIsLoading(false);
+      setError(err.message);
+      throw err;
+    }
+  }, []);
+
   return {
     fetchMovies,
     fetchMovieDetails,
@@ -469,5 +506,6 @@ export default function useHttp() {
     fetchMoviesByIdList,
     fetchTvSerires,
     fetchTvDetails,
+    fetchSeries,
   };
 }

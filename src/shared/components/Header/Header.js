@@ -52,8 +52,8 @@ export default function Header() {
         </NavLink>
 
         <nav className='navlinks'>
-          <NavLink className='navlinks__item' to='/movie'>
-            Phim lẻ
+          <NavLink className='navlinks__item' to='/series'>
+            Phim series
           </NavLink>
           <NavLink className='navlinks__item' to='/tv'>
             Phim bộ

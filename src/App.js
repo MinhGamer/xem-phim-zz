@@ -18,6 +18,7 @@ import Account from './pages/account/Account';
 import PersonPage from './pages/person/PersonPage';
 import SearchMovie from './pages/searchMovie/SearchMovie';
 import TvSeriesPage from './pages/tvSeries/TvSeriesPage';
+import MovieSeriesPage from './pages/movieSeries/MovieSeriesPage';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             path='/tv/:movieId/season/:seasonNumber'
             component={MovieDetailPage}
           />
+          <Route exact path='/series' component={MovieSeriesPage} />
           <Route exact path='/auth' component={Auth} />
           {/* only for login user*/}
           <Route exact path='/search' component={SearchMovie} />
