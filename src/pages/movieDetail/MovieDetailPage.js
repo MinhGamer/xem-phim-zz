@@ -21,7 +21,7 @@ export default function MovieDetailPage() {
   const history = useHistory();
   const type = history.location.pathname.split('/')[1];
   const { sendUser } = useHttp();
-  const { movieId } = useParams();
+  const { movieId, seasonNumber } = useParams();
   const [movie, setMovie] = useState(null);
   const [trailer, setTrailer] = useState('');
   const {
@@ -35,22 +35,32 @@ export default function MovieDetailPage() {
 
   //fetch movie when load page
   useEffect(() => {
+    console.log(seasonNumber);
+
     const fetchMovie = async () => {
       let data;
 
+      //tv show
       if (type === 'tv') {
-        data = await fetchTvDetails(`${type}/${movieId}`, 'GET');
-      } else {
-        data = await fetchMovieDetails(`${type}/${movieId}`, 'GET');
+        data = await fetchTvDetails(movieId);
       }
 
-      console.log(data);
+      if (type === 'tv' && seasonNumber) {
+        data = await fetchTvDetails(movieId, seasonNumber);
+      }
+
+      //movie
+      if (type === 'movie') {
+        data = await fetchMovieDetails(`${type}/${movieId}`, 'GET');
+      }
+      //season for tv show
+
       setMovie(data);
     };
 
     fetchMovie();
     //movie or tv
-  }, [sendRequest, movieId]);
+  }, [history.location.pathname]);
 
   const convertMovieLength = (runtime) => {
     const minutes = +runtime % 60;
@@ -86,12 +96,20 @@ export default function MovieDetailPage() {
 
   const renderSeason = (seasons) => {
     // console.log(seasons);
+    const gotoSeasonDetailPage = (season) => {
+      history.push(`/tv/${movieId}/season/${season.season_number}`);
+    };
+
     return seasons.map((season) => (
       <>
         <div className='movie-detail__seasons--item'>
-          <img src={`${API_MOVIE_IMAGE}/${season.poster_path}`} alt='season' />
+          <img
+            onClick={() => gotoSeasonDetailPage(season)}
+            src={`${API_MOVIE_IMAGE}/${season.poster_path}`}
+            alt='season'
+          />
           <p className='movie-detail__seasons--item__content'>
-            <NavLink to={`/tv/${movie.id}/season/${season.season_number}`}>
+            <NavLink to={`/tv/${movieId}/season/${season.season_number}`}>
               Phần {season.season_number}
             </NavLink>
             <p>Số tập: {season.episode_count}</p>
@@ -193,9 +211,22 @@ export default function MovieDetailPage() {
               <div className='movie-detail__title-vn'>
                 {movie.title || movie.name}
               </div>
+
               <div className='movie-detail__length'>
                 {convertMovieLength(movie.runtime || movie.episode_run_time)}
               </div>
+
+              {movie.number_of_seasons && (
+                <div className='movie-detail__season'>
+                  {movie.number_of_seasons || ''} seasons
+                </div>
+              )}
+
+              {movie.number_of_episodes && (
+                <div className='movie-detail__season'>
+                  {movie.number_of_episodes || ''} tập
+                </div>
+              )}
 
               <div className='movie-detail__IMDb'>
                 <span className='movie-detail__IMDb--icon'>IMDb</span>
@@ -232,7 +263,7 @@ export default function MovieDetailPage() {
                     QUỐC GIA
                   </span>
                   <span className='movie-detail__sub-info--value'>
-                    {movie.production_countries}
+                    {movie.production_countries || movie.origin_country}
                   </span>
                 </p>
                 <p>
@@ -240,7 +271,9 @@ export default function MovieDetailPage() {
                     KHỞI CHIẾU
                   </span>
                   <span className='movie-detail__sub-info--value'>
-                    {movie.release_date}
+                    {movie.release_date ||
+                      movie.air_date ||
+                      movie.first_air_date}
                   </span>
                 </p>
               </div>

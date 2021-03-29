@@ -30,7 +30,11 @@ function App() {
           <Route exact path='/tv' component={TvSeriesPage} />
           <Route exact path='/movie/:movieId' component={MovieDetailPage} />
           <Route exact path='/tv/:movieId' component={MovieDetailPage} />
-          <Route exact path='/tv/:movieId/season' component={MovieDetailPage} />
+          <Route
+            exact
+            path='/tv/:movieId/season/:seasonNumber'
+            component={MovieDetailPage}
+          />
           <Route exact path='/auth' component={Auth} />
           {/* only for login user*/}
           <Route exact path='/search' component={SearchMovie} />

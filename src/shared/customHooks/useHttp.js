@@ -179,34 +179,30 @@ export default function useHttp() {
 
   const fetchTvDetails = useCallback(
     // type: tv or movie
-    async (uri, method = 'GET', body = null, headers) => {
+    async (tvId, season) => {
       // 1 page = 20 movies
+
+      //fecth tv will have 2 options:
+      //1. tv main series
+      //2. tv series season
+
+      //Ex: The Flash is a Tv series and have 7 seasons
+
+      //because api for details season is not enough info
+      //-> get tv main series info + season info to render movie details
+
+      //flag to check fetch tv or tv season
+      // const isSeason = uri.includes('season');
 
       setIsLoading(true);
       try {
         //get details in vietnamese
         const resDetails = await fetch(
-          `${API_MOVIE}/${uri}?api_key=${API_KEY}&language=vi`,
-          {
-            method,
-            body,
-            headers: {
-              'Content-Type': 'application/json',
-              ...headers,
-            },
-          }
+          `${API_MOVIE}/tv/${tvId}?api_key=${API_KEY}&language=vi`
         );
 
         const resVideosAndCast = await fetch(
-          `${API_MOVIE}/${uri}?api_key=${API_KEY}&append_to_response=credits,videos`,
-          {
-            method,
-            body,
-            headers: {
-              'Content-Type': 'application/json',
-              ...headers,
-            },
-          }
+          `${API_MOVIE}/tv/${tvId}?api_key=${API_KEY}&append_to_response=credits,videos`
         );
 
         //vietnamese
@@ -218,25 +214,20 @@ export default function useHttp() {
           throw resDetails;
         }
 
-        const { crew } = resDataVideosAndCast.credits;
+        let resData;
 
-        // console.log(crew);
+        const { created_by } = resDataVideosAndCast;
 
         let directors = [];
-        for (let i = 0; i < crew.length; i++) {
-          if (
-            crew[i].department === 'Directing' &&
-            crew[i].job === 'Director'
-          ) {
-            directors.push(crew[i].name);
-          }
-        }
+        created_by.forEach((creater) => {
+          directors.push(creater.name);
+        });
 
-        console.log(resDataDetails);
+        // console.log(resDataDetails);
 
-        console.log(resDataVideosAndCast);
+        // console.log(resDataVideosAndCast);
 
-        const resData = {
+        resData = {
           backdrop_path: resDataVideosAndCast.backdrop_path,
           credits: resDataVideosAndCast.credits,
           genres: resDataDetails.genres,
@@ -244,15 +235,35 @@ export default function useHttp() {
           overview: resDataDetails.overview,
           poster_path: resDataVideosAndCast.poster_path,
           release_date: resDataVideosAndCast.release_date,
-          runtime: resDataVideosAndCast.runtime,
           videos: resDataVideosAndCast.videos,
-          // production_countries: resDataDetails.production_countries[0].name,
           directors,
           name: resDataDetails.name,
           original_name: resDataDetails.original_name,
           seasons: resDataDetails.seasons,
-          episode_run_time: resDataDetails.episode_run_time,
+          episode_run_time: resDataDetails.episode_run_time[0],
+          origin_country: resDataVideosAndCast.origin_country,
+          first_air_date: resDataVideosAndCast.first_air_date,
+          number_of_episodes: resDataVideosAndCast.number_of_episodes,
+          number_of_seasons: resDataVideosAndCast.number_of_seasons,
         };
+
+        //if fetch tv season details:
+        if (season) {
+          const resSeason = await fetch(
+            `${API_MOVIE}/tv/${tvId}/season/${season}?api_key=${API_KEY}&append_to_response=credits,videos`
+          );
+
+          const resSeasonData = await resSeason.json();
+
+          console.log(resSeasonData);
+
+          resData = {
+            ...resData,
+            ...resSeasonData,
+          };
+        }
+
+        console.log(resData);
 
         setIsLoading(false);
         return resData;
@@ -386,8 +397,6 @@ export default function useHttp() {
 
   const filterMovies = useCallback(async (type, filter, numberOfPages = 1) => {
     filter = filter.replace('?', '&');
-
-    console.log('Hi');
 
     setIsLoading(true);
     try {

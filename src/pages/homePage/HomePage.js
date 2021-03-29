@@ -41,8 +41,6 @@ export default function HomePage() {
     setMovies(filteredMovies);
   };
 
-  console.log('Homepage');
-
   const convertQueryToFilter = (query) => {
     // console.log(query);
 
