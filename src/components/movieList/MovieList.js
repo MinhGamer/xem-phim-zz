@@ -13,8 +13,6 @@ import Button from '../../shared/components/UI/Button';
 export default function MovieList(props) {
   const { movies, type, clickMovieHandler } = props;
 
-  console.log(type);
-
   const [currentPage, setCurrentPage] = useState(1);
 
   const numberOfPages = Math.ceil(movies.length / MOVIES_PER_PAGE);

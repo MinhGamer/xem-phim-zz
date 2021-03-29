@@ -237,7 +237,7 @@ export default function MovieDetailPage() {
               )}
 
               <div className='movie-detail__IMDb'>
-                <span className='movie-detail__IMDb--icon'>IMDb</span>
+                <span className='IMDb--icon'>IMDb</span>
                 {movie.vote_average}
               </div>
 

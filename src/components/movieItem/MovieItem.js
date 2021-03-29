@@ -30,7 +30,9 @@ export default function MovieItem(props) {
   return (
     <div className='movie-item'>
       <div
-        onClick={type === 'series' ? clickMovieHandler : gotoMovieDetailPage}
+        onClick={
+          type === 'series' ? () => clickMovieHandler(id) : gotoMovieDetailPage
+        }
         className='movie-item__image'>
         <img src={imageUrl} alt={original_title} />
         <div className='movie-item__overlay'></div>
