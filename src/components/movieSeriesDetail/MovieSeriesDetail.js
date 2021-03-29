@@ -12,6 +12,8 @@ export default function MovieSeriesDetail(props) {
   const history = useHistory();
   const { series } = props;
 
+  console.log('Hi');
+
   const renderGenres = (genres_ids) => {
     const genresList = genres_ids.map((genres_id) =>
       GENRES_LIST_VN.filter((genres) => genres.id === genres_id)
@@ -28,11 +30,8 @@ export default function MovieSeriesDetail(props) {
     history.push(`/movie/${movieId}`);
   };
 
-  console.log(series);
-
   return (
     <>
-      {/* <CSSTransition in={series} timeout={400} classNames='fade'> */}
       {series.map((movie) => (
         <>
           <div key={movie.id} className='series-item'>
@@ -77,7 +76,6 @@ export default function MovieSeriesDetail(props) {
           <hr />
         </>
       ))}
-      {/* </CSSTransition> */}
     </>
   );
 }

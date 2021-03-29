@@ -8,14 +8,6 @@
   width: 15%;
 }
 
-.fade-enter {
-  opacity: 0;
-}
-
-.fade-enter-active {
-  opacity: 1;
-}
-
 .series-item img {
   cursor: pointer;
   width: 100%;

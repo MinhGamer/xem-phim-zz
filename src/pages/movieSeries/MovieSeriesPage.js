@@ -19,6 +19,7 @@ export default function MovieSeriesPage() {
   const { fetchSeries, isLoading } = useHttp();
   const [series, setSeries] = useState([]);
   const [movieId, setMovieId] = useState(null);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     const fetchSeriesData = async () => {
@@ -30,8 +31,10 @@ export default function MovieSeriesPage() {
     fetchSeriesData();
   }, []);
 
-  const clickMovieHandler = (movieId) => {
-    setMovieId(movieId);
+  const clickMovieHandler = (clickId) => {
+    setShow(true);
+
+    setMovieId(clickId);
   };
 
   return (
@@ -45,15 +48,21 @@ export default function MovieSeriesPage() {
             movies={series}
           />
 
-          <div>
-            {series.map((movie) => (
-              <>
-                {movieId === movie.id && (
-                  <MovieSeriesDetail series={movie.parts} />
-                )}
-              </>
-            ))}
-          </div>
+          <CSSTransition
+            mountOnEnter
+            onEntered={() => setShow(false)}
+            in={show}
+            timeout={700}
+            classNames='fade'>
+            <div>
+              {series.map(
+                (movie) =>
+                  movieId === movie.id && (
+                    <MovieSeriesDetail series={movie.parts} />
+                  )
+              )}
+            </div>
+          </CSSTransition>
         </div>
       )}
     </>
