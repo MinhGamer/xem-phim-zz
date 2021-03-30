@@ -86,8 +86,6 @@ export default function useHttp() {
   const fetchMovieDetails = useCallback(
     // type: tv or movie
     async (uri, method = 'GET', body = null, headers) => {
-      // 1 page = 20 movies
-
       setIsLoading(true);
       try {
         //get details in vietnamese
@@ -124,15 +122,7 @@ export default function useHttp() {
           throw resDetails;
         }
 
-        // if (type === 'tv') {
-        //   console.log(resDataDetails);
-
-        //   return resDataDetails;
-        // }
-
         const { crew } = resDataVideosAndCast.credits;
-
-        // console.log(crew);
 
         let directors = [];
         for (let i = 0; i < crew.length; i++) {
@@ -164,6 +154,7 @@ export default function useHttp() {
           directors,
           name: resDataDetails.name,
           seasons: resDataDetails.seasons,
+          spoken_languages: resDataVideosAndCast.spoken_languages[0].iso_639_1,
         };
 
         setIsLoading(false);
@@ -301,8 +292,6 @@ export default function useHttp() {
 
   const fetchMovies = useCallback(
     async (uri, method = 'GET', numberOfPages = 1) => {
-      // 1 page = 20 movies
-
       setIsLoading(true);
 
       try {

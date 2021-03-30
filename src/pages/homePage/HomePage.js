@@ -23,11 +23,11 @@ export default function HomePage() {
   const [movies, setMovies] = useState([]);
 
   const [filterTerm, setFilterTerm] = useState({
-    with_genres: '',
-    with_original_language: '',
-    primary_release_year: '',
-    'with_runtime.lte': '',
-    'with_runtime.gte': '',
+    with_genres: '', //number
+    with_original_language: '', //string
+    primary_release_year: '', //number
+    'with_runtime.lte': '', //number
+    'with_runtime.gte': '', //number
     sort: '',
   });
 

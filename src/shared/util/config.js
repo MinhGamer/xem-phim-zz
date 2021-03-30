@@ -44,79 +44,79 @@ export const LOCAL_STORAGE_KEY = 'xem-phim-zz';
 //id: to send to movies db
 export const GENRES_LIST_VN = [
   {
-    id: 28,
+    id: '28',
     name: 'Hành Động',
   },
   {
-    id: 12,
+    id: '12',
     name: 'Phiêu Lưu',
   },
   {
-    id: 16,
+    id: '16',
     name: 'Hoạt Hình',
   },
   {
-    id: 35,
+    id: '35',
     name: 'Hài',
   },
   {
-    id: 80,
+    id: '80',
     name: 'Hình Sự',
   },
   {
-    id: 99,
+    id: '99',
     name: 'Tài Liệu',
   },
   {
-    id: 18,
+    id: '18',
     name: 'Chính Kịch',
   },
   {
-    id: 10751,
+    id: '10751',
     name: 'Gia Đình',
   },
   {
-    id: 14,
+    id: '14',
     name: 'Giả Tượng',
   },
   {
-    id: 36,
+    id: '36',
     name: 'Lịch Sử',
   },
   {
-    id: 27,
+    id: '27',
     name: 'Kinh Dị',
   },
   {
-    id: 10402,
+    id: '10402',
     name: 'Nhạc',
   },
   {
-    id: 9648,
+    id: '9648',
     name: 'Bí Ẩn',
   },
   {
-    id: 10749,
+    id: '10749',
     name: 'Lãng Mạn',
   },
   {
-    id: 878,
+    id: '878',
     name: 'Khoa Học Viễn Tưởng',
   },
   {
-    id: 10770,
+    id: '10770',
     name: 'Chương Trình Truyền Hình',
   },
   {
-    id: 53,
+    id: '53',
     name: 'Gây Cấn',
   },
   {
-    id: 10752,
+    id: '10752',
     name: 'Chiến Tranh',
   },
   {
-    id: 37,
+    id: '37',
     name: 'Miền Tây',
   },
 ];
@@ -144,7 +144,7 @@ export const LANGUAGE_LIST_VN = [
   },
   {
     id: 'en',
-    name: 'Mỹ',
+    name: 'Tiếng Anh',
   },
   {
     id: 'CN',
@@ -205,28 +205,28 @@ export const RELEASE_YEAR = genrateYear();
 export const LENGTH = [
   {
     id: {
-      max: 60,
+      max: '60',
     },
     name: 'Dưới 1 tiếng',
   },
   {
     id: {
-      min: 60,
-      max: 90,
+      min: '60',
+      max: '90',
     },
     name: '1 - 1.5 tiếng',
   },
   {
     id: {
-      min: 90,
-      max: 120,
+      min: '90',
+      max: '120',
     },
     name: '1.5 - 2 tiếng',
   },
   {
     id: {
-      min: 120,
-      max: 150,
+      min: '120',
+      max: '150',
     },
     name: '2 - 2.5 tiếng',
   },

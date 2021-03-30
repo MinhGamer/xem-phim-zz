@@ -60,6 +60,20 @@
   font-size: 1.7rem;
 }
 
+.movie-detail__title--year {
+  color: rgba(50, 115, 220, 0.93);
+  cursor: pointer;
+}
+
+.movie-detail__title--year:hover {
+  color: #dcf836;
+}
+
+.movie-detail__sub-info--language:hover {
+  cursor: pointer;
+  color: #dcf836;
+}
+
 .movie-detail__length {
   font-size: 1.4rem;
   margin-top: 3rem;

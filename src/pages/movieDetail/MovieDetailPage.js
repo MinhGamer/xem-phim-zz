@@ -9,7 +9,7 @@ import useHttp from '../../shared/customHooks/useHttp';
 import MovieTrailer from '../../components/movieTrailer/MovieTrailer';
 import Slider from '../../shared/components/Slider/Slider';
 
-import { API_MOVIE_IMAGE } from '../../shared/util/config';
+import { API_MOVIE_IMAGE, LANGUAGE_LIST_VN } from '../../shared/util/config';
 
 import { AuthContext } from '../../shared/context/AuthContext';
 
@@ -25,6 +25,7 @@ export default function MovieDetailPage() {
   const { movieId, seasonNumber } = useParams();
   const [movie, setMovie] = useState(null);
   const [trailer, setTrailer] = useState('');
+
   const {
     sendRequest,
     isLoading,
@@ -74,8 +75,22 @@ export default function MovieDetailPage() {
     return `${hours} giờ ${minutes} phút`;
   };
 
-  const gotoHomePage = (genresId) => {
-    history.push(`/?with_genres=${genresId}`);
+  const gotoHomePageToFilter = (type, value) => {
+    switch (type) {
+      case 'year':
+        history.push(`/?primary_release_year=${value}`);
+        break;
+
+      case 'genres':
+        history.push(`/?with_genres=${value}`);
+        break;
+
+      case 'language':
+        history.push(`/?with_original_language=${value}`);
+        break;
+
+      default:
+    }
   };
 
   const renderGenres = (genres) => {
@@ -84,7 +99,7 @@ export default function MovieDetailPage() {
 
       return (
         <span
-          onClick={() => gotoHomePage(genre.id)}
+          onClick={() => gotoHomePageToFilter('genres', genre.id)}
           key={genre.id}
           className='movie-detail__genres--item'>
           {genre.name}
@@ -186,6 +201,16 @@ export default function MovieDetailPage() {
     console.log(data);
   };
 
+  const renderLanguge = (langugeId) => {
+    const index = LANGUAGE_LIST_VN.findIndex(
+      (languge) => languge.id === langugeId
+    );
+
+    if (index === -1) return;
+
+    return LANGUAGE_LIST_VN[index].name;
+  };
+
   console.log(movie);
 
   return (
@@ -226,7 +251,19 @@ export default function MovieDetailPage() {
                 {movie.original_title || movie.original_name}
               </div>
               <div className='movie-detail__title-vn'>
-                {movie.title || movie.name}
+                {movie.title || movie.name} (
+                <span
+                  onClick={() =>
+                    gotoHomePageToFilter(
+                      'year',
+                      movie.release_date.split('-')[0]
+                    )
+                  }
+                  className='movie-detail__title--year'>
+                  {movie.release_date.split('-')[0]}
+                  {/*release year */}
+                </span>
+                )
               </div>
 
               <div className='movie-detail__length'>
@@ -277,10 +314,17 @@ export default function MovieDetailPage() {
                 </p>
                 <p>
                   <span className='movie-detail__sub-info--label'>
-                    QUỐC GIA
+                    NGÔN NGỮ
                   </span>
                   <span className='movie-detail__sub-info--value'>
-                    {movie.production_countries || movie.origin_country}
+                    {/* {movie.spoken_languages || movie.origin_country} */}
+                    <span
+                      onClick={() =>
+                        gotoHomePageToFilter('language', movie.spoken_languages)
+                      }
+                      className='movie-detail__sub-info--language'>
+                      {renderLanguge(movie.spoken_languages)}
+                    </span>
                   </span>
                 </p>
                 <p>

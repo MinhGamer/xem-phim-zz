@@ -17,8 +17,6 @@ export default function TrailerSlider(props) {
     slidesToScroll: 1,
   };
 
-  console.log(props.trailers);
-
   return (
     <div className='trailer-slider left-align-slick'>
       <Slider {...settings}>
