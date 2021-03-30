@@ -398,26 +398,33 @@ export default function useHttp() {
   const filterMovies = useCallback(async (type, filter, numberOfPages = 1) => {
     filter = filter.replace('?', '&');
 
+    //type: movie or tv
+
     setIsLoading(true);
+    let movieUrls = [];
     try {
-      let movies = [];
       for (let i = 0; i < numberOfPages; i++) {
         const url = `${API_MOVIE}/discover/${type}?api_key=${API_KEY}${filter}&language=vi&page=${
           i + 1
         }`;
 
-        const res = await fetch(url);
-
-        const resData = await res.json();
-
-        movies.push(...resData.results);
+        movieUrls.push(fetch(url));
       }
+
+      const allRes = await Promise.all(movieUrls);
+
+      const allResults = await Promise.all(allRes.map((res) => res.json()));
+
+      let data = [];
+      allResults.forEach((result) => {
+        data = data.concat(result.results);
+      });
 
       setIsLoading(false);
 
-      console.log(movies);
+      // console.log(data);
 
-      return movies;
+      return data;
     } catch (err) {
       setIsLoading(false);
       setError(err.message);

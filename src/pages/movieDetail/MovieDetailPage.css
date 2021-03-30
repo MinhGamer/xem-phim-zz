@@ -134,6 +134,10 @@
   margin: 0 0.2rem;
   cursor: pointer;
 }
+.movie-detail__genres--item:hover {
+  color: #dcf836;
+  border-color: #dcf836;
+}
 
 .movie-detail__sub-info {
   margin-top: 8rem;

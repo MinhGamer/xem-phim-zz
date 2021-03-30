@@ -23,7 +23,7 @@ import MovieSeriesPage from './pages/movieSeries/MovieSeriesPage';
 function App() {
   return (
     <AuthContextWrapper>
-      <BrowserRouter>
+      <BrowserRouter basename='/xem-phim-zz'>
         <Header />
         <Switch>
           {/* access for everyone */}

@@ -74,12 +74,19 @@ export default function MovieDetailPage() {
     return `${hours} giờ ${minutes} phút`;
   };
 
+  const gotoHomePage = (genresId) => {
+    history.push(`/?with_genres=${genresId}`);
+  };
+
   const renderGenres = (genres) => {
     return genres.map((genre) => {
       genre.name = genre.name.replace('Phim', '');
 
       return (
-        <span key={genre.id} className='movie-detail__genres--item'>
+        <span
+          onClick={() => gotoHomePage(genre.id)}
+          key={genre.id}
+          className='movie-detail__genres--item'>
           {genre.name}
         </span>
       );

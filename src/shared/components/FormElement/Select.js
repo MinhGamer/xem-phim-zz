@@ -22,7 +22,7 @@ export default function CustomSelect(props) {
       setSelectedOption('Tất cả');
     }
 
-    const index = options.findIndex((opt) => opt.id === optionId);
+    const index = options.findIndex((opt) => opt.id === +optionId);
 
     if (index === -1) return;
 

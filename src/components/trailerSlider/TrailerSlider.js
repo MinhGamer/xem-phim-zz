@@ -2,8 +2,6 @@ import React from 'react';
 
 import Slider from 'react-slick';
 
-import { useHistory } from 'react-router-dom';
-
 import './TrailerSlider.css';
 
 import 'slick-carousel/slick/slick.css';

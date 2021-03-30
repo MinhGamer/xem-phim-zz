@@ -15,8 +15,6 @@ import {
 export default function MovieFilter(props) {
   const { filterHandler, filterTerm } = props;
 
-  console.log(filterTerm);
-
   return (
     <div className='movie-filter'>
       <div className='movie-filter--item'>

@@ -42,7 +42,7 @@ export default function HomePage() {
   };
 
   const convertQueryToFilter = (query) => {
-    // console.log(query);
+    console.log(query);
 
     const myQuery = query.substring(1).split('&');
 
