@@ -10,13 +10,20 @@ export default function MovieSeriesDetail(props) {
   const history = useHistory();
   const { series } = props;
 
+  const gotoHomePageToFilter = (genresId) => {
+    history.push(`/?with_genres=${genresId}`);
+  };
+
   const renderGenres = (genres_ids) => {
     const genresList = genres_ids.map((genres_id) =>
       GENRES_LIST_VN.filter((genres) => genres.id === genres_id.toString())
     );
 
     return genresList.map((genres) => (
-      <span className='series-genres' key={genres[0].id}>
+      <span
+        onClick={() => gotoHomePageToFilter(genres[0].id)}
+        className='series-genres'
+        key={genres[0].id}>
         {genres[0].name}
       </span>
     ));

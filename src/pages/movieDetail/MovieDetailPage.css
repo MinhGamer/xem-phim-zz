@@ -98,6 +98,11 @@
   color: #dcf836;
 }
 
+.movie-detail__sub-info--directors:hover {
+  cursor: pointer;
+  color: #dcf836;
+}
+
 .movie-detail__length {
   font-size: 1.4rem;
   margin-top: 3rem;

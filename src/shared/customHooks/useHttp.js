@@ -130,7 +130,7 @@ export default function useHttp() {
             crew[i].department === 'Directing' &&
             crew[i].job === 'Director'
           ) {
-            directors.push(crew[i].name);
+            directors.push(crew[i]);
           }
         }
 

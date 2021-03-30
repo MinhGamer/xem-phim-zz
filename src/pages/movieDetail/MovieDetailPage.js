@@ -109,11 +109,16 @@ export default function MovieDetailPage() {
   };
 
   const renderDirectors = (directors) =>
+    //may render many director
     directors.map((director, index) =>
       index === directors.length - 1 ? (
-        <span>{director} </span>
+        <span onClick={() => gotoPersonPage(director.id)}>
+          {director.name}{' '}
+        </span>
       ) : (
-        <span>{director}, </span>
+        <span nClick={() => gotoPersonPage(director.id)}>
+          {director.name},{' '}
+        </span>
       )
     );
 
@@ -211,9 +216,9 @@ export default function MovieDetailPage() {
     return LANGUAGE_LIST_VN[index].name;
   };
 
-  // const gotoSeiresPage = (seriesId) => {
-  //   history.push(`/series/${seriesId}`)
-  // };
+  const gotoPersonPage = (personId) => {
+    history.push(`/person/${personId}`);
+  };
 
   const renderSeries = (series) => (
     <>
@@ -332,7 +337,7 @@ export default function MovieDetailPage() {
                   <span className='movie-detail__sub-info--label'>
                     ĐẠO DIỄN
                   </span>
-                  <span className='movie-detail__sub-info--value'>
+                  <span className='movie-detail__sub-info--value movie-detail__sub-info--directors'>
                     {renderDirectors(movie.directors)}
                   </span>
                 </p>

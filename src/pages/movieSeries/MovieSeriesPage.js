@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import './MovieSeriesPage.css';
 
+import { useHistory } from 'react-router-dom';
+
 import { CSSTransition } from 'react-transition-group';
 
 import useHttp from '../../shared/customHooks/useHttp';
@@ -16,6 +18,7 @@ import MovieSeriesDetail from '../../components/movieSeriesDetail/MovieSeriesDet
 import './MovieSeriesPage.css';
 
 export default function MovieSeriesPage() {
+  const history = useHistory();
   const { fetchSeries, isLoading } = useHttp();
   const [series, setSeries] = useState([]);
   const [movieId, setMovieId] = useState(null);
