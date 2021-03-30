@@ -52,7 +52,7 @@ export default function MovieSeriesPage() {
             mountOnEnter
             onEntered={() => setShow(false)}
             in={show}
-            timeout={700}
+            timeout={500}
             classNames='fade'>
             <div>
               {series.map(

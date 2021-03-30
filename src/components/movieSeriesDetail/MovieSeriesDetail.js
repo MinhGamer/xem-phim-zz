@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { CSSTransition } from 'react-transition-group';
-
 import { useHistory } from 'react-router-dom';
 
 import './MovieSeriesDetail.css';
@@ -12,11 +10,9 @@ export default function MovieSeriesDetail(props) {
   const history = useHistory();
   const { series } = props;
 
-  console.log('Hi');
-
   const renderGenres = (genres_ids) => {
     const genresList = genres_ids.map((genres_id) =>
-      GENRES_LIST_VN.filter((genres) => genres.id === genres_id)
+      GENRES_LIST_VN.filter((genres) => genres.id === genres_id.toString())
     );
 
     return genresList.map((genres) => (
@@ -29,6 +25,8 @@ export default function MovieSeriesDetail(props) {
   const gotoMovieDetailPage = (movieId) => {
     history.push(`/movie/${movieId}`);
   };
+
+  console.log(series);
 
   return (
     <>
@@ -44,21 +42,29 @@ export default function MovieSeriesDetail(props) {
             </div>
 
             <div className='series-detail__content'>
+              {/* vietnamese title */}
               <p className='series-detail__content-row'>
                 <p
                   onClick={() => gotoMovieDetailPage(movie.id)}
                   className='series-title-vn'>
                   {movie.title}
                 </p>
-                <p>{movie.release_date}</p>
+                <p>Lượt bình chọn: {movie.vote_count}</p>
               </p>
+
+              {/* original title */}
               <p className='series-detail__content-row'>
                 <p
                   onClick={() => gotoMovieDetailPage(movie.id)}
                   className='series-title-en'>
                   {movie.original_title}
                 </p>
-                <p>{movie.release_date}</p>
+                <div>
+                  <span className='IMDb--icon'>IMDb</span>
+                  <span>{movie.vote_average}</span>
+                </div>
+
+                {/* <p>{movie.release_date}</p> */}
               </p>
               <p className='series-detail__content-row'>
                 <p className='series-description'>{movie.overview}</p>
@@ -66,10 +72,7 @@ export default function MovieSeriesDetail(props) {
               <p className='series-detail__content-row'>
                 <div>{renderGenres(movie.genre_ids)}</div>
 
-                <div>
-                  <span className='IMDb--icon'>IMDb</span>
-                  <span>{movie.vote_average}</span>
-                </div>
+                <div>Ngày công chiếu: {movie.release_date}</div>
               </p>
             </div>
           </div>

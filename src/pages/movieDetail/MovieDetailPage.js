@@ -211,6 +211,21 @@ export default function MovieDetailPage() {
     return LANGUAGE_LIST_VN[index].name;
   };
 
+  // const gotoSeiresPage = (seriesId) => {
+  //   history.push(`/series/${seriesId}`)
+  // };
+
+  const renderSeries = (series) => (
+    <>
+      <img src={`${API_MOVIE_IMAGE}/${series.poster_path}`} alt={movie.name} />
+
+      <Button isFull isSecondary>
+        <i class='fa fa-play'></i>
+        Xem Bộ sưu tập
+      </Button>
+    </>
+  );
+
   console.log(movie);
 
   return (
@@ -244,6 +259,15 @@ export default function MovieDetailPage() {
                 <i class='fa fa-play'></i>
                 Xem phim
               </Button>
+
+              {movie.belongs_to_collection && (
+                <div className='movie-detail__collection'>
+                  <h3 className='movie-detail__collection--title'>
+                    Phim này nằm trong bộ series:
+                  </h3>
+                  {renderSeries(movie.belongs_to_collection)}
+                </div>
+              )}
             </div>
 
             <div className='movie-detail__info'>

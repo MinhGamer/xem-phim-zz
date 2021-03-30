@@ -150,11 +150,11 @@ export default function useHttp() {
           runtime: resDataVideosAndCast.runtime,
           title: resDataDetails.title,
           videos: resDataVideosAndCast.videos,
-          // production_countries: resDataDetails.production_countries[0].name,
           directors,
           name: resDataDetails.name,
           seasons: resDataDetails.seasons,
           spoken_languages: resDataVideosAndCast.spoken_languages[0].iso_639_1,
+          belongs_to_collection: resDataVideosAndCast.belongs_to_collection,
         };
 
         setIsLoading(false);
