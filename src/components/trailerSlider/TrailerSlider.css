@@ -3,20 +3,23 @@
   padding-left: 2rem;
 }
 
-.fade-slide-down-enter {
+.left-align-slick .slick-list .slick-track {
+  margin-left: 0;
+}
+
+/* .fade-slide-down-enter {
   opacity: 0;
   transition: all 0.4s;
 }
 
 .fade-slide-down-enter-active {
   opacity: 1;
-}
+} */
 
 .trailer-slider--item {
   position: relative;
   z-index: 0;
   border: 3px solid transparent;
-  transition: all 0.2s;
   cursor: pointer;
   transition: all 0.2s;
   padding: 0.4rem;

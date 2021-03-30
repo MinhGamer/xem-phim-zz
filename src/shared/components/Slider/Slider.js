@@ -14,12 +14,10 @@ export default function SimpleSlider(props) {
   const history = useHistory();
 
   var settings = {
-    dots: true,
-    infinite: true,
+    infinite: props.cast.length > 5,
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 2,
-    className: 'slider-item',
   };
 
   const gotoPersonPage = (personId) => {

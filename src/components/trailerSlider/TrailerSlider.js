@@ -13,23 +13,21 @@ export default function TrailerSlider(props) {
   const { onClickTrailer, trailers } = props;
 
   var settings = {
-    dots: true,
-    infinite: true,
+    infinite: trailers.slice.length > 3,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
-    // className: 'slider-item',
   };
 
   console.log(props.trailers);
 
   return (
-    <div className='trailer-slider'>
+    <div className='trailer-slider left-align-slick'>
       <Slider {...settings}>
         {trailers.map((trailer) => (
           <div
-            onClick={() => onClickTrailer(trailer)}
-            className='trailer-slider--item'>
+            className='trailer-slider--item '
+            onClick={() => onClickTrailer(trailer)}>
             <iframe
               src={`https://www.youtube.com/embed/${trailer.key}`}
               title='YouTube video player'

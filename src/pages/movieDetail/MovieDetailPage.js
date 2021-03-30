@@ -179,6 +179,8 @@ export default function MovieDetailPage() {
     console.log(data);
   };
 
+  console.log(movie);
+
   return (
     <>
       {/* show trailer with backdrop */}

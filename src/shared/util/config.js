@@ -9,7 +9,7 @@ export const API_MOVIE = 'https://api.themoviedb.org/3';
 
 export const API_MOVIE_IMAGE = 'https://image.tmdb.org/t/p/original';
 
-export const MOVIES_PER_PAGE = 5;
+export const MOVIES_PER_PAGE = 10;
 
 export const MOVIES_PAGINATION_RANGE = 4;
 
