@@ -1,0 +1,17 @@
+.lazy-loading-container {
+}
+
+.post-container {
+  width: 90%;
+  margin: auto;
+}
+
+.post {
+  display: flex;
+  background-color: grey;
+  box-shadow: 0 0 2px 2px #ccc;
+  color: #000;
+  margin: 2rem 0;
+  font-size: 1.3rem;
+  padding: 1rem;
+}

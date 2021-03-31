@@ -312,4 +312,12 @@ export const JOB_LIST = [
     id: 'Acting',
     name: 'Diễn viên',
   },
+  {
+    id: 'Writing',
+    name: 'Nhà viết kịch bản',
+  },
+  {
+    id: 'Editing',
+    name: ' Nhà biên tập',
+  },
 ];

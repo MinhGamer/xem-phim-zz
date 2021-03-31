@@ -168,6 +168,30 @@ export default function useHttp() {
     []
   );
 
+  const fetchSimilarMovies = useCallback(async (movieId, method = 'GET') => {
+    setIsLoading(true);
+    try {
+      const url = `${API_MOVIE}/movie/${movieId}/similar?api_key=${API_KEY}&language=vi`;
+
+      //make request to api
+      const res = await fetch(url, {
+        method,
+      });
+
+      const data = await res.json();
+
+      console.log(data);
+
+      setIsLoading(false);
+
+      return data.results;
+    } catch (err) {
+      setIsLoading(false);
+      setError(err.message);
+      throw err;
+    }
+  }, []);
+
   const fetchTvDetails = useCallback(
     // type: tv or movie
     async (tvId, season) => {
@@ -503,5 +527,6 @@ export default function useHttp() {
     fetchTvSerires,
     fetchTvDetails,
     fetchSeries,
+    fetchSimilarMovies,
   };
 }

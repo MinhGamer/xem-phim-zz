@@ -19,6 +19,7 @@ import PersonPage from './pages/person/PersonPage';
 import SearchMovie from './pages/searchMovie/SearchMovie';
 import TvSeriesPage from './pages/tvSeries/TvSeriesPage';
 import MovieSeriesPage from './pages/movieSeries/MovieSeriesPage';
+import LazyLoadingMovie from './components/lazyLoading/LazyLoadingMovie';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           {/* access for everyone */}
           <Route exact path='/' component={HomePage} />
           <Route exact path='/tv' component={TvSeriesPage} />
+          <Route exact path='/lazy' component={LazyLoadingMovie} />
           <Route exact path='/movie/:movieId' component={MovieDetailPage} />
           <Route exact path='/tv/:movieId' component={MovieDetailPage} />
           <Route

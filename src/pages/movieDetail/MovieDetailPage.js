@@ -16,6 +16,7 @@ import { AuthContext } from '../../shared/context/AuthContext';
 import './MovieDetailPage.css';
 import Collection from '../../components/collection/Collection';
 import TrailerSlider from '../../components/trailerSlider/TrailerSlider';
+import SimilarMovies from '../../components/similarMovies/SimilarMovies';
 
 export default function MovieDetailPage() {
   const auth = useContext(AuthContext);
@@ -24,6 +25,7 @@ export default function MovieDetailPage() {
   const { sendUser } = useHttp();
   const { movieId, seasonNumber } = useParams();
   const [movie, setMovie] = useState(null);
+  const [similarMovies, setSimilarMovies] = useState([]);
   const [trailer, setTrailer] = useState('');
 
   const {
@@ -32,6 +34,7 @@ export default function MovieDetailPage() {
     error,
     clearError,
     fetchMovieDetails,
+    fetchSimilarMovies,
     fetchTvDetails,
   } = useHttp();
 
@@ -54,6 +57,10 @@ export default function MovieDetailPage() {
       //movie
       if (type === 'movie') {
         data = await fetchMovieDetails(`${type}/${movieId}`, 'GET');
+
+        const similarM = await fetchSimilarMovies(movieId);
+
+        setSimilarMovies(similarM);
       }
       //season for tv show
 
@@ -108,19 +115,19 @@ export default function MovieDetailPage() {
     });
   };
 
-  const renderDirectors = (directors) =>
+  const renderDirectors = (directors) => {
+    console.log(directors);
     //may render many director
-    directors.map((director, index) =>
+    return directors.map((director, index) =>
       index === directors.length - 1 ? (
-        <span onClick={() => gotoPersonPage(director.id)}>
-          {director.name}{' '}
-        </span>
+        <span onClick={() => gotoPersonPage(director.id)}>{director.name}</span>
       ) : (
-        <span nClick={() => gotoPersonPage(director.id)}>
-          {director.name},{' '}
+        <span onClick={() => gotoPersonPage(director.id)}>
+          {director.name},
         </span>
       )
     );
+  };
 
   const renderSeason = (seasons) => {
     // console.log(seasons);
@@ -231,6 +238,10 @@ export default function MovieDetailPage() {
     </>
   );
 
+  const renderSimilardMovies = (similarMovies) => {
+    console.log(similarMovies);
+  };
+
   console.log(movie);
 
   return (
@@ -244,160 +255,171 @@ export default function MovieDetailPage() {
       )}
 
       {movie && (
-        <div className='movie-detail'>
-          {/* background */}
-          <div
-            style={{
-              backgroundImage: `url("${API_MOVIE_IMAGE}/${movie.backdrop_path}")`,
-            }}
-            className='movie-detail__background-image'></div>
+        <>
+          <div className='movie-detail'>
+            {/* background */}
+            <div
+              style={{
+                backgroundImage: `url("${API_MOVIE_IMAGE}/${movie.backdrop_path}")`,
+              }}
+              className='movie-detail__background-image'></div>
 
-          {/* content */}
-          <div className='movie-detail__content'>
-            <div className='movie-detail__image'>
-              <img
-                src={`${API_MOVIE_IMAGE}/${movie.poster_path}`}
-                alt={movie.original_title}
-              />
-
-              <Button isFull isPrimary>
-                <i class='fa fa-play'></i>
-                Xem phim
-              </Button>
-
-              {movie.belongs_to_collection && (
-                <div className='movie-detail__collection'>
-                  <h3 className='movie-detail__collection--title'>
-                    Phim này nằm trong bộ series:
-                  </h3>
-                  {renderSeries(movie.belongs_to_collection)}
-                </div>
-              )}
-            </div>
-
-            <div className='movie-detail__info'>
-              <div className='movie-detail__title-eng'>
-                {movie.original_title || movie.original_name}
-              </div>
-              <div className='movie-detail__title-vn'>
-                {movie.title || movie.name} (
-                <span
-                  onClick={() =>
-                    gotoHomePageToFilter(
-                      'year',
-                      movie.release_date.split('-')[0]
-                    )
-                  }
-                  className='movie-detail__title--year'>
-                  {movie.release_date.split('-')[0]}
-                  {/*release year */}
-                </span>
-                )
-              </div>
-
-              <div className='movie-detail__length'>
-                {convertMovieLength(movie.runtime || movie.episode_run_time)}
-              </div>
-
-              {movie.number_of_seasons && (
-                <div className='movie-detail__season'>
-                  {movie.number_of_seasons || ''} seasons
-                </div>
-              )}
-
-              {movie.number_of_episodes && (
-                <div className='movie-detail__season'>
-                  {movie.number_of_episodes || ''} tập
-                </div>
-              )}
-
-              <div className='movie-detail__IMDb'>
-                <span className='IMDb--icon'>IMDb</span>
-                {movie.vote_average}
-              </div>
-
-              <div className='movie-detail__wrap-share-genres'>
-                <div className='movie-detail__share'>
-                  <span className='movie-detail__share--facebook'>
-                    <i className='fab fa-facebook'></i>
-                    Chia sẻ
-                  </span>
-                  <span className='movie-detail__share--bookmark'>
-                    <Collection onClick={clickCollectionHandler} />
-                  </span>
-                </div>
-
-                <div className='movie-detail__genres text-right'>
-                  {renderGenres(movie.genres)}
-                </div>
-              </div>
-
-              <div className='movie-detail__sub-info'>
-                <p>
-                  <span className='movie-detail__sub-info--label'>
-                    ĐẠO DIỄN
-                  </span>
-                  <span className='movie-detail__sub-info--value movie-detail__sub-info--directors'>
-                    {renderDirectors(movie.directors)}
-                  </span>
-                </p>
-                <p>
-                  <span className='movie-detail__sub-info--label'>
-                    NGÔN NGỮ
-                  </span>
-                  <span className='movie-detail__sub-info--value'>
-                    {/* {movie.spoken_languages || movie.origin_country} */}
-                    <span
-                      onClick={() =>
-                        gotoHomePageToFilter('language', movie.spoken_languages)
-                      }
-                      className='movie-detail__sub-info--language'>
-                      {renderLanguge(movie.spoken_languages)}
-                    </span>
-                  </span>
-                </p>
-                <p>
-                  <span className='movie-detail__sub-info--label'>
-                    KHỞI CHIẾU
-                  </span>
-                  <span className='movie-detail__sub-info--value'>
-                    {movie.release_date ||
-                      movie.air_date ||
-                      movie.first_air_date}
-                  </span>
-                </p>
-              </div>
-
-              <div className='movie-detail__description'>
-                <p>{movie.overview}</p>
-              </div>
-
-              <div className='movie-detail__casts'>
-                <div className='movie-detail__casts--title'>Diễn viên</div>
-                <Slider cast={movie.credits.cast.slice(0, 20)} />
-              </div>
-
-              <div className='movie-detail__trailers--title'>Trailer</div>
-
-              {/* just use for render icon */}
-              <div className='movie-detail__trailers'>
-                <TrailerSlider
-                  onClickTrailer={setTrailer}
-                  trailers={movie.videos.results}
+            {/* content */}
+            <div className='movie-detail__content'>
+              <div className='movie-detail__image'>
+                <img
+                  src={`${API_MOVIE_IMAGE}/${movie.poster_path}`}
+                  alt={movie.original_title}
                 />
+
+                <Button isFull isPrimary>
+                  <i class='fa fa-play'></i>
+                  Xem phim
+                </Button>
+
+                {movie.belongs_to_collection && (
+                  <div className='movie-detail__collection'>
+                    <h3 className='movie-detail__collection--title'>
+                      Phim này nằm trong bộ series:
+                    </h3>
+                    {renderSeries(movie.belongs_to_collection)}
+                  </div>
+                )}
               </div>
 
-              {movie.seasons && (
-                <>
-                  <div>Seasons</div>
-                  <div className='movie-detail__seasons'>
-                    {renderSeason(movie.seasons)}
+              <div className='movie-detail__info'>
+                <div className='movie-detail__title-eng'>
+                  {movie.original_title || movie.original_name}
+                </div>
+                <div className='movie-detail__title-vn'>
+                  {movie.title || movie.name} (
+                  <span
+                    onClick={() =>
+                      gotoHomePageToFilter(
+                        'year',
+                        movie.release_date.split('-')[0]
+                      )
+                    }
+                    className='movie-detail__title--year'>
+                    {movie.release_date.split('-')[0]}
+                    {/*release year */}
+                  </span>
+                  )
+                </div>
+
+                <div className='movie-detail__length'>
+                  {convertMovieLength(movie.runtime || movie.episode_run_time)}
+                </div>
+
+                {movie.number_of_seasons && (
+                  <div className='movie-detail__season'>
+                    {movie.number_of_seasons || ''} seasons
                   </div>
-                </>
+                )}
+
+                {movie.number_of_episodes && (
+                  <div className='movie-detail__season'>
+                    {movie.number_of_episodes || ''} tập
+                  </div>
+                )}
+
+                <div className='movie-detail__IMDb'>
+                  <span className='IMDb--icon'>IMDb</span>
+                  {movie.vote_average}
+                </div>
+
+                <div className='movie-detail__wrap-share-genres'>
+                  <div className='movie-detail__share'>
+                    <span className='movie-detail__share--facebook'>
+                      <i className='fab fa-facebook'></i>
+                      Chia sẻ
+                    </span>
+                    <span className='movie-detail__share--bookmark'>
+                      <Collection onClick={clickCollectionHandler} />
+                    </span>
+                  </div>
+
+                  <div className='movie-detail__genres text-right'>
+                    {renderGenres(movie.genres)}
+                  </div>
+                </div>
+
+                <div className='movie-detail__sub-info'>
+                  <p>
+                    <span className='movie-detail__sub-info--label'>
+                      ĐẠO DIỄN
+                    </span>
+                    <span className='movie-detail__sub-info--value movie-detail__sub-info--directors'>
+                      {renderDirectors(movie.directors)}
+                    </span>
+                  </p>
+                  <p>
+                    <span className='movie-detail__sub-info--label'>
+                      NGÔN NGỮ
+                    </span>
+                    <span className='movie-detail__sub-info--value'>
+                      {/* {movie.spoken_languages || movie.origin_country} */}
+                      <span
+                        onClick={() =>
+                          gotoHomePageToFilter(
+                            'language',
+                            movie.spoken_languages
+                          )
+                        }
+                        className='movie-detail__sub-info--language'>
+                        {renderLanguge(movie.spoken_languages)}
+                      </span>
+                    </span>
+                  </p>
+                  <p>
+                    <span className='movie-detail__sub-info--label'>
+                      KHỞI CHIẾU
+                    </span>
+                    <span className='movie-detail__sub-info--value'>
+                      {movie.release_date ||
+                        movie.air_date ||
+                        movie.first_air_date}
+                    </span>
+                  </p>
+                </div>
+
+                <div className='movie-detail__description'>
+                  <p>{movie.overview}</p>
+                </div>
+
+                <div className='movie-detail__casts'>
+                  <div className='movie-detail__casts--title'>Diễn viên</div>
+                  <Slider cast={movie.credits.cast.slice(0, 20)} />
+                </div>
+
+                <div className='movie-detail__trailers--title'>Trailer</div>
+
+                {/* just use for render icon */}
+                <div className='movie-detail__trailers'>
+                  <TrailerSlider
+                    onClickTrailer={setTrailer}
+                    trailers={movie.videos.results}
+                  />
+                </div>
+
+                {movie.seasons && (
+                  <>
+                    <div>Seasons</div>
+                    <div className='movie-detail__seasons'>
+                      {renderSeason(movie.seasons)}
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {similarMovies.length > 0 && (
+                <div className='movie-detail__similar-movies'>
+                  <SimilarMovies movies={similarMovies} />
+                </div>
               )}
             </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );
