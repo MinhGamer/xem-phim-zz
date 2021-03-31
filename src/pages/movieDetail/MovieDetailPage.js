@@ -17,6 +17,8 @@ import './MovieDetailPage.css';
 import Collection from '../../components/collection/Collection';
 import TrailerSlider from '../../components/trailerSlider/TrailerSlider';
 import SimilarMovies from '../../components/similarMovies/SimilarMovies';
+import MoviePoster from '../../components/moviePoster/MoviePoster';
+import MovieBelongToCollection from '../../components/belongToCollection/MovieBelongToCollection';
 
 export default function MovieDetailPage() {
   const auth = useContext(AuthContext);
@@ -227,20 +229,16 @@ export default function MovieDetailPage() {
     history.push(`/person/${personId}`);
   };
 
-  const renderSeries = (series) => (
-    <>
-      <img src={`${API_MOVIE_IMAGE}/${series.poster_path}`} alt={movie.name} />
+  // const renderSeries = (series) => (
+  //   <>
+  //     <img src={`${API_MOVIE_IMAGE}/${series.poster_path}`} alt={movie.name} />
 
-      <Button isFull isSecondary>
-        <i class='fa fa-play'></i>
-        Xem Bộ sưu tập
-      </Button>
-    </>
-  );
-
-  const renderSimilardMovies = (similarMovies) => {
-    console.log(similarMovies);
-  };
+  //     <Button isFull isSecondary>
+  //       <i class='fa fa-play'></i>
+  //       Xem Bộ sưu tập
+  //     </Button>
+  //   </>
+  // );
 
   console.log(movie);
 
@@ -267,8 +265,8 @@ export default function MovieDetailPage() {
             {/* content */}
             <div className='movie-detail__content'>
               <div className='movie-detail__image'>
-                <img
-                  src={`${API_MOVIE_IMAGE}/${movie.poster_path}`}
+                <MoviePoster
+                  poster_path={movie.poster_path}
                   alt={movie.original_title}
                 />
 
@@ -279,10 +277,11 @@ export default function MovieDetailPage() {
 
                 {movie.belongs_to_collection && (
                   <div className='movie-detail__collection'>
-                    <h3 className='movie-detail__collection--title'>
-                      Phim này nằm trong bộ series:
-                    </h3>
-                    {renderSeries(movie.belongs_to_collection)}
+                    <MovieBelongToCollection
+                      belongs_to_collection={movie.belongs_to_collection}
+                    />
+
+                    {/* {renderSeries(movie.belongs_to_collection)} */}
                   </div>
                 )}
               </div>
@@ -296,12 +295,12 @@ export default function MovieDetailPage() {
                   <span
                     onClick={() =>
                       gotoHomePageToFilter(
-                        'year',
-                        movie.release_date.split('-')[0]
+                        'year'
+                        // movie.release_date.split('-')[0]
                       )
                     }
                     className='movie-detail__title--year'>
-                    {movie.release_date.split('-')[0]}
+                    {/* {movie.release_date.split('-')[0]} */}
                     {/*release year */}
                   </span>
                   )

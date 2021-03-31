@@ -119,6 +119,22 @@ export const GENRES_LIST_VN = [
     id: '37',
     name: 'Miền Tây',
   },
+  {
+    id: '10759',
+    name: 'Hành động & Phiêu lưu',
+  },
+  {
+    id: '10765',
+    name: 'Giả tưởng',
+  },
+  {
+    id: '10767',
+    name: 'Talk show',
+  },
+  {
+    id: '10768',
+    name: 'Chính trị',
+  },
 ];
 
 export const LANGUAGE_LIST_VN = [
