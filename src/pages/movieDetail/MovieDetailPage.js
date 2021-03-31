@@ -87,12 +87,10 @@ export default function MovieDetailPage() {
       )}
 
       {movieImages && (
-        <div className='movie-detail__images-slider'>
-          <MovieImageSlider
-            onBackdropClick={() => setMovieImages(null)}
-            images={movie.images}
-          />
-        </div>
+        <MovieImageSlider
+          onBackdropClick={() => setMovieImages(null)}
+          images={movie.images}
+        />
       )}
 
       {movie && (
