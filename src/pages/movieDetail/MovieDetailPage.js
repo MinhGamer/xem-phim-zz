@@ -8,7 +8,7 @@ import useHttp from '../../shared/customHooks/useHttp';
 
 import MovieTrailer from '../../components/movieTrailer/MovieTrailer';
 
-import { API_MOVIE_IMAGE, LANGUAGE_LIST_VN } from '../../shared/util/config';
+import { API_MOVIE_IMAGE } from '../../shared/util/config';
 
 import { AuthContext } from '../../shared/context/AuthContext';
 
@@ -20,6 +20,7 @@ import MoviePoster from '../../components/moviePoster/MoviePoster';
 import MovieBelongToCollection from '../../components/belongToCollection/MovieBelongToCollection';
 import MovieInfo from '../../components/movieInfo/MovieInfo';
 import CastSlider from '../../components/castSlider/CastSlider';
+import MovieSeason from '../../components/movieSeason/MovieSeason';
 
 export default function MovieDetailPage() {
   const auth = useContext(AuthContext);
@@ -32,7 +33,6 @@ export default function MovieDetailPage() {
   const [trailer, setTrailer] = useState('');
 
   const {
-    sendRequest,
     isLoading,
     error,
     clearError,
@@ -43,8 +43,6 @@ export default function MovieDetailPage() {
 
   //fetch movie when load page
   useEffect(() => {
-    console.log(seasonNumber);
-
     const fetchMovie = async () => {
       let data;
 
@@ -73,36 +71,6 @@ export default function MovieDetailPage() {
     fetchMovie();
     //movie or tv
   }, [history.location.pathname]);
-
-  const renderSeason = (seasons) => {
-    // console.log(seasons);
-    const gotoSeasonDetailPage = (season) => {
-      history.push(`/tv/${movieId}/season/${season.season_number}`);
-    };
-
-    return seasons.map(
-      (season) =>
-        season.season_number > 0 && (
-          <>
-            <div className='movie-detail__seasons--item'>
-              <img
-                onClick={() => gotoSeasonDetailPage(season)}
-                src={`${API_MOVIE_IMAGE}/${season.poster_path}`}
-                alt='season'
-              />
-              <p className='movie-detail__seasons--item__content'>
-                <NavLink to={`/tv/${movieId}/season/${season.season_number}`}>
-                  Season {season.season_number}
-                </NavLink>
-                <p>Số tập: {season.episode_count}</p>
-                <p>Ngày công chiếu: {season.air_date}</p>
-              </p>
-            </div>
-            <hr />
-          </>
-        )
-    );
-  };
 
   console.log(movie);
 
@@ -167,12 +135,9 @@ export default function MovieDetailPage() {
                 </div>
 
                 {movie.seasons && (
-                  <>
-                    <div>Seasons</div>
-                    <div className='movie-detail__seasons'>
-                      {renderSeason(movie.seasons)}
-                    </div>
-                  </>
+                  <div className='movie-detail__seasons'>
+                    <MovieSeason movieId={movieId} seasons={movie.seasons} />
+                  </div>
                 )}
               </div>
 
