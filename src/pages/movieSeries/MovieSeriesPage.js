@@ -36,7 +36,6 @@ export default function MovieSeriesPage() {
 
   const clickMovieHandler = (clickId) => {
     setShow(true);
-
     setMovieId(clickId);
   };
 

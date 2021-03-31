@@ -1,0 +1,64 @@
+.movie-images-container {
+  position: fixed;
+  z-index: 11;
+  width: 100%;
+  bottom: 1vh;
+}
+
+.movie-images-wrapper {
+}
+
+.movie-images-slider {
+  width: 25%;
+  margin: auto;
+  position: relative;
+}
+
+.movie-images-slider img {
+  padding: 0 1rem;
+  cursor: pointer;
+}
+
+.movie-images--active {
+  width: 25%;
+  margin: auto;
+}
+
+.movie-images--active img {
+  width: 100%;
+  text-align: center;
+}
+
+.movie-images-slider .arrow-icon {
+  cursor: pointer;
+  position: absolute;
+  top: 45%;
+}
+
+.movie-images-slider .arrow-left {
+  left: -1rem;
+}
+
+.movie-images-slider .arrow-right {
+  right: -1rem;
+}
+
+.fade-scale-enter {
+  opacity: 0;
+  transform: scale(1.08);
+}
+
+.fade-scale-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: all 0.5s;
+}
+
+.fade-scale-exit {
+  opacity: 1;
+}
+
+.fade-scale-exit-active {
+  opacity: 1;
+  transition: all 0.1s;
+}

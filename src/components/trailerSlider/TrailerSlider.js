@@ -10,7 +10,7 @@ import 'slick-carousel/slick/slick-theme.css';
 export default function TrailerSlider(props) {
   const { onClickTrailer, trailers } = props;
 
-  var settings = {
+  const settings = {
     infinite: trailers.slice.length > 3,
     speed: 500,
     slidesToShow: 3,

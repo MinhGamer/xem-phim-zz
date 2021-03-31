@@ -102,7 +102,7 @@ export default function useHttp() {
         );
 
         const resVideosAndCast = await fetch(
-          `${API_MOVIE}/${uri}?api_key=${API_KEY}&append_to_response=credits,videos`,
+          `${API_MOVIE}/${uri}?api_key=${API_KEY}&language=en&append_to_response=credits,videos,images`,
           {
             method,
             body,
@@ -154,6 +154,7 @@ export default function useHttp() {
           name: resDataDetails.name,
           seasons: resDataDetails.seasons,
           spoken_languages: resDataVideosAndCast.spoken_languages[0].iso_639_1,
+          images: resDataVideosAndCast.images.posters,
           belongs_to_collection: resDataVideosAndCast.belongs_to_collection,
         };
 

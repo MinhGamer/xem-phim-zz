@@ -21,16 +21,18 @@ import MovieBelongToCollection from '../../components/belongToCollection/MovieBe
 import MovieInfo from '../../components/movieInfo/MovieInfo';
 import CastSlider from '../../components/castSlider/CastSlider';
 import MovieSeason from '../../components/movieSeason/MovieSeason';
+import MovieImageSlider from '../../components/movieImageSlider/MovieImageSlider';
 
 export default function MovieDetailPage() {
   const auth = useContext(AuthContext);
+
   const history = useHistory();
   const type = history.location.pathname.split('/')[1];
-  const { sendUser } = useHttp();
   const { movieId, seasonNumber } = useParams();
   const [movie, setMovie] = useState(null);
   const [similarMovies, setSimilarMovies] = useState([]);
   const [trailer, setTrailer] = useState('');
+  const [movieImages, setMovieImages] = useState(null);
 
   const {
     isLoading,
@@ -84,6 +86,15 @@ export default function MovieDetailPage() {
         />
       )}
 
+      {movieImages && (
+        <div className='movie-detail__images-slider'>
+          <MovieImageSlider
+            onBackdropClick={() => setMovieImages(null)}
+            images={movie.images}
+          />
+        </div>
+      )}
+
       {movie && (
         <>
           <div className='movie-detail'>
@@ -98,6 +109,7 @@ export default function MovieDetailPage() {
             <div className='movie-detail__content'>
               <div className='movie-detail__image'>
                 <MoviePoster
+                  onClick={() => setMovieImages(true)}
                   poster_path={movie.poster_path}
                   alt={movie.original_title}
                 />

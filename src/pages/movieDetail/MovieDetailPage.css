@@ -18,6 +18,10 @@
   background-color: rgba(2, 13, 24, 0.75);
 }
 
+.movie-detail__images-slider {
+  width: 100%;
+}
+
 .movie-detail__content {
   position: absolute;
   top: 40%;
@@ -43,6 +47,12 @@
 .movie-detail__image img {
   width: 100%;
   margin-bottom: 2rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.movie-detail__image img:hover {
+  border: 2px solid #dcf836;
 }
 
 .movie-detail__image .fa-play {
