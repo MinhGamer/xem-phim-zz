@@ -6,9 +6,9 @@ import { useHistory } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-import './Slider.css';
+import './CastSlider.css';
 
-import { API_MOVIE_IMAGE } from '../../util/config';
+import { API_MOVIE_IMAGE } from '../../shared/util/config';
 
 export default function SimpleSlider(props) {
   const history = useHistory();
@@ -25,10 +25,10 @@ export default function SimpleSlider(props) {
   };
 
   return (
-    <div className='slider-container'>
+    <div className='cast-slider-container'>
       <Slider {...settings}>
         {props.cast.map((actor) => (
-          <div className='slider-item'>
+          <div className='cast-slider-item'>
             <img
               onClick={() => gotoPersonPage(actor.id)}
               src={`${API_MOVIE_IMAGE}/${actor.profile_path}`}
@@ -39,7 +39,7 @@ export default function SimpleSlider(props) {
               className='actor-name'>
               {actor.name}
             </div>
-            <div className='actor-cast'>{actor.character}</div>
+            <div className='actor-character'>{actor.character}</div>
           </div>
         ))}
       </Slider>
