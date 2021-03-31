@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams, NavLink } from 'react-router-dom';
 
 import { googleApiKey } from '../../shared/util/googleApiKey';
-import { API_MOVIE_IMAGE } from '../../shared/util/config';
+import { API_MOVIE_IMAGE, JOB_LIST } from '../../shared/util/config';
 
 import './Person.css';
 
@@ -14,6 +14,13 @@ export default function PersonPage() {
   const { fetchPersonDetails } = useHttp();
 
   const { personId } = useParams();
+
+  const renderJobs = (jobId) => {
+    console.log(jobId);
+    const jobInVn = JOB_LIST.find((job) => job.id === jobId);
+
+    return jobInVn.name;
+  };
 
   useEffect(() => {
     const fetchPerson = async () => {
@@ -65,7 +72,9 @@ export default function PersonPage() {
       <p className='person-info--header'>Thông tin cá nhân</p>
 
       <p className='person-info--title'>Nghề nghiệp</p>
-      <p className='person-info--value'>{actor.known_for_department}</p>
+      <p className='person-info--value'>
+        {renderJobs(actor.known_for_department)}
+      </p>
 
       <p className='person-info--title'>Giới tính</p>
       <p className='person-info--value'>{actor.gender === 2 ? 'NAM' : 'NỮ'}</p>

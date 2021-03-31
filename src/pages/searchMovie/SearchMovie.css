@@ -11,6 +11,7 @@
   border: none;
   outline: none;
   border-radius: 5px;
+  padding: 1rem;
 }
 
 .search-movies {

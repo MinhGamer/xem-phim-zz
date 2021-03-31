@@ -302,3 +302,14 @@ export const seriesList = [
   // { id: 2467, name: 'Tomb Raider Collection' },
   // { id: 2488, name: 'Les Amours sous la Révolution' },
 ];
+
+export const JOB_LIST = [
+  {
+    id: 'Directing',
+    name: 'Đạo diễn',
+  },
+  {
+    id: 'Acting',
+    name: 'Diễn viên',
+  },
+];
