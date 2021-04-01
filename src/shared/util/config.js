@@ -13,6 +13,8 @@ export const MOVIES_PER_PAGE = 15;
 
 export const MOVIES_PAGINATION_RANGE = 4;
 
+export const SERIES_PER_PAGE = 5;
+
 export const GENRES_LIST = [
   { optionValue: '', optionLabel: 'Tất cả' },
   { optionValue: 'Action', optionLabel: 'Hành động' },

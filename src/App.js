@@ -20,6 +20,7 @@ import SearchMovie from './pages/searchMovie/SearchMovie';
 import TvSeriesPage from './pages/tvSeries/TvSeriesPage';
 import MovieSeriesPage from './pages/movieSeries/MovieSeriesPage';
 import LazyLoadingMovie from './components/lazyLoading/LazyLoadingMovie';
+import MovieSeriesDetailPage from './pages/movieSeriesDetailPage/MovieSeriesDetailPage';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
             component={MovieDetailPage}
           />
           <Route exact path='/series' component={MovieSeriesPage} />
+          <Route exact path='/series/:seriesId' component={MovieSeriesPage} />
           <Route exact path='/auth' component={Auth} />
           {/* only for login user*/}
           <Route exact path='/search' component={SearchMovie} />

@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 
-import LazyLoad from 'react-lazyload';
-
 import MovieItem from '../movieItem/MovieItem';
-
-import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
 
 import './MovieList.css';
 
 import {
   MOVIES_PER_PAGE,
   MOVIES_PAGINATION_RANGE,
+  SERIES_PER_PAGE,
 } from '../../shared/util/config';
 import Button from '../../shared/components/UI/Button';
 
@@ -19,11 +16,14 @@ export default function MovieList(props) {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const numberOfPages = Math.ceil(movies.length / MOVIES_PER_PAGE);
+  const MOVIE_ITEM_PER_PAGE =
+    type === 'series' ? SERIES_PER_PAGE : MOVIES_PER_PAGE;
+
+  const numberOfPages = Math.ceil(movies.length / MOVIE_ITEM_PER_PAGE);
 
   const pagination = (movies, page) => {
-    const start = (page - 1) * MOVIES_PER_PAGE;
-    const end = page * MOVIES_PER_PAGE;
+    const start = (page - 1) * MOVIE_ITEM_PER_PAGE;
+    const end = page * MOVIE_ITEM_PER_PAGE;
 
     return movies.slice(start, end);
   };
@@ -43,7 +43,7 @@ export default function MovieList(props) {
   const renderPageNumbers = (movies) => {
     const pageNumbers = [];
 
-    const numberOfPages = Math.ceil(movies.length / MOVIES_PER_PAGE);
+    const numberOfPages = Math.ceil(movies.length / MOVIE_ITEM_PER_PAGE);
 
     if (numberOfPages <= 5) {
       for (let page = 1; page <= numberOfPages; page++) {

@@ -32,30 +32,34 @@ export default function MovieItem(props) {
   };
 
   return (
-    <LazyLoad
-      once
-      offset={[-100, -200]}
-      height={600}
-      key={id}
-      placeholder={<LoadingSpinner />}
-      className='movie-item'>
-      <div
-        onClick={
-          type === 'series' ? () => clickMovieHandler(id) : gotoMovieDetailPage
-        }
-        className='movie-item__image'>
-        <img src={imageUrl} alt={original_title} />
-        <div className='movie-item__overlay'></div>
-        <div className='movie-item__play-icon'>
-          <i className='fa fa-play '></i>
+    poster_path && (
+      <LazyLoad
+        once
+        offset={[-100, -200]}
+        height={600}
+        key={id}
+        placeholder={<LoadingSpinner />}
+        className='movie-item'>
+        <div
+          onClick={
+            type === 'series'
+              ? () => clickMovieHandler(id)
+              : gotoMovieDetailPage
+          }
+          className='movie-item__image'>
+          <img src={imageUrl} alt={original_title} />
+          <div className='movie-item__overlay'></div>
+          <div className='movie-item__play-icon'>
+            <i className='fa fa-play '></i>
+          </div>
         </div>
-      </div>
-      <p className='movie-item__title--vn'>{title || name}</p>
-      {!props.noVnTitle && (
-        <p className='movie-item__title--eng'>
-          {original_title || original_name}
-        </p>
-      )}
-    </LazyLoad>
+        <p className='movie-item__title--vn'>{title || name}</p>
+        {!props.noVnTitle && (
+          <p className='movie-item__title--eng'>
+            {original_title || original_name}
+          </p>
+        )}
+      </LazyLoad>
+    )
   );
 }

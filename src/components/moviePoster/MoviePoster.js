@@ -4,6 +4,7 @@ import { API_MOVIE_IMAGE } from '../../shared/util/config';
 
 function MoviePoster(props) {
   const { onClick } = props;
+
   return (
     <img
       onClick={onClick}
