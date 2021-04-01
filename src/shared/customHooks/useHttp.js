@@ -493,8 +493,6 @@ export default function useHttp() {
   }, []);
 
   const fetchSeries = useCallback(async (seriesList) => {
-    // 1 page = 20 movies
-
     setIsLoading(true);
 
     try {
@@ -503,21 +501,26 @@ export default function useHttp() {
       for (let i = 0; i < seriesList.length; i++) {
         const url = `${API_MOVIE}/collection/${seriesList[i].id}?api_key=${API_KEY}&language=vi`;
 
-        //make request to api
-        // const res = await fetch(url);
-
-        // const data = await res.json();
-
         requestList.push(fetch(url));
+      }
 
-        // responseList.push(...data.results);
+      //fetch single series ->  fecth images with it
+      if (seriesList.length === 1) {
+        requestList.push(
+          fetch(
+            `${API_MOVIE}/collection/${seriesList[0].id}/images?api_key=${API_KEY}`
+          )
+        );
       }
 
       const responseList = await Promise.all(requestList);
 
-      const resData = responseList.map((res) => res.json());
+      let data = await Promise.all(responseList.map((res) => res.json()));
 
-      const data = await Promise.all(resData);
+      //fetch single series
+      if (seriesList.length === 1) {
+        data = [{ ...data[0], ...data[1] }];
+      }
 
       setIsLoading(false);
 

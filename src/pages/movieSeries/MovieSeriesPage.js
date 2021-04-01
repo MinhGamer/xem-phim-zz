@@ -20,6 +20,7 @@ import './MovieSeriesPage.css';
 import Button from '../../shared/components/UI/Button';
 
 import MoviePoster from '../../components/moviePoster/MoviePoster';
+import MovieImageSlider from '../../components/movieImageSlider/MovieImageSlider';
 
 export default function MovieSeriesPage() {
   const history = useHistory();
@@ -30,6 +31,7 @@ export default function MovieSeriesPage() {
   const [series, setSeries] = useState([]);
   const [movieId, setMovieId] = useState(null);
   const [show, setShow] = useState(false);
+  const [seriesImages, setSeriesImages] = useState(false);
 
   useEffect(() => {
     const fetchSeriesData = async () => {
@@ -57,15 +59,11 @@ export default function MovieSeriesPage() {
   const clickMovieHandler = (clickId) => {
     setShow(true);
     setMovieId(clickId);
-    window.scrollTo({
-      top: 750,
-      behavior: 'smooth',
-    });
   };
 
   const renderSeriesInfo = () => {
     const singleSeries = series[0];
-    console.log(singleSeries);
+
     return (
       <div
         style={{
@@ -74,7 +72,7 @@ export default function MovieSeriesPage() {
         className='series-single-item'>
         <div className='series-single-item__poster'>
           <MoviePoster
-            onClick={() => clickMovieHandler(singleSeries.id)}
+            onClick={() => setSeriesImages(true)}
             poster_path={singleSeries.poster_path}
           />
 
@@ -95,6 +93,13 @@ export default function MovieSeriesPage() {
     <>
       {isLoading && <LoadingSpinner />}
 
+      {seriesImages && (
+        <MovieImageSlider
+          onBackdropClick={() => setSeriesImages(false)}
+          images={series[0].posters}
+        />
+      )}
+
       {series.length > 0 && (
         <div className='series-container'>
           {/* render series list */}
@@ -112,6 +117,12 @@ export default function MovieSeriesPage() {
           <CSSTransition
             mountOnEnter
             onEntered={() => setShow(false)}
+            onExiting={() =>
+              window.scrollTo({
+                top: 750,
+                behavior: 'smooth',
+              })
+            }
             in={show}
             timeout={500}
             classNames='fade'>
