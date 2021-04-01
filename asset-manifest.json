@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/xem-phim-zz/static/css/main.fa064569.chunk.css",
-    "main.js": "/xem-phim-zz/static/js/main.0755b70a.chunk.js",
-    "main.js.map": "/xem-phim-zz/static/js/main.0755b70a.chunk.js.map",
-    "runtime-main.js": "/xem-phim-zz/static/js/runtime-main.0313d2da.js",
-    "runtime-main.js.map": "/xem-phim-zz/static/js/runtime-main.0313d2da.js.map",
+    "main.css": "/xem-phim-zz/static/css/main.8b2abf89.chunk.css",
+    "main.js": "/xem-phim-zz/static/js/main.6d4fc173.chunk.js",
+    "main.js.map": "/xem-phim-zz/static/js/main.6d4fc173.chunk.js.map",
+    "runtime-main.js": "/xem-phim-zz/static/js/runtime-main.c18ca35c.js",
+    "runtime-main.js.map": "/xem-phim-zz/static/js/runtime-main.c18ca35c.js.map",
     "static/css/2.153de236.chunk.css": "/xem-phim-zz/static/css/2.153de236.chunk.css",
-    "static/js/2.266c1d13.chunk.js": "/xem-phim-zz/static/js/2.266c1d13.chunk.js",
-    "static/js/2.266c1d13.chunk.js.map": "/xem-phim-zz/static/js/2.266c1d13.chunk.js.map",
-    "static/js/3.6ba5dc05.chunk.js": "/xem-phim-zz/static/js/3.6ba5dc05.chunk.js",
-    "static/js/3.6ba5dc05.chunk.js.map": "/xem-phim-zz/static/js/3.6ba5dc05.chunk.js.map",
+    "static/js/2.c6f8456d.chunk.js": "/xem-phim-zz/static/js/2.c6f8456d.chunk.js",
+    "static/js/2.c6f8456d.chunk.js.map": "/xem-phim-zz/static/js/2.c6f8456d.chunk.js.map",
+    "static/js/3.665f469f.chunk.js": "/xem-phim-zz/static/js/3.665f469f.chunk.js",
+    "static/js/3.665f469f.chunk.js.map": "/xem-phim-zz/static/js/3.665f469f.chunk.js.map",
     "index.html": "/xem-phim-zz/index.html",
     "static/css/2.153de236.chunk.css.map": "/xem-phim-zz/static/css/2.153de236.chunk.css.map",
-    "static/css/main.fa064569.chunk.css.map": "/xem-phim-zz/static/css/main.fa064569.chunk.css.map",
-    "static/js/2.266c1d13.chunk.js.LICENSE.txt": "/xem-phim-zz/static/js/2.266c1d13.chunk.js.LICENSE.txt",
+    "static/css/main.8b2abf89.chunk.css.map": "/xem-phim-zz/static/css/main.8b2abf89.chunk.css.map",
+    "static/js/2.c6f8456d.chunk.js.LICENSE.txt": "/xem-phim-zz/static/js/2.c6f8456d.chunk.js.LICENSE.txt",
     "static/media/slick-theme.css": "/xem-phim-zz/static/media/slick.c94f7671.ttf"
   },
   "entrypoints": [
-    "static/js/runtime-main.0313d2da.js",
+    "static/js/runtime-main.c18ca35c.js",
     "static/css/2.153de236.chunk.css",
-    "static/js/2.266c1d13.chunk.js",
-    "static/css/main.fa064569.chunk.css",
-    "static/js/main.0755b70a.chunk.js"
+    "static/js/2.c6f8456d.chunk.js",
+    "static/css/main.8b2abf89.chunk.css",
+    "static/js/main.6d4fc173.chunk.js"
   ]
 }
