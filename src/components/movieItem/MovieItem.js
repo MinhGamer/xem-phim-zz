@@ -2,7 +2,11 @@ import React from 'react';
 
 import { useHistory } from 'react-router-dom';
 
+import LazyLoad from 'react-lazyload';
+
 import { API_MOVIE_IMAGE } from '../../shared/util/config';
+
+import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
 
 import './MovieItem.css';
 
@@ -28,7 +32,13 @@ export default function MovieItem(props) {
   };
 
   return (
-    <div className='movie-item'>
+    <LazyLoad
+      once
+      offset={[-100, -200]}
+      height={600}
+      key={id}
+      placeholder={<LoadingSpinner />}
+      className='movie-item'>
       <div
         onClick={
           type === 'series' ? () => clickMovieHandler(id) : gotoMovieDetailPage
@@ -46,6 +56,6 @@ export default function MovieItem(props) {
           {original_title || original_name}
         </p>
       )}
-    </div>
+    </LazyLoad>
   );
 }

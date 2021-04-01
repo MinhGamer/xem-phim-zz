@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, NavLink } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
+
+import LazyLoad from 'react-lazyload';
+
+import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
 
 import { googleApiKey } from '../../shared/util/googleApiKey';
 import { API_MOVIE_IMAGE, JOB_LIST } from '../../shared/util/config';
 
-import './Person.css';
+import './PersonPage.css';
+
+import MoviePoster from '../../components/moviePoster/MoviePoster';
 
 import useHttp from '../../shared/customHooks/useHttp';
 
 export default function PersonPage() {
   const [actor, setActor] = useState(null);
   const { fetchPersonDetails } = useHttp();
+
+  const history = useHistory();
 
   const { personId } = useParams();
 
@@ -26,7 +34,7 @@ export default function PersonPage() {
     const fetchPerson = async () => {
       const data = await fetchPersonDetails(`person/${personId}`);
 
-      //translate biography to vietnamese
+      //use google api to translate biography to vietnamese
       const translation = await axios.post(
         'https://translation.googleapis.com/language/translate/v2',
         {},
@@ -49,21 +57,36 @@ export default function PersonPage() {
   }, []);
 
   const renderMovies = (movies) =>
-    movies.splice(0, 10).map((movie) => (
-      <NavLink
-        key={movie.id}
-        to={`/movie/${movie.id}`}
-        className='person-movies--item'>
-        <img src={`${API_MOVIE_IMAGE}${movie.poster_path}`} alt={movie.title} />
-        <p>{movie.title}</p>
-      </NavLink>
-    ));
+    movies.splice(0, 20).map(
+      (movie) =>
+        movie.poster_path && (
+          <LazyLoad
+            offset={-120}
+            height={340}
+            key={movie.id}
+            className='person-movies--item'
+            placeholder={<LoadingSpinner />}>
+            <MoviePoster
+              onClick={() => history.push(`/movie/${movie.id}`)}
+              poster_path={movie.poster_path}
+              alt={movie.title}
+            />
+
+            <p>{movie.title}</p>
+          </LazyLoad>
+        )
+    );
 
   const renderImages = (images) =>
     images.map((img) => (
-      <div key={img.title} className='person-images--item'>
+      <LazyLoad
+        offset={-120}
+        height={340}
+        key={img.id}
+        className='person-images--item'
+        placeholder={<LoadingSpinner />}>
         <img src={`${API_MOVIE_IMAGE}${img.file_path}`} alt={img.title} />
-      </div>
+      </LazyLoad>
     ));
 
   const renderPersonInfo = () => (

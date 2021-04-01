@@ -1,6 +1,10 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
+
+import LazyLoad from 'react-lazyload';
 
 import MovieItem from '../movieItem/MovieItem';
+
+import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
 
 import './MovieList.css';
 

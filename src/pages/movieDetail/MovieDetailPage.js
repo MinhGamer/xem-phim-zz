@@ -56,6 +56,11 @@ function MovieDetailPage() {
     const fetchMovie = async () => {
       let data;
 
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+
       //tv show
       if (type === 'tv') {
         data = await fetchTvDetails(movieId);
@@ -78,6 +83,8 @@ function MovieDetailPage() {
 
       console.log(data);
       setMovie(data);
+
+      //scroll to top of page
     };
 
     console.log('End call');
@@ -105,7 +112,7 @@ function MovieDetailPage() {
         />
       )}
 
-      {!isLoading && movie && (
+      {movie && (
         <>
           {isLoading && <LoadingSpinner />}
           <div className='movie-detail'>

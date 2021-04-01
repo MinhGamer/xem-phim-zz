@@ -73,6 +73,7 @@
 }
 
 .person-movies--item img {
+  cursor: pointer;
   width: 100%;
 }
 

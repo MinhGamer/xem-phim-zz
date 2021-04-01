@@ -10,14 +10,6 @@ function SimilarMovies(props) {
   const history = useHistory();
   console.log(props.movies);
 
-  //scroll to top of page
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  }, [history.location.pathname]);
-
   return (
     props.movies.length > 0 && (
       <>
