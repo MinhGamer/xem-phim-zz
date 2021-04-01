@@ -244,13 +244,13 @@ function MovieInfo(props) {
         <p>
           <span className='movie-detail__sub-info--label'>NGÔN NGỮ</span>
           <span className='movie-detail__sub-info--value'>
-            {/* {movie.spoken_languages || movie.origin_country} */}
+            {/* {movie.original_language || movie.origin_country} */}
             <span
               onClick={() =>
-                gotoHomePageToFilter('language', movie.spoken_languages)
+                gotoHomePageToFilter('language', movie.original_language)
               }
               className='movie-detail__sub-info--language'>
-              {renderLanguge(movie.spoken_languages)}
+              {renderLanguge(movie.original_language)}
             </span>
           </span>
         </p>

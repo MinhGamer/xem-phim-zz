@@ -153,7 +153,7 @@ export default function useHttp() {
           directors,
           name: resDataDetails.name,
           seasons: resDataDetails.seasons,
-          spoken_languages: resDataVideosAndCast.spoken_languages[0].iso_639_1,
+          original_language: resDataVideosAndCast.original_language,
           images: resDataVideosAndCast.images.posters,
           belongs_to_collection: resDataVideosAndCast.belongs_to_collection,
         };
@@ -180,6 +180,23 @@ export default function useHttp() {
       });
 
       const data = await res.json();
+
+      console.log(data);
+
+      // //fix issue with db
+      // //some movieId must be search with &language=en-US
+      // if (data.results.length === 0) {
+      //   const anotherUrl = `${API_MOVIE}/movie/${movieId}/recommendations?api_key=${API_KEY}&language=en-US`;
+      //   //make request to api
+      //   const res = await fetch(anotherUrl, {
+      //     method,
+      //   });
+
+      //   const anotheData = await res.json();
+      //   console.log(anotheData);
+      //   return anotheData.results;
+      // }
+      // console.log('Herh');
 
       setIsLoading(false);
 

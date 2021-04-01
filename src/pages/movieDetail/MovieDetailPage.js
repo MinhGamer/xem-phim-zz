@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useMemo,
+  useCallback,
+} from 'react';
 
 import { useParams, useHistory } from 'react-router-dom';
 
@@ -27,7 +33,6 @@ import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
 
 function MovieDetailPage() {
   const auth = useContext(AuthContext);
-
   const history = useHistory();
   const type = history.location.pathname.split('/')[1];
   const { movieId, seasonNumber } = useParams();
@@ -47,6 +52,7 @@ function MovieDetailPage() {
 
   //fetch movie when load page
   useEffect(() => {
+    console.log('First call');
     const fetchMovie = async () => {
       let data;
 
@@ -70,14 +76,17 @@ function MovieDetailPage() {
       }
       //season for tv show
 
+      console.log(data);
       setMovie(data);
     };
+
+    console.log('End call');
 
     fetchMovie();
     //movie or tv
   }, [history.location.pathname]);
 
-  console.log(movie);
+  console.log('Movie Detail Page render', movie);
 
   return (
     <>
@@ -96,7 +105,7 @@ function MovieDetailPage() {
         />
       )}
 
-      {movie && (
+      {!isLoading && movie && (
         <>
           {isLoading && <LoadingSpinner />}
           <div className='movie-detail'>
@@ -168,4 +177,4 @@ function MovieDetailPage() {
   );
 }
 
-export default React.memo(MovieDetailPage);
+export default MovieDetailPage;
