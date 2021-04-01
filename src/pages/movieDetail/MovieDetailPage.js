@@ -107,6 +107,7 @@ function MovieDetailPage() {
 
       {movieImages && (
         <MovieImageSlider
+          type='slick-type-1'
           onBackdropClick={() => setMovieImages(null)}
           images={movie.images}
         />

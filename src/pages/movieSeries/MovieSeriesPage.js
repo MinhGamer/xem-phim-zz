@@ -95,6 +95,7 @@ export default function MovieSeriesPage() {
 
       {seriesImages && (
         <MovieImageSlider
+          type='slick-type-2'
           onBackdropClick={() => setSeriesImages(false)}
           images={series[0].posters}
         />

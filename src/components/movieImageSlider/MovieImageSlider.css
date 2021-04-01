@@ -6,19 +6,21 @@
   height: 100vh;
 }
 
-.movie-images-wrapper {
+/* slick-type-1 */
+
+.movie-images-wrapper.slick-type-1 {
   position: fixed;
   z-index: 12;
   width: 30%;
 }
 
-.movie-images-slider {
+.movie-images-slider.slick-type-1 {
   width: 100%;
   margin: auto;
   position: relative;
 }
 
-.movie-images-slider--item {
+.movie-images-slider--item.slick-type-1 {
   padding: 0 1rem;
   cursor: pointer;
   border: 2px solid transparent;
@@ -26,7 +28,7 @@
   position: relative;
 }
 
-.movie-images-slider--item::before {
+.movie-images-slider--item.slick-type-1::before {
   content: '';
   background-color: rgba(0, 0, 0, 0.8);
   width: 100%;
@@ -36,27 +38,75 @@
   left: 0;
 }
 
-.movie-images-slider--item.image-slider-active::before {
+.movie-images-slider--item.image-slider-active.slick-type-1::before {
   background-color: transparent;
 }
 
-.movie-images-slider--item img {
+.movie-images-slider--item.slick-type-1 img {
   width: 100%;
 }
 
-.movie-images-slider--item:hover {
+.movie-images-slider--item.slick-type-1:hover {
   border: 2px solid #dcf836;
 }
 
-.movie-images--active {
+.movie-images--active.slick-type-1 {
   width: 80%;
   margin: auto;
 }
 
-.movie-images--active img {
+.movie-images--active.slick-type-1 img {
   width: 100%;
   text-align: center;
 }
+
+.movie-images-slider .arrow-icon {
+  cursor: pointer;
+  position: absolute;
+  top: 45%;
+  font-size: 1.8rem;
+}
+
+/* slick-type-2 */
+.movie-images-wrapper.slick-type-2 {
+  position: fixed;
+  z-index: 12;
+  width: 70%;
+}
+
+.movie-images-slider.slick-type-2 {
+  width: 100%;
+  margin: auto;
+  position: relative;
+}
+
+.movie-images-slider--item.slick-type-2 {
+  padding: 0;
+  cursor: pointer;
+  border: 2px solid transparent;
+  outline: none;
+  position: relative;
+  opacity: 0.5;
+  transform: scale(0.7);
+  transition: all 0.3s;
+}
+
+/* active slider */
+.movie-images-slider--item.image-slider-active.slick-type-2 {
+  background-color: transparent;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.movie-images-slider--item.slick-type-2 img {
+  width: 100%;
+}
+
+.movie-images-slider--item.slick-type-2:hover {
+  border: 2px solid #dcf836;
+}
+
+/* arrow */
 
 .movie-images-slider .arrow-icon {
   cursor: pointer;
@@ -72,6 +122,8 @@
 .movie-images-slider .arrow-right {
   right: -2rem;
 }
+
+/* animation */
 
 .fade-scale-enter {
   opacity: 0;
