@@ -172,7 +172,7 @@ export default function useHttp() {
   const fetchSimilarMovies = useCallback(async (movieId, method = 'GET') => {
     setIsLoading(true);
     try {
-      const url = `${API_MOVIE}/movie/${movieId}/similar?api_key=${API_KEY}&language=vi`;
+      const url = `${API_MOVIE}/movie/${movieId}/similar?api_key=${API_KEY}`;
 
       //make request to api
       const res = await fetch(url, {
@@ -180,8 +180,6 @@ export default function useHttp() {
       });
 
       const data = await res.json();
-
-      console.log(data);
 
       setIsLoading(false);
 

@@ -23,6 +23,8 @@ import CastSlider from '../../components/castSlider/CastSlider';
 import MovieSeason from '../../components/movieSeason/MovieSeason';
 import MovieImageSlider from '../../components/movieImageSlider/MovieImageSlider';
 
+import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
+
 export default function MovieDetailPage() {
   const auth = useContext(AuthContext);
 
@@ -30,7 +32,7 @@ export default function MovieDetailPage() {
   const type = history.location.pathname.split('/')[1];
   const { movieId, seasonNumber } = useParams();
   const [movie, setMovie] = useState(null);
-  const [similarMovies, setSimilarMovies] = useState([]);
+  const [similarMovies, setSimilarMovies] = useState(null);
   const [trailer, setTrailer] = useState('');
   const [movieImages, setMovieImages] = useState(null);
 
@@ -63,6 +65,7 @@ export default function MovieDetailPage() {
 
         const similarM = await fetchSimilarMovies(movieId);
 
+        console.log(similarM);
         setSimilarMovies(similarM);
       }
       //season for tv show
@@ -95,6 +98,7 @@ export default function MovieDetailPage() {
 
       {movie && (
         <>
+          {isLoading && <LoadingSpinner />}
           <div className='movie-detail'>
             {/* background */}
             <div
@@ -151,7 +155,7 @@ export default function MovieDetailPage() {
                 )}
               </div>
 
-              {similarMovies.length > 0 && (
+              {similarMovies && (
                 <div className='movie-detail__similar-movies'>
                   <SimilarMovies movies={similarMovies} />
                 </div>
