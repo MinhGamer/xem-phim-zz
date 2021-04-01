@@ -239,7 +239,7 @@ export default function useHttp() {
 
         // console.log(resDataDetails);
 
-        // console.log(resDataVideosAndCast);
+        console.log(resDataVideosAndCast);
 
         resData = {
           backdrop_path: resDataVideosAndCast.backdrop_path,
@@ -248,7 +248,7 @@ export default function useHttp() {
           vote_average: resDataVideosAndCast.vote_average,
           overview: resDataDetails.overview || resDataVideosAndCast.overview,
           poster_path: resDataVideosAndCast.poster_path,
-          release_date: resDataVideosAndCast.release_date,
+          release_date: resDataVideosAndCast.first_air_date,
           videos: resDataVideosAndCast.videos,
           directors,
           name: resDataDetails.name,
@@ -274,6 +274,7 @@ export default function useHttp() {
           resData = {
             ...resData,
             ...resSeasonData,
+            release_date: resSeasonData.air_date,
           };
         }
 

@@ -175,6 +175,8 @@ export default function MovieInfo(props) {
     return LANGUAGE_LIST_VN[index].name;
   };
 
+  console.log(movie);
+
   return (
     <div>
       <div className='movie-detail__title-eng'>
@@ -184,13 +186,10 @@ export default function MovieInfo(props) {
         {movie.title || movie.name} (
         <span
           onClick={() =>
-            gotoHomePageToFilter(
-              'year'
-              // movie.release_date.split('-')[0]
-            )
+            gotoHomePageToFilter('year', movie.release_date.split('-')[0])
           }
           className='movie-detail__title--year'>
-          {/* {movie.release_date.split('-')[0]} */}
+          {movie.release_date.split('-')[0]}
           {/*release year */}
         </span>
         )
