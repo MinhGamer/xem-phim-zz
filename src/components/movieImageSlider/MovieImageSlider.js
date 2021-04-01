@@ -46,7 +46,6 @@ export default function MovieImageSlider(props) {
     setShowActive(true);
   };
 
-  console.log(props.images);
   return (
     <>
       <Backdrop onClick={onBackdropClick} />
@@ -54,7 +53,6 @@ export default function MovieImageSlider(props) {
         <div className='movie-images-wrapper'>
           <div className='movie-images--active'>
             <CSSTransition
-              mountOnEnter
               in={showActive}
               onEntered={() => setShowActive(false)}
               timeout={500}

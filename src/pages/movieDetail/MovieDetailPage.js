@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 
-import { useParams, useHistory, NavLink } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import Button from '../../shared/components/UI/Button';
 

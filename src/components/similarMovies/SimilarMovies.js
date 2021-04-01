@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
+import { useHistory } from 'react-router-dom';
 
 import MovieItem from '../movieItem/MovieItem';
 
 import './SimilarMovies.css';
 
 export default function SimilarMovies(props) {
+  const history = useHistory();
   console.log(props.movies);
+
+  //scroll to top of page
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, [history.location.pathname]);
 
   return (
     <>

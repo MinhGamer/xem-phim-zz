@@ -12,6 +12,7 @@ export default function MovieSeason(props) {
     history.push(`/tv/${movieId}/season/${season.season_number}`);
   };
 
+  //scroll to top of page
   useEffect(() => {
     window.scrollTo({
       top: 0,
