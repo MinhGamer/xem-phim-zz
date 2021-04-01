@@ -2,7 +2,7 @@ import React from 'react';
 
 import { API_MOVIE_IMAGE } from '../../shared/util/config';
 
-export default function MoviePoster(props) {
+function MoviePoster(props) {
   const { onClick } = props;
   return (
     <img
@@ -12,3 +12,5 @@ export default function MoviePoster(props) {
     />
   );
 }
+
+export default React.memo(MoviePoster);

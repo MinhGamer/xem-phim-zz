@@ -7,8 +7,10 @@ import './TrailerSlider.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-export default function TrailerSlider(props) {
+function TrailerSlider(props) {
   const { onClickTrailer, trailers } = props;
+
+  console.log('Trailer');
 
   const settings = {
     infinite: trailers.slice.length > 3,
@@ -34,3 +36,5 @@ export default function TrailerSlider(props) {
     </div>
   );
 }
+
+export default React.memo(TrailerSlider);

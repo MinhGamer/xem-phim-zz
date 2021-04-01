@@ -16,6 +16,8 @@ export default function MovieImageSlider(props) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [showActive, setShowActive] = useState(false);
 
+  console.log('Images');
+
   const settings = {
     infinite: images.length > 3,
     speed: 500,

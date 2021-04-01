@@ -6,7 +6,7 @@ import MovieItem from '../movieItem/MovieItem';
 
 import './SimilarMovies.css';
 
-export default function SimilarMovies(props) {
+function SimilarMovies(props) {
   const history = useHistory();
   console.log(props.movies);
 
@@ -29,3 +29,5 @@ export default function SimilarMovies(props) {
     </>
   );
 }
+
+export default React.memo(SimilarMovies);

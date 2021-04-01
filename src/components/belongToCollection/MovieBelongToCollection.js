@@ -3,7 +3,7 @@ import MoviePoster from '../moviePoster/MoviePoster';
 
 import Button from '../../shared/components/UI/Button';
 
-export default function MovieBelongToCollection(props) {
+function MovieBelongToCollection(props) {
   const { belongs_to_collection } = props;
   console.log();
   return (
@@ -20,3 +20,5 @@ export default function MovieBelongToCollection(props) {
     </div>
   );
 }
+
+export default React.memo(MovieBelongToCollection);

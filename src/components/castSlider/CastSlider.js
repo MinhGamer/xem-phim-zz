@@ -10,7 +10,7 @@ import './CastSlider.css';
 
 import { API_MOVIE_IMAGE } from '../../shared/util/config';
 
-export default function SimpleSlider(props) {
+function CastSlider(props) {
   const history = useHistory();
 
   var settings = {
@@ -46,3 +46,5 @@ export default function SimpleSlider(props) {
     </div>
   );
 }
+
+export default React.memo(CastSlider);

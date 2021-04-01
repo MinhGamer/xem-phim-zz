@@ -4,7 +4,7 @@ import { useHistory, NavLink } from 'react-router-dom';
 
 import MoviePoster from '../moviePoster/MoviePoster';
 
-export default function MovieSeason(props) {
+function MovieSeason(props) {
   const { seasons, movieId } = props;
   const history = useHistory();
 
@@ -47,3 +47,5 @@ export default function MovieSeason(props) {
     </>
   );
 }
+
+export default React.memo(MovieSeason);

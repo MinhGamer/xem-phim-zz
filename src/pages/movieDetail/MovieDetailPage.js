@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 
 import { useParams, useHistory } from 'react-router-dom';
 
@@ -25,7 +25,7 @@ import MovieImageSlider from '../../components/movieImageSlider/MovieImageSlider
 
 import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
 
-export default function MovieDetailPage() {
+function MovieDetailPage() {
   const auth = useContext(AuthContext);
 
   const history = useHistory();
@@ -167,3 +167,5 @@ export default function MovieDetailPage() {
     </>
   );
 }
+
+export default React.memo(MovieDetailPage);

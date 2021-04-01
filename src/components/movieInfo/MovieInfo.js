@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 
 import { API_MOVIE_IMAGE, LANGUAGE_LIST_VN } from '../../shared/util/config';
 
@@ -10,7 +10,7 @@ import { AuthContext } from '../../shared/context/AuthContext';
 
 import Collection from '../collection/Collection';
 
-export default function MovieInfo(props) {
+function MovieInfo(props) {
   const { movie } = props;
   const movieId = props.movie.id;
   const history = useHistory();
@@ -19,16 +19,19 @@ export default function MovieInfo(props) {
 
   const auth = useContext(AuthContext);
 
-  const convertMovieLength = (runtime) => {
-    const minutes = +runtime % 60;
-    const hours = Math.floor(+runtime / 60);
+  const convertMovieLength = useCallback(
+    (runtime) => {
+      const minutes = +runtime % 60;
+      const hours = Math.floor(+runtime / 60);
 
-    if (hours <= 0 && type === 'tv') {
-      return `${minutes} phút / tập`;
-    }
+      if (hours <= 0 && type === 'tv') {
+        return `${minutes} phút / tập`;
+      }
 
-    return `${hours} giờ ${minutes} phút`;
-  };
+      return `${hours} giờ ${minutes} phút`;
+    },
+    [movieId]
+  );
 
   const gotoHomePageToFilter = (type, value) => {
     switch (type) {
@@ -78,7 +81,6 @@ export default function MovieInfo(props) {
   };
 
   const renderSeason = (seasons) => {
-    // console.log(seasons);
     const gotoSeasonDetailPage = (season) => {
       history.push(`/tv/${movieId}/season/${season.season_number}`);
     };
@@ -266,3 +268,5 @@ export default function MovieInfo(props) {
     </div>
   );
 }
+
+export default React.memo(MovieInfo);
