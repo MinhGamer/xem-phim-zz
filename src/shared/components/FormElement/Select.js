@@ -41,9 +41,11 @@ export default function CustomSelect(props) {
     const [isValid, error] = validate(name, [VALIDATOR_REQUIRE()]);
     setErrorText(error.join(' '));
 
-    // id: genres, nation ... to define type of filter
+    console.log(optionId);
+
+    // id: genres, language ... to define type of filter
     //optionId: Ex: 28 - 'Hành động" : config by server
-    onChange(id, optionId.toString(), isValid);
+    onChange(id, optionId, isValid);
   };
 
   const toggleOpenHandler = () => {

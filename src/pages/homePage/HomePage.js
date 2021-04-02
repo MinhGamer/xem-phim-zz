@@ -23,11 +23,11 @@ export default function HomePage() {
   const [movies, setMovies] = useState([]);
 
   const [filterTerm, setFilterTerm] = useState({
-    with_genres: '', //number
+    with_genres: '', //string
     with_original_language: '', //string
-    primary_release_year: '', //number
-    'with_runtime.lte': '', //number
-    'with_runtime.gte': '', //number
+    primary_release_year: '', //string
+    'with_runtime.lte': '', //string
+    'with_runtime.gte': '', //string
     sort: '',
   });
 
@@ -82,14 +82,10 @@ export default function HomePage() {
       `&primary_release_year=${filter.primary_release_year}`;
 
     //length greater than
-    const lengthMin =
-      filter['with_runtime.gte'] &&
-      `&with_runtime.gte=${filter['with_runtime.gte']}`;
+    const lengthMin = filter.min && `&with_runtime.gte=${filter.min}`;
 
     //length less than
-    const lengthMax =
-      filter['with_runtime.lte'] &&
-      `&with_runtime.lte=${filter['with_runtime.lte']}`;
+    const lengthMax = filter.max && `&with_runtime.lte=${filter.max}`;
 
     //sort descending
     const sort = filter.sort && `&sort_by=${filter.sort}.desc`;
@@ -103,6 +99,7 @@ export default function HomePage() {
       sort,
     ].join('');
 
+    //replace first '&'
     filterCombied = filterCombied.replace('&', '');
 
     return filterCombied;
@@ -113,14 +110,12 @@ export default function HomePage() {
     const filterUpdate = { ...filterTerm };
 
     if (type === 'length') {
-      filterUpdate['with_runtime.lte'] = value.max;
+      filterUpdate.max = value.max;
 
-      filterUpdate['with_runtime.gte'] = value.min;
+      filterUpdate.min = value.min;
     } else {
       filterUpdate[type] = value;
     }
-
-    console.log(filterUpdate);
 
     const query = covertFilterToQuery(filterUpdate);
 

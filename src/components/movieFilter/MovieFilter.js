@@ -56,6 +56,7 @@ export default function MovieFilter(props) {
           label={'Thời lượng: '}
           id='length'
           options={LENGTH}
+          // optionId={filterTerm.primary_release_year}
           onSelect={() => {}}
         />
       </div>

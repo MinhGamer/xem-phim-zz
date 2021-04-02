@@ -35,11 +35,13 @@
 }
 
 .dropdown-list {
-  width: 90%;
+  width: 94%;
   font-size: 1rem;
   font-weight: 500;
   background-color: #ffffff;
   position: absolute;
+  max-height: 300px;
+  overflow-y: scroll;
 }
 
 .dropdown-list--item {

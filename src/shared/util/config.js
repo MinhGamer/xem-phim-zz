@@ -212,7 +212,7 @@ export const LANGUAGE_LIST_VN = [
 
 const genrateYear = () => {
   let years = [];
-  for (let y = 2021; y >= 2011; y--) {
+  for (let y = 2021; y >= 2000; y--) {
     years.push({ id: y.toString(), name: y.toString() });
   }
   return years;

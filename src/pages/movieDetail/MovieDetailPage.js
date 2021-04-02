@@ -30,6 +30,7 @@ import MovieSeason from '../../components/movieSeason/MovieSeason';
 import MovieImageSlider from '../../components/movieImageSlider/MovieImageSlider';
 
 import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
+import ProductionCompany from '../../components/productionCompany/ProductionCompany';
 
 function MovieDetailPage() {
   const auth = useContext(AuthContext);
@@ -151,6 +152,12 @@ function MovieDetailPage() {
 
               <div className='movie-detail__info'>
                 {movie && <MovieInfo movie={movie} />}
+
+                <div className='movie-detail__casts'>
+                  <div className='movie-detail__casts--title'>Sản xuất</div>
+                  <ProductionCompany companies={movie.production_companies} />
+                  {/* <CastSlider cast={movie.credits.cast.slice(0, 20)} /> */}
+                </div>
 
                 <div className='movie-detail__casts'>
                   <div className='movie-detail__casts--title'>Diễn viên</div>

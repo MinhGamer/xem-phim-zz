@@ -156,6 +156,7 @@ export default function useHttp() {
           original_language: resDataVideosAndCast.original_language,
           images: resDataVideosAndCast.images.posters,
           belongs_to_collection: resDataVideosAndCast.belongs_to_collection,
+          production_companies: resDataVideosAndCast.production_companies,
         };
 
         setIsLoading(false);
