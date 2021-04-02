@@ -25,6 +25,7 @@ export default function PersonPage() {
 
   const renderJobs = (jobId) => {
     console.log(jobId);
+
     const jobInVn = JOB_LIST.find((job) => job.id === jobId);
 
     return jobInVn.name;

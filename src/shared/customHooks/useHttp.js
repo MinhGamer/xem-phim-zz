@@ -251,8 +251,10 @@ export default function useHttp() {
 
         let directors = [];
         created_by.forEach((creater) => {
-          directors.push(creater.name);
+          directors.push(creater);
         });
+
+        console.log(created_by);
 
         // console.log(resDataDetails);
 

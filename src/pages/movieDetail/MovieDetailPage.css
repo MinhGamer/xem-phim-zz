@@ -109,6 +109,10 @@
   color: #dcf836;
 }
 
+.movie-detail__sub-info--directors span {
+  margin-right: 0.8rem;
+}
+
 .movie-detail__sub-info--directors span:hover {
   cursor: pointer;
   color: #dcf836;
