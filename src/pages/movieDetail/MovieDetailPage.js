@@ -113,11 +113,13 @@ function MovieDetailPage() {
         />
       )}
 
+      {isLoading && <LoadingSpinner asOverlay />}
+
       {movie && (
         <>
-          {isLoading && <LoadingSpinner />}
           <div className='movie-detail'>
             {/* background */}
+            {isLoading && <LoadingSpinner />}
             <div
               style={{
                 backgroundImage: `url("${API_MOVIE_IMAGE}/${movie.backdrop_path}")`,
@@ -164,17 +166,17 @@ function MovieDetailPage() {
                     trailers={movie.videos.results}
                   />
                 </div>
-
-                {movie.seasons && (
-                  <div className='movie-detail__seasons'>
-                    <MovieSeason movieId={movieId} seasons={movie.seasons} />
-                  </div>
-                )}
               </div>
 
               {similarMovies && (
                 <div className='movie-detail__similar-movies'>
                   <SimilarMovies movies={similarMovies} />
+                </div>
+              )}
+
+              {movie.seasons && (
+                <div className='movie-detail__seasons'>
+                  <MovieSeason movieId={movieId} seasons={movie.seasons} />
                 </div>
               )}
             </div>

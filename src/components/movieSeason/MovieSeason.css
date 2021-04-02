@@ -1,0 +1,36 @@
+.movie-seasons-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.movie-seasons--item {
+  width: 50%;
+  display: flex;
+  margin: 2rem 0;
+}
+
+.movie-seasons--item a {
+  text-decoration: none;
+}
+
+.movie-seasons--item a:hover {
+  text-decoration: none;
+  color: #dcf836;
+}
+
+.movie-seasons--item img {
+  width: 35%;
+  cursor: pointer;
+  border: 3px solid transparent;
+}
+
+.movie-seasons--item img:hover {
+  border: 3px solid #dcf836;
+  transition: all 0.2s;
+}
+
+.movie-seasons--item__content {
+  font-size: 1.2rem;
+  margin-left: 2rem;
+  color: #b5b5b5;
+}

@@ -266,38 +266,6 @@
   width: 100%;
 }
 
-.movie-detail__seasons--item {
-  width: 100%;
-  display: flex;
-  margin: 2rem 0;
-}
-
-.movie-detail__seasons--item a {
-  text-decoration: none;
-}
-
-.movie-detail__seasons--item a:hover {
-  text-decoration: none;
-  color: #dcf836;
-}
-
-.movie-detail__seasons img {
-  width: 15%;
-  border: 3px solid transparent;
-}
-
-.movie-detail__seasons img:hover {
-  border: 3px solid #dcf836;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.movie-detail__seasons--item__content {
-  font-size: 1.2rem;
-  margin-left: 2rem;
-  color: #b5b5b5;
-}
-
 .movie-detail__similar-movies {
   width: 100%;
 }
