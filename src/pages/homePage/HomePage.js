@@ -18,9 +18,17 @@ export default function HomePage() {
 
   const historySearch = history.location.search;
 
-  const { fetchMovies, filterMovies, isLoading, error, clearError } = useHttp();
+  const {
+    fetchProductionCompany,
+    filterMovies,
+    isLoading,
+    error,
+    clearError,
+  } = useHttp();
 
   const [movies, setMovies] = useState([]);
+
+  const [productionCompany, setProductionCompany] = useState(null);
 
   const [filterTerm, setFilterTerm] = useState({
     with_companies: '',
@@ -35,13 +43,6 @@ export default function HomePage() {
   window.addEventListener('load', () => {
     history.push('/');
   });
-
-  const fetchFilterMovies = async () => {
-    console.log(filterTerm.with_companies);
-    const filteredMovies = await filterMovies('movie', historySearch, 3);
-
-    setMovies(filteredMovies);
-  };
 
   const convertQueryToFilter = (query) => {
     const myQuery = query.substring(1).split('&');
@@ -62,14 +63,34 @@ export default function HomePage() {
       filterUpdate[title] = value;
     });
 
-    setFilterTerm(filterUpdate);
+    return filterUpdate;
   };
 
   //when location search change
   useEffect(() => {
+    const fetchFilterMovies = async () => {
+      console.log(historySearch);
+      const filteredMovies = await filterMovies('movie', historySearch, 3);
+
+      if (historySearch.includes('with_companies')) {
+        const parseFilterTerm = convertQueryToFilter(historySearch);
+
+        const companyId = parseFilterTerm.with_companies;
+
+        const companyData = await fetchProductionCompany(companyId);
+
+        console.log(companyData);
+        setProductionCompany(companyData);
+      }
+
+      setMovies(filteredMovies);
+    };
+
     fetchFilterMovies();
 
-    convertQueryToFilter(historySearch);
+    const updateFilterTerm = convertQueryToFilter(historySearch);
+
+    setFilterTerm(updateFilterTerm);
   }, [historySearch]);
 
   const covertFilterToQuery = (filter) => {
@@ -152,11 +173,18 @@ export default function HomePage() {
 
       {memoFilter}
 
-      {filterTerm.with_companies && (
+      {filterTerm.with_companies && productionCompany && (
         <div className='filter-production-company'>
-          <h1 className='filter-production-company--title'>
-            Phim đươc tìm kiếm với công ty "{filterTerm.with_companies}"
-          </h1>
+          <div className='filter-production-company__content'>
+            <span> Phim được sản xuất bởi </span>
+            <a
+              rel='noreferrer'
+              target='_blank'
+              href={productionCompany.homepage}
+              className='filter-production-company__name'>
+              {productionCompany.name}
+            </a>
+          </div>
           <span
             onClick={() =>
               history.push(

@@ -9,11 +9,20 @@
   align-items: center;
 }
 
-.home-page .filter-production-company--title {
+.home-page .filter-production-company__content {
   display: inline-block;
   margin: 1.5rem 0;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
+}
+.home-page .filter-production-company__name {
   color: #3273dc;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.home-page .filter-production-company__name:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .home-page .filter-production-company--close {

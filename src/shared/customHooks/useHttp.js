@@ -334,6 +334,27 @@ export default function useHttp() {
     }
   }, []);
 
+  const fetchProductionCompany = useCallback(async (companyId) => {
+    setIsLoading(true);
+    try {
+      //get info for an person
+      const res = await fetch(
+        `${API_MOVIE}/company/${companyId}?api_key=${API_KEY}`
+      );
+
+      //vietnamese
+      const resData = await res.json();
+
+      setIsLoading(false);
+
+      return { ...resData };
+    } catch (err) {
+      setIsLoading(false);
+      setError(err.message);
+      throw err;
+    }
+  }, []);
+
   const fetchMovies = useCallback(
     async (uri, method = 'GET', numberOfPages = 1) => {
       setIsLoading(true);
@@ -549,5 +570,6 @@ export default function useHttp() {
     fetchTvDetails,
     fetchSeries,
     fetchSimilarMovies,
+    fetchProductionCompany,
   };
 }
