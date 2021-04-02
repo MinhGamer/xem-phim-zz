@@ -27,21 +27,24 @@ function CastSlider(props) {
   return (
     <div className='cast-slider-container'>
       <Slider {...settings}>
-        {props.cast.map((actor) => (
-          <div className='cast-slider-item'>
-            <img
-              onClick={() => gotoPersonPage(actor.id)}
-              src={`${API_MOVIE_IMAGE}/${actor.profile_path}`}
-              alt='title'
-            />
-            <div
-              onClick={() => gotoPersonPage(actor.id)}
-              className='actor-name'>
-              {actor.name}
-            </div>
-            <div className='actor-character'>{actor.character}</div>
-          </div>
-        ))}
+        {props.cast.slice(0, 10).map(
+          (actor) =>
+            actor.profile_path && (
+              <div className='cast-slider-item'>
+                <img
+                  onClick={() => gotoPersonPage(actor.id)}
+                  src={`${API_MOVIE_IMAGE}/${actor.profile_path}`}
+                  alt='title'
+                />
+                <div
+                  onClick={() => gotoPersonPage(actor.id)}
+                  className='actor-name'>
+                  {actor.name}
+                </div>
+                <div className='actor-character'>{actor.character}</div>
+              </div>
+            )
+        )}
       </Slider>
     </div>
   );

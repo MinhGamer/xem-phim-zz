@@ -11,16 +11,19 @@ function MovieBelongToCollection(props) {
 
   console.log(belongs_to_collection);
 
+  const gotoSeriesPage = () =>
+    history.push(`/series/${belongs_to_collection.id}`);
+
   return (
     belongs_to_collection && (
       <div className='movie-belong-to-collection'>
         <h2> Phim này nằm trong bộ series:</h2>
         <MoviePoster
-          onClick={() => history.push(`/series/${belongs_to_collection.id}`)}
+          onClick={gotoSeriesPage}
           poster_path={belongs_to_collection.poster_path}
           alt={belongs_to_collection.name}
         />
-        <Button isFull isSecondary>
+        <Button onClick={gotoSeriesPage} isFull isSecondary>
           <i class='fa fa-play'></i>
           Xem Bộ sưu tập
         </Button>

@@ -80,11 +80,11 @@ export default function MovieSeriesPage() {
             Xem chi tiết
           </Button>
         </div>
-        <p
+        {/* <p
           onClick={() => clickMovieHandler(singleSeries.id)}
           className='series-single-item__name'>
           {singleSeries.name}
-        </p>
+        </p> */}
       </div>
     );
   };
@@ -95,7 +95,7 @@ export default function MovieSeriesPage() {
 
       {seriesImages && (
         <MovieImageSlider
-          type='slick-type-2'
+          type='slick-type-1'
           onBackdropClick={() => setSeriesImages(false)}
           images={series[0].posters}
         />

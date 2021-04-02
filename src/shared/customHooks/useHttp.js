@@ -172,7 +172,7 @@ export default function useHttp() {
   const fetchSimilarMovies = useCallback(async (movieId, method = 'GET') => {
     setIsLoading(true);
     try {
-      const url = `${API_MOVIE}/movie/${movieId}/similar?api_key=${API_KEY}`;
+      const url = `${API_MOVIE}/movie/${movieId}/recommendations?api_key=${API_KEY}`;
 
       //make request to api
       const res = await fetch(url, {
@@ -368,8 +368,6 @@ export default function useHttp() {
 
   const fetchTvSerires = useCallback(
     async (uri, method = 'GET', numberOfPages = 1) => {
-      // 1 page = 20 movies
-
       setIsLoading(true);
 
       try {

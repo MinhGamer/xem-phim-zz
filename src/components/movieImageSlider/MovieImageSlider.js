@@ -12,14 +12,15 @@ import './MovieImageSlider.css';
 
 export default function MovieImageSlider(props) {
   const { images, onBackdropClick, type } = props;
+
+  //limit the images to 15 only
+  let limitImages = images.slice(0, 15);
   const sliderRef = useRef();
   const [activeIndex, setActiveIndex] = useState(0);
   const [showActive, setShowActive] = useState(false);
 
-  console.log('Images', images);
-
   const settings = {
-    infinite: images.length > 3,
+    infinite: limitImages.length > 3,
     speed: 500,
     slidesToShow: type === 'slick-type-1' ? 4 : 3,
     slidesToScroll: 1,
@@ -28,7 +29,7 @@ export default function MovieImageSlider(props) {
 
   const nextSlideHandler = () => {
     setActiveIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : activeIndex + 1
+      prevIndex === limitImages.length - 1 ? 0 : activeIndex + 1
     );
     sliderRef.current.slickNext();
     setShowActive(true);
@@ -36,7 +37,7 @@ export default function MovieImageSlider(props) {
 
   const prevSlideHandler = () => {
     setActiveIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : activeIndex - 1
+      prevIndex === 0 ? limitImages.length - 1 : activeIndex - 1
     );
     sliderRef.current.slickPrev();
     setShowActive(true);
@@ -61,7 +62,7 @@ export default function MovieImageSlider(props) {
                 timeout={500}
                 classNames='fade-scale'>
                 <div>
-                  {images.map(
+                  {limitImages.map(
                     (image, index) =>
                       activeIndex === index && (
                         <img
@@ -78,7 +79,7 @@ export default function MovieImageSlider(props) {
                 onClick={prevSlideHandler}
                 className='fa fa-less-than arrow-icon arrow-left'></i>
               <Slider ref={sliderRef} {...settings}>
-                {images.map((image, index) => (
+                {limitImages.map((image, index) => (
                   <div
                     onClick={() => gotoSlide(index)}
                     className={`movie-images-slider--item slick-type-1 ${
@@ -109,9 +110,9 @@ export default function MovieImageSlider(props) {
               <Slider ref={sliderRef} {...settings}>
                 {images.map((image, index) => (
                   <div
-                    onClick={() => gotoSlide(index)}
+                    onClick={() => gotoSlide(index - 1)}
                     className={`movie-images-slider--item slick-type-2 ${
-                      activeIndex + 1 === index
+                      activeIndex === index - 1
                         ? 'image-slider-active slick-type-2'
                         : ''
                     }`}>
