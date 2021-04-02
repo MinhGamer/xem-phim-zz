@@ -3,3 +3,27 @@
   margin: auto;
   width: 90%;
 }
+
+.filter-production-company {
+  display: flex;
+  align-items: center;
+}
+
+.home-page .filter-production-company--title {
+  display: inline-block;
+  margin: 1.5rem 0;
+  font-size: 1.8rem;
+  color: #3273dc;
+}
+
+.home-page .filter-production-company--close {
+  display: inline-block;
+  margin-left: 2rem;
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.home-page .filter-production-company--close:hover {
+  color: red;
+}

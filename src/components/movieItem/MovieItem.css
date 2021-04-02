@@ -1,6 +1,6 @@
 .movie-item {
   width: 20%;
-  padding: 1.5rem;
+  padding: 1rem;
   font-weight: 700;
 }
 
@@ -10,7 +10,8 @@
   cursor: pointer;
 }
 
-.movie-item__overlay {
+.movie-item__image::before {
+  content: '';
   position: absolute;
   background-color: rgba(0, 0, 0, 0.6);
   top: 0;
@@ -21,7 +22,7 @@
   transition: all 0.5s;
 }
 
-.movie-item__image:hover .movie-item__overlay {
+.movie-item__image:hover::before {
   transform: translateX(-60vh) skewX(40deg);
 }
 
@@ -57,18 +58,23 @@
 .movie-item img {
   cursor: pointer;
   width: 100%;
+  height: 365px;
   border-radius: 5px;
 }
 
 .movie-item__title--eng {
   color: #7a7a7a;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .movie-item .movie-item__title--vn {
-  font-size: 1.2rem;
+  font-size: 1rem;
+  max-width: 100%;
   margin-top: 0.6rem;
   margin-bottom: 0rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media screen and (max-width: 1408px) {

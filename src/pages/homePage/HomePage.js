@@ -23,6 +23,7 @@ export default function HomePage() {
   const [movies, setMovies] = useState([]);
 
   const [filterTerm, setFilterTerm] = useState({
+    with_companies: '',
     with_genres: '', //string
     with_original_language: '', //string
     primary_release_year: '', //string
@@ -36,6 +37,7 @@ export default function HomePage() {
   });
 
   const fetchFilterMovies = async () => {
+    console.log(filterTerm.with_companies);
     const filteredMovies = await filterMovies('movie', historySearch, 3);
 
     setMovies(filteredMovies);
@@ -45,6 +47,7 @@ export default function HomePage() {
     const myQuery = query.substring(1).split('&');
 
     const filterUpdate = {
+      with_companies: '',
       with_genres: '',
       with_original_language: '',
       primary_release_year: '',
@@ -73,6 +76,9 @@ export default function HomePage() {
     //use to params to hold state when user click backfilter.genres
     const genres = filter.with_genres && `&with_genres=${filter.with_genres}`;
 
+    const companies =
+      filter.with_companies && `&with_companies=${filter.with_companies}`;
+
     const language =
       filter.with_original_language &&
       `&with_original_language=${filter.with_original_language}`;
@@ -97,6 +103,7 @@ export default function HomePage() {
       lengthMin,
       lengthMax,
       sort,
+      companies,
     ].join('');
 
     //replace first '&'
@@ -144,6 +151,26 @@ export default function HomePage() {
       {isLoading && <LoadingSpinner asOverlay />}
 
       {memoFilter}
+
+      {filterTerm.with_companies && (
+        <div className='filter-production-company'>
+          <h1 className='filter-production-company--title'>
+            Phim đươc tìm kiếm với công ty "{filterTerm.with_companies}"
+          </h1>
+          <span
+            onClick={() =>
+              history.push(
+                `/${historySearch.replace(
+                  `with_companies=${filterTerm.with_companies}`,
+                  ''
+                )}`
+              )
+            }
+            className='filter-production-company--close'>
+            <i class='fa fa-times'></i>
+          </span>
+        </div>
+      )}
 
       {!isLoading && movies.length > 0 && memeMovieList}
     </div>

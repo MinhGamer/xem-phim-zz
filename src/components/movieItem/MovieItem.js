@@ -48,7 +48,6 @@ export default function MovieItem(props) {
           }
           className='movie-item__image'>
           <img src={imageUrl} alt={original_title} />
-          <div className='movie-item__overlay'></div>
           <div className='movie-item__play-icon'>
             <i className='fa fa-play '></i>
           </div>

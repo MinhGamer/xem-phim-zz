@@ -2,7 +2,6 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  padding-top: 7rem;
 }
 
 .movie-list .pagination {
