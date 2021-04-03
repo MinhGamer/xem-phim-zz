@@ -21,6 +21,7 @@ import TvSeriesPage from './pages/tvSeries/TvSeriesPage';
 import MovieSeriesPage from './pages/movieSeries/MovieSeriesPage';
 import LazyLoadingMovie from './components/lazyLoading/LazyLoadingMovie';
 import MovieSeriesDetailPage from './pages/movieSeriesDetailPage/MovieSeriesDetailPage';
+import FAQPage from './pages/FAQ/FAQPage';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
             path='/tv/:movieId/season/:seasonNumber'
             component={MovieDetailPage}
           />
+          <Route exact path='/faq' component={FAQPage} />
           <Route exact path='/series' component={MovieSeriesPage} />
           <Route exact path='/series/:seriesId' component={MovieSeriesPage} />
           <Route exact path='/auth' component={Auth} />

@@ -65,11 +65,13 @@
 .movie-item__title--eng {
   color: #7a7a7a;
   font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .movie-item .movie-item__title--vn {
   font-size: 1rem;
-  max-width: 100%;
   margin-top: 0.6rem;
   margin-bottom: 0rem;
   white-space: nowrap;

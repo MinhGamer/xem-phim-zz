@@ -212,19 +212,21 @@ function MovieInfo(props) {
             {renderDirectors(movie.directors)}
           </span>
         </p>
-        <p>
-          <span className='movie-detail__sub-info--label'>NGÔN NGỮ</span>
-          <span className='movie-detail__sub-info--value'>
-            {movie.original_language || movie.origin_country}
-            <span
-              onClick={() =>
-                gotoHomePageToFilter('language', movie.original_language)
-              }
-              className='movie-detail__sub-info--language'>
-              {renderLanguge(movie.original_language)}
+        {movie.original_language && (
+          <p>
+            <span className='movie-detail__sub-info--label'>NGÔN NGỮ</span>
+            <span className='movie-detail__sub-info--value'>
+              {/* {movie.original_language || movie.origin_country} */}
+              <span
+                onClick={() =>
+                  gotoHomePageToFilter('language', movie.original_language)
+                }
+                className='movie-detail__sub-info--language'>
+                {renderLanguge(movie.original_language)}
+              </span>
             </span>
-          </span>
-        </p>
+          </p>
+        )}
         <p>
           <span className='movie-detail__sub-info--label'>KHỞI CHIẾU</span>
           <span className='movie-detail__sub-info--value'>

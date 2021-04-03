@@ -58,7 +58,7 @@ export default function Header() {
           <NavLink className='navlinks__item' to='/tv'>
             Phim bộ
           </NavLink>
-          <NavLink className='navlinks__item' to='/FQA'>
+          <NavLink className='navlinks__item' to='/faq'>
             FQA
           </NavLink>
           <NavLink className='navlinks__item fixed' to='/search'>

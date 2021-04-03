@@ -279,6 +279,7 @@ export default function useHttp() {
           first_air_date: resDataVideosAndCast.first_air_date,
           number_of_episodes: resDataVideosAndCast.number_of_episodes,
           number_of_seasons: resDataVideosAndCast.number_of_seasons,
+          production_companies: resDataVideosAndCast.production_companies,
         };
 
         //if fetch tv season details:

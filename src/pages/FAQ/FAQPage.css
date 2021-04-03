@@ -1,0 +1,25 @@
+.faq-container {
+  width: 90%;
+  margin: auto;
+  padding-top: 7rem;
+  padding-bottom: 5rem;
+  color: #dbdbdb;
+}
+
+.faq-title {
+  font-size: 2.5rem;
+}
+
+.faq-question {
+  font-size: 2rem;
+  color: #ffdd57;
+}
+
+.faq-answer__list {
+  margin-left: 2rem;
+  padding: 1rem 0;
+}
+
+.faq-answer__list li {
+  margin: 0.5rem 0;
+}

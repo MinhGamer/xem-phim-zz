@@ -111,16 +111,24 @@
 .movie-images-slider .arrow-icon {
   cursor: pointer;
   position: absolute;
-  top: 45%;
-  font-size: 1.8rem;
+  z-index: 1;
+  top: 30%;
+  font-size: 2rem;
+  width: 20%;
+  height: 30%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .movie-images-slider .arrow-left {
-  left: -2rem;
+  left: -8rem;
 }
 
 .movie-images-slider .arrow-right {
-  right: -2rem;
+  text-align: right;
+  right: -8rem;
 }
 
 /* animation */
