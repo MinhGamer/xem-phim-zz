@@ -1,8 +1,8 @@
 import React, { useContext, useCallback } from 'react';
 
-import { API_MOVIE_IMAGE, LANGUAGE_LIST_VN } from '../../shared/util/config';
+import { LANGUAGE_LIST_VN } from '../../shared/util/config';
 
-import { useHistory, NavLink } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import useHttp from '../../shared/customHooks/useHttp';
 
@@ -11,8 +11,7 @@ import { AuthContext } from '../../shared/context/AuthContext';
 import Collection from '../collection/Collection';
 
 function MovieInfo(props) {
-  const { movie } = props;
-  const movieId = props.movie.id;
+  const { movie, movieId } = props;
   const history = useHistory();
   const type = history.location.pathname.split('/')[1];
   const { sendUser } = useHttp();
@@ -67,7 +66,6 @@ function MovieInfo(props) {
   };
 
   const renderDirectors = (directors) => {
-    console.log(directors);
     //may render many director
     return directors.map((director, index) =>
       index === directors.length - 1 ? (
@@ -84,57 +82,22 @@ function MovieInfo(props) {
     history.push(`/person/${personId}`);
   };
 
-  const clickCollectionHandler = async (type) => {
-    console.log(type, movieId);
+  const clickCollectionHandler = async (movieIsDone) => {
+    //when movie go to collection
+    // colletec: array = [
+    //  1771: {isDone: true}, => finish list
+    // 527774: {isDone: false} => wishlist
+    // ]
 
-    let updateUser;
+    auth.user.collection[movieId] = { isDone: movieIsDone };
 
-    if (type === 'wishlist') {
-      //wish list
-      const updateWhisList = [...auth.user.whisList] || [];
+    const updateMovie = {
+      [movieId]: { isDone: movieIsDone },
+    };
 
-      const index = updateWhisList.findIndex((mId) => mId === movieId);
-
-      if (index === -1) {
-        //add to list
-        updateWhisList.push(movieId);
-      } else {
-        updateWhisList.splice(index, 1);
-      }
-
-      updateUser = {
-        whisList: updateWhisList,
-        finishList: auth.user.finishList,
-      };
-
-      auth.user.whisList = updateWhisList;
-    } else {
-      //finish list
-      const updateFinishList = [...auth.user.finishList] || [];
-
-      const index = updateFinishList.findIndex((mId) => mId === movieId);
-
-      if (index === -1) {
-        //add to list
-        updateFinishList.push(movieId);
-      } else {
-        updateFinishList.splice(index, 1);
-      }
-
-      updateUser = {
-        finishList: updateFinishList,
-        whisList: auth.user.whisList,
-      };
-
-      auth.user.finishList = updateFinishList;
-    }
-
-    console.log(updateUser);
-
-    const data = await sendUser('user', 'PATCH', JSON.stringify(updateUser), {
+    const data = await sendUser('user', 'PATCH', JSON.stringify(updateMovie), {
       Authorization: 'Bearer ' + auth.token,
     });
-
     console.log(data);
   };
 
@@ -147,8 +110,6 @@ function MovieInfo(props) {
 
     return LANGUAGE_LIST_VN[index].name;
   };
-
-  console.log(movie);
 
   return (
     <div>
@@ -196,7 +157,10 @@ function MovieInfo(props) {
             Chia sẻ
           </span>
           <span className='movie-detail__share--bookmark'>
-            <Collection onClick={clickCollectionHandler} />
+            <Collection
+              status={(auth.user && auth.user.collection[movieId]) || null}
+              onClick={clickCollectionHandler}
+            />
           </span>
         </div>
 

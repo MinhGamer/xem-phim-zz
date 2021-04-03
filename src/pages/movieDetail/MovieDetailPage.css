@@ -23,17 +23,15 @@
 }
 
 .movie-detail__content {
-  position: absolute;
-  top: 40%;
-  left: 0;
+  position: relative;
+  width: 100%;
+  margin-top: -22rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
-  height: 600px;
-  width: 100%;
   z-index: 3;
-  padding: 0 6rem;
+  padding: 0 6%;
 }
 
 /* movie image */

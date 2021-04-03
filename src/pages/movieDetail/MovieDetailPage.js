@@ -94,7 +94,7 @@ function MovieDetailPage() {
     //movie or tv
   }, [history.location.pathname]);
 
-  console.log('Movie Detail Page render', movie);
+  console.log(auth.user);
 
   return (
     <>
@@ -118,7 +118,7 @@ function MovieDetailPage() {
 
       {movie && (
         <>
-          <div className='movie-detail'>
+          <div className='movie-detail-container'>
             {/* background */}
             {isLoading && <LoadingSpinner />}
             <div
@@ -151,7 +151,7 @@ function MovieDetailPage() {
               </div>
 
               <div className='movie-detail__info'>
-                {movie && <MovieInfo movie={movie} />}
+                {movie && <MovieInfo movieId={movieId} movie={movie} />}
 
                 <div className='movie-detail__casts'>
                   <div className='movie-detail__casts--title'>Sản xuất</div>

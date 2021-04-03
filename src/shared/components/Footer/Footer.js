@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { NavLink, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import footerBg from '../../../assets/image/footer-bg.jpg';
 
@@ -8,6 +8,14 @@ import './Footer.css';
 
 export default function Footer() {
   const history = useHistory();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+    console.log('Footer');
+  }, [history.location]);
 
   const scrollToTopHomePage = () => {
     history.push('/');

@@ -1,7 +1,21 @@
-.collection {
-  background-color: #23d160;
-  border-color: transparent;
+.collection-header {
   position: relative;
+  border-color: transparent;
+  transition: all 0.3s;
+}
+
+.collection-normal {
+  background-color: #23d160;
+}
+
+.collection-wishlist {
+  background-color: #ffdd57;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.collection-done {
+  background-color: #3273dc;
+  color: #fff;
 }
 
 .collection-dropdown {
@@ -17,6 +31,7 @@
 
 .collection-dropdown--item {
   padding: 0.2rem;
+  transition: all 0.2s;
 }
 
 .collection-dropdown--item:hover {
@@ -26,4 +41,18 @@
 .collection-dropdown--item span {
   font-weight: 700;
   font-size: 1rem;
+}
+
+.collection-require-login {
+  font-size: 1.2rem;
+  padding: 0.3rem;
+  cursor: auto;
+}
+
+.collection-require-login a {
+  color: #3273dc;
+}
+
+.collection-require-login a:hover {
+  color: #ffdd57;
 }

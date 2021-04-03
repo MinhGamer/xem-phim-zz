@@ -93,7 +93,7 @@ export default function Auth() {
   // };
 
   const responseGoogle = (response) => {
-    console.log(response);
+    // console.log(response);
   };
 
   //change from signup to login and vice-versa
