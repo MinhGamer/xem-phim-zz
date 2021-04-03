@@ -15,7 +15,7 @@ export default function Footer() {
       behavior: 'smooth',
     });
     console.log('Footer');
-  }, [history.location]);
+  }, [history.location.path]);
 
   const scrollToTopHomePage = () => {
     history.push('/');

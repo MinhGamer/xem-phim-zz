@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { NavLink, useHistory } from 'react-router-dom';
 
 import './Collection.css';
 
 export default function Collection(props) {
-  const { status } = props;
+  const { status, isLoggedIn } = props;
   const [show, setShow] = useState(false);
-  const history = useHistory();
 
   //status === null => user did not login
   //status.isDone === true => user add movie to finish collection
   //status.isDone === false => user add movie to wishlist collection
 
+  useEffect(() => {}, []);
   const collectionStyle =
     status === null
       ? 'collection-normal'
@@ -20,21 +20,16 @@ export default function Collection(props) {
       ? 'collection-done'
       : 'collection-wishlist';
 
-  const clickHandler = () => {
-    history.push(`/auth`);
-  };
-
   return (
     <>
       <span
-        onClick={clickHandler}
         onMouseEnter={() => setShow(true)}
         onMouseLeave={() => {
           setShow(false);
         }}
         className={`collection-header ${collectionStyle}`}>
-        {/* user did not take action on collection */}
-        {status === null && (
+        {/* dropdown-header */}
+        {!status && (
           <>
             <i className='fa fa-bookmark '></i>
             <span>Bộ sưu tập</span>
@@ -57,29 +52,36 @@ export default function Collection(props) {
           </>
         )}
 
-        {show && !status && (
+        {/* show is a flag to open dropdown */}
+        {show && (
           <div className='collection-dropdown'>
-            <p className='collection-require-login'>
-              Xin hãy <NavLink to='/auth'>đăng nhập</NavLink> để thêm phim vào
-              bộ sưu tập
-            </p>
-          </div>
-        )}
+            {/* user did not login */}
+            {!isLoggedIn && (
+              <p className='collection-require-login'>
+                Xin hãy <NavLink to='/auth'>đăng nhập</NavLink> để thêm phim vào
+                bộ sưu tập
+              </p>
+            )}
 
-        {show && status && (
-          <div className='collection-dropdown'>
-            <p
-              //arg: movieIsDone
-              onClick={() => props.onClick(true)}
-              className='collection-dropdown--item '>
-              Thêm vào danh sách <span>Đã xem</span>
-            </p>
-            <p
-              //arg: movieIsDone
-              onClick={() => props.onClick(false)}
-              className='collection-dropdown--item'>
-              Thêm vào danh sách <span>Muốn xem</span>
-            </p>
+            {/* user already logined */}
+            {isLoggedIn && (
+              <>
+                {/* user did not take action on collection */}
+
+                <p
+                  //arg: movieIsDone
+                  onClick={() => props.onClick(true)}
+                  className='collection-dropdown--item '>
+                  Thêm vào danh sách <span>Đã xem</span>
+                </p>
+                <p
+                  //arg: movieIsDone
+                  onClick={() => props.onClick(false)}
+                  className='collection-dropdown--item'>
+                  Thêm vào danh sách <span>Muốn xem</span>
+                </p>
+              </>
+            )}
           </div>
         )}
       </span>

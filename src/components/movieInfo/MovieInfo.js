@@ -158,6 +158,7 @@ function MovieInfo(props) {
           </span>
           <span className='movie-detail__share--bookmark'>
             <Collection
+              isLoggedIn={auth.isLoggedIn}
               status={(auth.user && auth.user.collection[movieId]) || null}
               onClick={clickCollectionHandler}
             />
