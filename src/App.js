@@ -23,6 +23,7 @@ import LazyLoadingMovie from './components/lazyLoading/LazyLoadingMovie';
 import MovieSeriesDetailPage from './pages/movieSeriesDetailPage/MovieSeriesDetailPage';
 import FAQPage from './pages/FAQ/FAQPage';
 import Footer from './shared/components/Footer/Footer';
+import Demo from './components/Demo';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Header />
 
         <Switch>
+          <Route exact path='/demo' component={Demo} />
           {/* access for everyone */}
           <Route exact path='/' component={HomePage} />
           <Route exact path='/tv' component={TvSeriesPage} />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 import MovieList from '../../components/movieList/MovieList';
 
@@ -40,9 +40,10 @@ export default function HomePage() {
     sort: '',
   });
 
-  window.addEventListener('load', () => {
-    history.push('/');
-  });
+  //re-render 2 times
+  // window.addEventListener('load', () => {
+  //   history.push('/');
+  // });
 
   const convertQueryToFilter = (query) => {
     const myQuery = query.substring(1).split('&');
@@ -67,6 +68,7 @@ export default function HomePage() {
   };
 
   //when location search change
+  //re-render 1 time
   useEffect(() => {
     const fetchFilterMovies = async () => {
       const filteredMovies = await filterMovies('movie', historySearch, 3);
@@ -84,10 +86,12 @@ export default function HomePage() {
         setProductionCompany(companyData);
       }
 
+      // console.log(filteredMovies);
+
       setMovies(filteredMovies);
     };
 
-    // fetchFilterMovies();
+    fetchFilterMovies();
 
     const updateFilterTerm = convertQueryToFilter(historySearch);
 

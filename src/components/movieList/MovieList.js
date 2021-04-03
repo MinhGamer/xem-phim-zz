@@ -14,6 +14,8 @@ import Button from '../../shared/components/UI/Button';
 function MovieList(props) {
   const { movies, type, clickMovieHandler } = props;
 
+  console.log('Movie List render');
+
   const [currentPage, setCurrentPage] = useState(1);
 
   const MOVIE_ITEM_PER_PAGE =

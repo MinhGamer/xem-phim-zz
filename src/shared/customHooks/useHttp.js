@@ -485,9 +485,9 @@ export default function useHttp() {
     }
   }, []);
 
-  const clearError = () => {
+  const clearError = useCallback(() => {
     setError(null);
-  };
+  }, []);
 
   const fetchMoviesByIdList = useCallback(async (idList) => {
     setIsLoading(true);

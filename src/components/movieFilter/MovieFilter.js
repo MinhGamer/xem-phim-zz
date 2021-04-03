@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import './MovieFilter.css';
 
@@ -15,6 +15,12 @@ import {
 function MovieFilter(props) {
   const { filterHandler, filterTerm } = props;
 
+  const memoGENRES_LIST_VN = useMemo(() => GENRES_LIST_VN, []);
+
+  const memoLANGUAGE_LIST_VN = useMemo(() => LANGUAGE_LIST_VN, []);
+
+  const memoRELEASE_YEAR = useMemo(() => RELEASE_YEAR, []);
+
   console.log('Filter render');
 
   return (
@@ -24,7 +30,7 @@ function MovieFilter(props) {
           onChange={filterHandler}
           label={'Thể loại: '}
           id='with_genres'
-          options={GENRES_LIST_VN}
+          options={memoGENRES_LIST_VN}
           optionId={filterTerm.with_genres}
           onSelect={() => {}}
         />
@@ -35,7 +41,7 @@ function MovieFilter(props) {
           onChange={filterHandler}
           label={'Ngôn ngữ: '}
           id='with_original_language'
-          options={LANGUAGE_LIST_VN}
+          options={memoLANGUAGE_LIST_VN}
           optionId={filterTerm.with_original_language}
           onSelect={() => {}}
         />
@@ -47,7 +53,7 @@ function MovieFilter(props) {
           label={'Năm: '}
           id='primary_release_year'
           optionId={filterTerm.primary_release_year}
-          options={RELEASE_YEAR}
+          options={memoRELEASE_YEAR}
           onSelect={() => {}}
         />
       </div>

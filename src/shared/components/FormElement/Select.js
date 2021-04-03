@@ -7,7 +7,7 @@ import { validate, VALIDATOR_REQUIRE } from '../../util/validators';
 function CustomSelect(props) {
   const { options, label, id, onChange, optionId } = props;
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState(null);
   const [errorText, setErrorText] = useState(null);
 
   //when query for history location change
@@ -27,19 +27,22 @@ function CustomSelect(props) {
 
   const selectRef = useRef();
 
-  const selectOptionHandler = (optionId, name) => {
+  const selectOptionHandler = (optionId) => {
     // setSelectedOption(name);
     setIsOpen(false);
 
-    //handle require
-    const [isValid, error] = validate(name, [VALIDATOR_REQUIRE()]);
-    setErrorText(error.join(' '));
+    //if user already select and then select the same value => return
+    const index = options.findIndex((opt) => opt.id === optionId);
+    if (index === -1) return;
+    if (options[index].name === selectedOption) {
+      return;
+    }
 
-    console.log(optionId);
+    console.log(optionId, selectedOption);
 
     // id: genres, language ... to define type of filter
     //optionId: Ex: 28 - 'Hành động" : config by server
-    onChange(id, optionId, isValid);
+    onChange(id, optionId);
   };
 
   const toggleOpenHandler = () => {
