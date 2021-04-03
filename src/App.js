@@ -22,12 +22,14 @@ import MovieSeriesPage from './pages/movieSeries/MovieSeriesPage';
 import LazyLoadingMovie from './components/lazyLoading/LazyLoadingMovie';
 import MovieSeriesDetailPage from './pages/movieSeriesDetailPage/MovieSeriesDetailPage';
 import FAQPage from './pages/FAQ/FAQPage';
+import Footer from './shared/components/Footer/Footer';
 
 function App() {
   return (
     <AuthContextWrapper>
       <BrowserRouter basename='/xem-phim-zz'>
         <Header />
+
         <Switch>
           {/* access for everyone */}
           <Route exact path='/' component={HomePage} />
@@ -56,6 +58,7 @@ function App() {
           />
           <Redirect to='/' />;
         </Switch>
+        <Footer />
       </BrowserRouter>
     </AuthContextWrapper>
   );

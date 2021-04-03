@@ -1,0 +1,33 @@
+.footer-container {
+  width: 90%;
+  margin: auto;
+}
+
+.footer-background {
+  height: 350px;
+  background-size: contain;
+  background-repeat: repeat;
+  background-position: center;
+}
+
+.footer-title {
+  font-size: 1.2rem;
+  padding-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.footer-title span {
+  cursor: pointer;
+  color: #3273dc;
+}
+
+.footer-title span:hover {
+  color: #dcf836;
+}
+
+.footer-content {
+  color: #b5b5b5;
+  font-size: 1rem;
+  margin-left: 2rem;
+  list-style: circle;
+}
