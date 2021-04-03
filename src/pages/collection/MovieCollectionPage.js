@@ -6,36 +6,38 @@ import MovieItem from '../../components/movieItem/MovieItem';
 
 import { AuthContext } from '../../shared/context/AuthContext';
 
-import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
 import ErrorModal from '../../shared/components/UI/ErrorModal';
 
 import useHttp from '../../shared/customHooks/useHttp';
 
 export default function MovieCollectionPage() {
   // const [likedMovies, setLikedMovies] = useState([]);
-  const [whisedList, setWishedList] = useState([]);
-  const [finishedList, setFinishedList] = useState([]);
+  const [collection, setCollection] = useState([]);
+
   const auth = useContext(AuthContext);
+
+  const authCollection = auth.user.collection;
 
   const { fetchMoviesByIdList, isLoading, error, clearError } = useHttp();
 
   useEffect(() => {
-    const { finishList, whisList } = auth.user;
-
     const fetchMovies = async () => {
-      const whisListResults = await fetchMoviesByIdList(whisList);
+      let _collection = await fetchMoviesByIdList(authCollection);
 
-      const finishListResults = await fetchMoviesByIdList(finishList);
+      //assign property isDone to collection fetched from db
+      _collection = _collection.map((movie) => ({
+        ...movie,
+        isDone: authCollection[movie.id].isDone,
+      }));
 
-      setFinishedList(finishListResults);
-      setWishedList(whisListResults);
+      setCollection(_collection);
     };
 
     fetchMovies();
   }, [auth.user, fetchMoviesByIdList]);
 
-  const renderMovies = (movies) => {
-    if (!movies || movies.length === 0) {
+  const renderMovies = (collection) => {
+    if (!collection || collection.length === 0) {
       return (
         !isLoading && (
           <h1>
@@ -45,8 +47,10 @@ export default function MovieCollectionPage() {
       );
     }
 
-    return movies.map((movie) => (
-      <>{!isLoading && <MovieItem key={movie.id} movie={movie} />}</>
+    return collection.map((movie) => (
+      <>
+        <MovieItem type='movie' key={movie.id} movie={movie} />
+      </>
     ));
   };
 
@@ -56,18 +60,14 @@ export default function MovieCollectionPage() {
 
       <h1 className='text-center fs-1'>Bộ sưu tập phim của bạn</h1>
 
-      {/* liked movies */}
       <h1 className='fs-1'>Các phim bạn muốn xem:</h1>
       <div className='movie-collection__liked-movies'>
-        {isLoading && <LoadingSpinner />}
-        {renderMovies(whisedList)}
+        {renderMovies(collection.filter((movie) => !movie.isDone))}
       </div>
 
-      {/* finished movies */}
       <h1 className='fs-1'>Các phim bạn đã xem:</h1>
       <div className='movie-collection__finished-movies'>
-        {isLoading && <LoadingSpinner />}
-        {renderMovies(finishedList)}
+        {renderMovies(collection.filter((movie) => movie.isDone))}
       </div>
     </div>
   );

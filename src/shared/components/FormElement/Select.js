@@ -1,25 +1,19 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  setState,
-  useCallback,
-} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import './Select.css';
 
 import { validate, VALIDATOR_REQUIRE } from '../../util/validators';
 
-export default function CustomSelect(props) {
+function CustomSelect(props) {
   const { options, label, id, onChange, optionId } = props;
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState('');
   const [errorText, setErrorText] = useState(null);
 
   //when query for history location change
   useEffect(() => {
     if (!optionId) {
-      setSelectedOption('Tất cả');
+      setSelectedOption('- Tất cả -');
     }
 
     console.log(optionId);
@@ -29,12 +23,12 @@ export default function CustomSelect(props) {
     if (index === -1) return;
 
     setSelectedOption(options[index].name);
-  }, [optionId]);
+  }, [optionId, options]);
 
   const selectRef = useRef();
 
   const selectOptionHandler = (optionId, name) => {
-    setSelectedOption(name);
+    // setSelectedOption(name);
     setIsOpen(false);
 
     //handle require
@@ -79,15 +73,22 @@ export default function CustomSelect(props) {
 
   return (
     <div ref={selectRef} className='custom-select'>
+      {/* label */}
       <div className='custom-select-label'>{label}</div>
+
+      {/* dropdown-header */}
       <div onClick={toggleOpenHandler} className='dropdown-header'>
-        <div> {selectedOption || '- Tất cả -'}</div>
+        <div> {selectedOption}</div>
         <i class='fa fa-chevron-down arrow-expand'></i>
       </div>
       {props.required && errorText && (
         <div className='custom-select__error-text'>{errorText}</div>
       )}
+
+      {/* dropdown-list */}
       {isOpen && renderOptionList()}
     </div>
   );
 }
+
+export default React.memo(CustomSelect);

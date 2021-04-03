@@ -25,7 +25,7 @@ import Select from '../../shared/components/FormElement/Select';
 import InputArrTrailer from '../../shared/components/FormElement/InputArr';
 import DatePicker from '../../shared/components/DatePicker/DatePicker';
 
-import { GENRES_LIST, NATION_LIST } from '../../shared/util/config';
+// import { GENRES_LIST, NATION_LIST } from '../../shared/util/config';
 
 export default function AddMoviePage() {
   const { formState, inputHandler, setFormData, selectHandler } = useForm(
@@ -176,7 +176,7 @@ export default function AddMoviePage() {
             required
             id='genres'
             onSelect={selectHandler}
-            options={GENRES_LIST}
+            // options={GENRES_LIST}
             label='Thể loại'
             onChange={() => {}}
           />
@@ -185,7 +185,7 @@ export default function AddMoviePage() {
             required
             id='nation'
             onSelect={selectHandler}
-            options={NATION_LIST}
+            // options={NATION_LIST}
             label='Quốc gia'
             onChange={() => {}}
           />

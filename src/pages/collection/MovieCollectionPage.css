@@ -1,5 +1,7 @@
 .movie-collection {
-  margin-top: 4rem;
+  padding-top: 4rem;
+  margin: auto;
+  width: 90%;
 }
 
 .movie-collection__title {

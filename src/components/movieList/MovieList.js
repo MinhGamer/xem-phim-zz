@@ -11,7 +11,7 @@ import {
 } from '../../shared/util/config';
 import Button from '../../shared/components/UI/Button';
 
-export default function MovieList(props) {
+function MovieList(props) {
   const { movies, type, clickMovieHandler } = props;
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -146,3 +146,5 @@ export default function MovieList(props) {
     </>
   );
 }
+
+export default React.memo(MovieList);

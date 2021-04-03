@@ -69,24 +69,25 @@ export default function HomePage() {
   //when location search change
   useEffect(() => {
     const fetchFilterMovies = async () => {
-      console.log(historySearch);
       const filteredMovies = await filterMovies('movie', historySearch, 3);
 
+      //if location pathname had query with_companies
       if (historySearch.includes('with_companies')) {
+        //1/ get company Id
         const parseFilterTerm = convertQueryToFilter(historySearch);
 
         const companyId = parseFilterTerm.with_companies;
 
+        //2/ send to db to fecth company
         const companyData = await fetchProductionCompany(companyId);
 
-        console.log(companyData);
         setProductionCompany(companyData);
       }
 
       setMovies(filteredMovies);
     };
 
-    fetchFilterMovies();
+    // fetchFilterMovies();
 
     const updateFilterTerm = convertQueryToFilter(historySearch);
 
@@ -145,6 +146,11 @@ export default function HomePage() {
       filterUpdate[type] = value;
     }
 
+    //if user select all => set filter for that field is empty
+    if (value === 'all') {
+      filterUpdate[type] = '';
+    }
+
     const query = covertFilterToQuery(filterUpdate);
 
     history.push({
@@ -155,15 +161,34 @@ export default function HomePage() {
     setFilterTerm((prev) => ({ ...prev, ...filterUpdate }));
   };
 
-  const memoFilter = useMemo(
-    () => <MovieFilter filterTerm={filterTerm} filterHandler={filterHandler} />,
-    [filterTerm]
+  const renderCompany = () => (
+    <div className='filter-production-company'>
+      <div className='filter-production-company__content'>
+        <span> Phim được sản xuất bởi </span>
+        <a
+          rel='noreferrer'
+          target='_blank'
+          href={productionCompany.homepage}
+          className='filter-production-company__name'>
+          {productionCompany.name}
+        </a>
+      </div>
+      <span
+        onClick={() =>
+          history.push(
+            `/${historySearch.replace(
+              `with_companies=${filterTerm.with_companies}`,
+              ''
+            )}`
+          )
+        }
+        className='filter-production-company--close'>
+        <i class='fa fa-times'></i>
+      </span>
+    </div>
   );
 
-  const memeMovieList = useMemo(
-    () => <MovieList type='movie' movies={movies} />,
-    [movies]
-  );
+  console.log('Homepage render');
 
   return (
     <div className='home-page'>
@@ -171,36 +196,13 @@ export default function HomePage() {
 
       {isLoading && <LoadingSpinner asOverlay />}
 
-      {memoFilter}
+      <MovieFilter filterTerm={filterTerm} filterHandler={filterHandler} />
 
-      {filterTerm.with_companies && productionCompany && (
-        <div className='filter-production-company'>
-          <div className='filter-production-company__content'>
-            <span> Phim được sản xuất bởi </span>
-            <a
-              rel='noreferrer'
-              target='_blank'
-              href={productionCompany.homepage}
-              className='filter-production-company__name'>
-              {productionCompany.name}
-            </a>
-          </div>
-          <span
-            onClick={() =>
-              history.push(
-                `/${historySearch.replace(
-                  `with_companies=${filterTerm.with_companies}`,
-                  ''
-                )}`
-              )
-            }
-            className='filter-production-company--close'>
-            <i class='fa fa-times'></i>
-          </span>
-        </div>
+      {filterTerm.with_companies && productionCompany && renderCompany()}
+
+      {!isLoading && movies.length > 0 && (
+        <MovieList type='movie' movies={movies} />
       )}
-
-      {!isLoading && movies.length > 0 && memeMovieList}
     </div>
   );
 }

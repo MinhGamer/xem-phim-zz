@@ -491,23 +491,34 @@ export default function useHttp() {
 
   const fetchMoviesByIdList = useCallback(async (idList) => {
     setIsLoading(true);
-    console.log(idList);
+
+    // idList = {
+    //   527774: { isDone: true },
+    //   587807: { isDone: false },
+    //   791373: { isDone: true },
+    // };
+
+    const transFormedIdList = Object.keys(idList);
+    // transFormedIdList =["527774", "587807", "791373"]
+
     try {
       const urlList = [];
 
-      for (let i = 0; i < idList.length; i++) {
-        const url = `${API_MOVIE}/movie/${idList[i]}?api_key=${API_KEY}&language=vi`;
+      for (let i = 0; i < transFormedIdList.length; i++) {
+        const url = `${API_MOVIE}/movie/${transFormedIdList[i]}?api_key=${API_KEY}&language=vi`;
 
-        const res = await fetch(url);
-
-        const resData = await res.json();
-
-        urlList.push(resData);
+        urlList.push(fetch(url));
       }
+
+      const resList = await Promise.all(urlList);
+
+      const resData = await Promise.all(resList.map((res) => res.json()));
 
       setIsLoading(false);
 
-      return urlList;
+      console.log(resData);
+
+      return resData;
     } catch (err) {
       setIsLoading(false);
       setError(err.message);

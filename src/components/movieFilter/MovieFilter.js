@@ -12,8 +12,10 @@ import {
   SORT,
 } from '../../shared/util/config';
 
-export default function MovieFilter(props) {
+function MovieFilter(props) {
   const { filterHandler, filterTerm } = props;
+
+  console.log('Filter render');
 
   return (
     <div className='movie-filter'>
@@ -73,3 +75,5 @@ export default function MovieFilter(props) {
     </div>
   );
 }
+
+export default React.memo(MovieFilter);
