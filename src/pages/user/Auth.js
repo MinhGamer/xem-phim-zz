@@ -15,19 +15,19 @@ import ErrorModal from '../../shared/components/UI/ErrorModal';
 
 import { AuthContext } from '../../shared/context/AuthContext';
 
+import refreshToken from '../../shared/util/refreshToken';
+
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from '../../shared/util/validators';
 
-import { LOCAL_STORAGE_KEY, OAUTH_CLIENT_KEY } from '../../shared/util/config';
+import { OAUTH_CLIENT_KEY } from '../../shared/util/config';
 
 import './Auth.css';
 
 export default function Auth() {
-  const googleLoginRef = useRef();
-
   const auth = useContext(AuthContext);
 
   const history = useHistory();
@@ -92,8 +92,26 @@ export default function Auth() {
   //   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(token));
   // };
 
-  const responseGoogle = (response) => {
-    // console.log(response);
+  const onLoginGoogleSuccess = async (res) => {
+    console.log('Login Success: currentUser:', res);
+
+    const { tokenId } = res;
+    //after sign-in with google
+    //-> send to back-end to login to fetch user movie list
+
+    const { token, user } = await sendUser('user/g-login', 'POST', null, {
+      Authorization: 'Bearer ' + tokenId,
+    });
+
+    console.log(token, user);
+
+    auth.login(tokenId, user);
+
+    refreshToken(res);
+  };
+
+  const onLoginGoogleFail = (res) => {
+    console.log('Login failed: res:', res);
   };
 
   //change from signup to login and vice-versa
@@ -200,8 +218,8 @@ export default function Auth() {
             )}
             clientId={OAUTH_CLIENT_KEY}
             buttonText='Login'
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
+            onSuccess={onLoginGoogleSuccess}
+            onFailure={onLoginGoogleFail}
             cookiePolicy={'single_host_origin'}
           />
         </form>
