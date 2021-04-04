@@ -7,7 +7,6 @@ import MovieItem from '../movieItem/MovieItem';
 import './SimilarMovies.css';
 
 function SimilarMovies(props) {
-  const history = useHistory();
   console.log(props.movies);
 
   return (

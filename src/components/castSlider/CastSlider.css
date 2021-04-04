@@ -37,3 +37,10 @@
   font-weight: 500;
   color: #7a7a7a;
 }
+
+@media screen and (max-width: 1216px) {
+  .cast-slider-item img {
+    width: 100px;
+    height: 100px;
+  }
+}

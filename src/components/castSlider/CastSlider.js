@@ -18,6 +18,20 @@ function CastSlider(props) {
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 2,
+    responsive: [
+      {
+        breakpoint: 1216,
+        settings: {
+          slidesToShow: 4,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 4,
+        },
+      },
+    ],
   };
 
   const gotoPersonPage = (personId) => {

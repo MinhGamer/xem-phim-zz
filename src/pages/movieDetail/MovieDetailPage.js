@@ -130,16 +130,18 @@ function MovieDetailPage() {
             {/* content */}
             <div className='movie-detail__content'>
               <div className='movie-detail__image'>
-                <MoviePoster
-                  onClick={() => setMovieImages(true)}
-                  poster_path={movie.poster_path}
-                  alt={movie.original_title}
-                />
+                <div className='movie-detail__poster'>
+                  <MoviePoster
+                    onClick={() => setMovieImages(true)}
+                    poster_path={movie.poster_path}
+                    alt={movie.original_title}
+                  />
 
-                <Button isFull isPrimary>
-                  <i class='fa fa-play'></i>
-                  Xem phim
-                </Button>
+                  <Button isFull isPrimary>
+                    <i class='fa fa-play'></i>
+                    Xem phim
+                  </Button>
+                </div>
 
                 {movie.belongs_to_collection && (
                   <div className='movie-detail__collection'>
@@ -175,18 +177,18 @@ function MovieDetailPage() {
                 </div>
               </div>
 
-              {similarMovies && (
-                <div className='movie-detail__similar-movies'>
-                  <SimilarMovies movies={similarMovies} />
-                </div>
-              )}
-
               {movie.seasons && (
                 <div className='movie-detail__seasons'>
                   <MovieSeason movieId={movieId} seasons={movie.seasons} />
                 </div>
               )}
             </div>
+
+            {similarMovies && (
+              <div className='movie-detail__similar-movies'>
+                <SimilarMovies movies={similarMovies} />
+              </div>
+            )}
           </div>
         </>
       )}

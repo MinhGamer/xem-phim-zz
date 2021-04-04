@@ -17,7 +17,9 @@ function MovieBelongToCollection(props) {
   return (
     belongs_to_collection && (
       <div className='movie-belong-to-collection'>
-        <h2> Phim này nằm trong bộ series:</h2>
+        <h2 className='movie-belong-to-collection--title'>
+          Phim này nằm trong bộ series:
+        </h2>
         <MoviePoster
           onClick={gotoSeriesPage}
           poster_path={belongs_to_collection.poster_path}

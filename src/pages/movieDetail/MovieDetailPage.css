@@ -37,7 +37,7 @@
 /* movie image */
 
 .movie-detail__image {
-  width: 23%;
+  width: 308px;
   top: 0;
   left: 0;
 }
@@ -145,6 +145,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .movie-detail__share {
@@ -166,9 +167,6 @@
 .movie-detail__share--facebook .fa-facebook {
   margin-right: 1rem;
   font-size: 1.3rem;
-}
-
-.movie-detail__share--bookmark {
 }
 
 .movie-detail__share--bookmark .fa-bookmark {
@@ -270,4 +268,56 @@
 
 .movie-detail__similar-movies {
   width: 100%;
+}
+
+@media screen and (max-width: 1216px) {
+  .movie-detail__image {
+    width: 250px;
+  }
+  .movie-detail__genres {
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 1016px) {
+  .movie-detail__info {
+    width: 65%;
+  }
+  .movie-detail__genres {
+    margin-left: 0;
+    width: 100%;
+    text-align: left;
+    margin-top: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 968px) {
+  .movie-detail__info {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .movie-detail__image {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .movie-detail__info {
+    margin-top: 1rem;
+    width: 100%;
+  }
+  .movie-detail__poster {
+    width: 40%;
+  }
+  .movie-detail__collection {
+    width: 40%;
+  }
+  .movie-detail__sub-info {
+    margin-top: 2rem;
+  }
+  .movie-belong-to-collection--title {
+    display: none;
+  }
 }

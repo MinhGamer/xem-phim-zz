@@ -165,7 +165,7 @@ function MovieInfo(props) {
           </span>
         </div>
 
-        <div className='movie-detail__genres text-right'>
+        <div className='movie-detail__genres '>
           {renderGenres(movie.genres)}
         </div>
       </div>
