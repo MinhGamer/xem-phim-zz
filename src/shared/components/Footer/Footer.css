@@ -1,5 +1,6 @@
 .footer-container {
-  width: 90%;
+  width: 100%;
+  padding-top: 2rem;
   margin: auto;
 }
 
@@ -8,6 +9,10 @@
   background-size: contain;
   background-repeat: repeat;
   background-position: center;
+}
+
+.footer-content {
+  width: 90%;
 }
 
 .footer-title {

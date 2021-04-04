@@ -76,6 +76,7 @@ function MovieFilter(props) {
           id='sort'
           options={SORT}
           onSelect={() => {}}
+          className='select-lower-index'
         />
       </div>
     </div>

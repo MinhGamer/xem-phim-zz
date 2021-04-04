@@ -7,10 +7,12 @@
 }
 
 .movie-list .pagination {
-  width: 100%;
+  margin-top: 1rem;
+  width: 90%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .movie-list .pagination-page {
@@ -44,4 +46,16 @@
   background-color: #428bca;
   border-color: #428bca;
   color: #fff;
+}
+
+@media screen and (max-width: 768px) {
+  .movie-list .pagination {
+    justify-content: center;
+  }
+
+  .pagination-page {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 }

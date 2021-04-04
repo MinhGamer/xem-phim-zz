@@ -75,12 +75,12 @@ function CustomSelect(props) {
   }, []);
 
   return (
-    <div ref={selectRef} className='custom-select'>
+    <div ref={selectRef} className={`custom-select ${props.className}`}>
       {/* label */}
       <div className='custom-select-label'>{label}</div>
 
       {/* dropdown-header */}
-      <div onClick={toggleOpenHandler} className='dropdown-header'>
+      <div onClick={toggleOpenHandler} className={`dropdown-header `}>
         <div> {selectedOption}</div>
         <i class='fa fa-chevron-down arrow-expand'></i>
       </div>

@@ -128,7 +128,7 @@ function MovieList(props) {
           <div className='pagination-page'>{renderPageNumbers(movies)}</div>
 
           {/* next and prev button */}
-          <div>
+          <div className='next-prev-button'>
             <Button
               onClick={prevPage}
               disabled={currentPage === 1}
