@@ -1,9 +1,7 @@
 .movie-list {
-  width: 100%;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
 }
 
 .movie-list .pagination {

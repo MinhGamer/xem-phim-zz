@@ -58,8 +58,7 @@
 }
 
 .movie-detail__collection {
-  width: 85%;
-  margin: auto;
+  margin-top: 2rem;
 }
 
 .movie-detail__collection img {

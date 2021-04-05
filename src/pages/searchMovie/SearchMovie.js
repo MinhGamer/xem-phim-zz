@@ -20,6 +20,8 @@ export default function SearchMovie() {
     if (!term) return;
 
     const data = await searchMovie(term);
+
+    console.log(data);
     setMovies(data.results);
   }, []);
 
@@ -44,6 +46,8 @@ export default function SearchMovie() {
     setQuery(term);
     fetchMovies(term);
   }, [history.location.search, fetchMovies]);
+
+  console.log(movies);
 
   return (
     <div className='search-container'>

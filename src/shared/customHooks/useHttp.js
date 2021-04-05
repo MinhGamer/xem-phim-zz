@@ -173,7 +173,7 @@ export default function useHttp() {
   const fetchSimilarMovies = useCallback(async (movieId, method = 'GET') => {
     setIsLoading(true);
     try {
-      const url = `${API_MOVIE}/movie/${movieId}/recommendations?api_key=${API_KEY}`;
+      const url = `${API_MOVIE}/movie/${movieId}/recommendations?api_key=${API_KEY}&language=vi`;
 
       //make request to api
       const res = await fetch(url, {

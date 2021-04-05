@@ -5,11 +5,11 @@ import { useHistory } from 'react-router-dom';
 
 import Button from '../../shared/components/UI/Button';
 
+import './MovieBelongToCollection.css';
+
 function MovieBelongToCollection(props) {
   const { belongs_to_collection } = props;
   const history = useHistory();
-
-  console.log(belongs_to_collection);
 
   const gotoSeriesPage = () =>
     history.push(`/series/${belongs_to_collection.id}`);
@@ -18,7 +18,7 @@ function MovieBelongToCollection(props) {
     belongs_to_collection && (
       <div className='movie-belong-to-collection'>
         <h2 className='movie-belong-to-collection--title'>
-          Phim này nằm trong bộ series:
+          Phim này nằm trong series
         </h2>
         <MoviePoster
           onClick={gotoSeriesPage}

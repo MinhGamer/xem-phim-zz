@@ -20,7 +20,7 @@ export default function MovieTrailer(props) {
           src={`https://www.youtube.com/embed/${trailer.key}`}
           title='YouTube video player'
           frameborder='0'
-          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+          allow='fullscreen; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
           allowfullscreen></iframe>
       </div>
     </>

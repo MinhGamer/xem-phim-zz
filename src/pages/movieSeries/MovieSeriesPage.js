@@ -36,6 +36,7 @@ export default function MovieSeriesPage() {
   useEffect(() => {
     const fetchSeriesData = async () => {
       let fetchedseries = [];
+
       //if seriesId exist => render series details
       if (seriesId) {
         fetchedseries.push({ id: seriesId });
@@ -44,11 +45,8 @@ export default function MovieSeriesPage() {
         //a list of collection give by db
         fetchedseries = seriesList;
       }
-      console.log(fetchedseries);
 
       const data = await fetchSeries(fetchedseries);
-
-      console.log(data);
 
       setSeries(data);
     };
@@ -80,11 +78,6 @@ export default function MovieSeriesPage() {
             Xem chi tiết
           </Button>
         </div>
-        {/* <p
-          onClick={() => clickMovieHandler(singleSeries.id)}
-          className='series-single-item__name'>
-          {singleSeries.name}
-        </p> */}
       </div>
     );
   };
@@ -120,7 +113,7 @@ export default function MovieSeriesPage() {
             onEntered={() => setShow(false)}
             onExiting={() =>
               window.scrollTo({
-                top: 750,
+                top: 550,
                 behavior: 'smooth',
               })
             }

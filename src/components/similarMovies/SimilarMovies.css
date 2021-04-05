@@ -7,7 +7,8 @@
 
 .similar-movies--title {
   margin-top: 3rem;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
+  padding-left: 4rem;
 }
 
 @media screen and (max-width: 1408px) {

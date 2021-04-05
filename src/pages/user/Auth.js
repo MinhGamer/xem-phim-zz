@@ -56,20 +56,20 @@ export default function Auth() {
 
     if (isLoginMode) {
       //login
-      const user = {
+      const loginedUser = {
         email: email.value,
         password: password.value,
       };
 
-      const { token, logginedUser } = await sendUser(
+      const { token, user } = await sendUser(
         'user/login',
         'POST',
-        JSON.stringify(user)
+        JSON.stringify(loginedUser)
       );
 
-      console.log(token, logginedUser);
+      console.log(token, user);
 
-      auth.login(token, logginedUser);
+      auth.login(token, user);
     } else {
       //sign up
       const newUser = {
@@ -93,8 +93,6 @@ export default function Auth() {
   // };
 
   const onLoginGoogleSuccess = async (res) => {
-    console.log('Login Success: currentUser:', res);
-
     const { tokenId } = res;
     //after sign-in with google
     //-> send to back-end to login to fetch user movie list
