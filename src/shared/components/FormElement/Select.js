@@ -17,8 +17,13 @@ function CustomSelect(props) {
     }
 
     //special case for filter by length
+    if (!optionId.max && !optionId.min) {
+      setSelectedOption('- Tất cả -');
+    }
+
     if (optionId.max || optionId.min) {
       const index = options.findIndex((opt) => opt.id.max === optionId.max);
+
       setSelectedOption(options[index].name);
     }
 

@@ -94,8 +94,6 @@ function MovieDetailPage() {
     //movie or tv
   }, [history.location.pathname]);
 
-  console.log(auth.user);
-
   return (
     <>
       {/* show trailer with backdrop */}

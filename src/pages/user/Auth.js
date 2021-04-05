@@ -93,17 +93,17 @@ export default function Auth() {
   // };
 
   const onLoginGoogleSuccess = async (res) => {
+    //token from google sign-in
     const { tokenId } = res;
     //after sign-in with google
     //-> send to back-end to login to fetch user movie list
 
+    //token from firebase
     const { token, user } = await sendUser('user/g-login', 'POST', null, {
       Authorization: 'Bearer ' + tokenId,
     });
 
-    console.log(token, user);
-
-    auth.login(tokenId, user);
+    auth.login(token, user);
 
     refreshToken(res);
   };

@@ -30,8 +30,6 @@ function MovieInfo(props) {
       minutes = null;
     }
 
-    console.log(type);
-
     return `${hours ? `${hours} giờ` : ''}  ${
       minutes ? `${minutes} phút` : ''
     } ${type === 'tv' ? '/tập' : ''}`;
@@ -86,6 +84,9 @@ function MovieInfo(props) {
   const gotoPersonPage = (personId) => {
     history.push(`/person/${personId}`);
   };
+
+  console.log(auth.user);
+  console.log(auth.token);
 
   const clickCollectionHandler = async (movieIsDone) => {
     //when movie go to collection

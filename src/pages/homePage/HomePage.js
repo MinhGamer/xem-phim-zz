@@ -116,10 +116,14 @@ export default function HomePage() {
       `&primary_release_year=${filter.primary_release_year}`;
 
     //length greater than
-    const lengthMin = filter.min && `&with_runtime.gte=${filter.min}`;
+    const lengthMin =
+      filter['with_runtime.gte'] &&
+      `&with_runtime.gte=${filter['with_runtime.gte']}`;
 
     //length less than
-    const lengthMax = filter.max && `&with_runtime.lte=${filter.max}`;
+    const lengthMax =
+      filter['with_runtime.lte'] &&
+      `&with_runtime.lte=${filter['with_runtime.lte']}`;
 
     //sort descending
     const sort = filter.sort_by && `&sort_by=${filter.sort_by}`;
@@ -147,9 +151,9 @@ export default function HomePage() {
     console.log(type, value);
 
     if (type === 'length') {
-      filterUpdate.max = value.max;
+      filterUpdate['with_runtime.lte'] = value.max;
 
-      filterUpdate.min = value.min;
+      filterUpdate['with_runtime.gte'] = value.min;
     } else {
       filterUpdate[type] = value;
     }
