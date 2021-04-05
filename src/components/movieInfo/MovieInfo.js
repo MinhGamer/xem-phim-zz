@@ -18,19 +18,24 @@ function MovieInfo(props) {
 
   const auth = useContext(AuthContext);
 
-  const convertMovieLength = useCallback(
-    (runtime) => {
-      const minutes = +runtime % 60;
-      const hours = Math.floor(+runtime / 60);
+  const convertMovieLength = useCallback((runtime) => {
+    let minutes = +runtime % 60;
+    let hours = Math.floor(+runtime / 60);
 
-      if (hours <= 0 && type === 'tv') {
-        return `${minutes} phút / tập`;
-      }
+    if (hours <= 0) {
+      hours = null;
+    }
 
-      return `${hours} giờ ${minutes} phút`;
-    },
-    [movieId]
-  );
+    if (minutes === 0) {
+      minutes = null;
+    }
+
+    console.log(type);
+
+    return `${hours ? `${hours} giờ` : ''}  ${
+      minutes ? `${minutes} phút` : ''
+    } ${type === 'tv' ? '/tập' : ''}`;
+  }, []);
 
   const gotoHomePageToFilter = (type, value) => {
     switch (type) {

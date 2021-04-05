@@ -16,12 +16,14 @@ function CustomSelect(props) {
       setSelectedOption('- Tất cả -');
     }
 
-    console.log(optionId);
+    //special case for filter by length
+    if (optionId.max || optionId.min) {
+      const index = options.findIndex((opt) => opt.id.max === optionId.max);
+      setSelectedOption(options[index].name);
+    }
 
     const index = options.findIndex((opt) => opt.id === optionId);
-
     if (index === -1) return;
-
     setSelectedOption(options[index].name);
   }, [optionId, options]);
 

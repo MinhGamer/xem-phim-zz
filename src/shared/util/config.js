@@ -240,6 +240,7 @@ export const LENGTH = [
   },
   {
     id: {
+      min: '',
       max: '60',
     },
     name: 'Dưới 1 tiếng',
@@ -268,6 +269,7 @@ export const LENGTH = [
   {
     id: {
       min: '150',
+      max: '',
     },
     name: 'Trên 2.5 tiếng',
   },
@@ -279,15 +281,15 @@ export const SORT = [
     name: '- Tất cả -',
   },
   {
-    id: 'popularity',
+    id: 'popularity.desc',
     name: 'Phổ biến',
   },
   {
-    id: 'vote_count',
+    id: 'vote_count.desc',
     name: 'Đánh giá',
   },
   {
-    id: 'revenue',
+    id: 'revenue.desc',
     name: 'Doanh thu',
   },
 ];

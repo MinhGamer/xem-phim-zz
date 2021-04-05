@@ -31,8 +31,6 @@ export default function MovieItem(props) {
     history.push(`/${type}/${id}`);
   };
 
-  console.log(poster_path);
-
   return (
     <>
       {poster_path && (

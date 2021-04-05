@@ -21,7 +21,7 @@ function MovieFilter(props) {
 
   const memoRELEASE_YEAR = useMemo(() => RELEASE_YEAR, []);
 
-  console.log('Filter render');
+  console.log(filterTerm);
 
   return (
     <div className='movie-filter'>
@@ -64,7 +64,10 @@ function MovieFilter(props) {
           label={'Thời lượng: '}
           id='length'
           options={LENGTH}
-          // optionId={filterTerm.primary_release_year}
+          optionId={{
+            max: filterTerm['with_runtime.lte'],
+            min: filterTerm['with_runtime.gte'],
+          }}
           onSelect={() => {}}
         />
       </div>
@@ -73,9 +76,10 @@ function MovieFilter(props) {
         <Select
           onChange={filterHandler}
           label={'Sắp xếp: '}
-          id='sort'
+          id='sort_by'
           options={SORT}
           onSelect={() => {}}
+          optionId={filterTerm.sort_by}
           className='select-lower-index'
         />
       </div>

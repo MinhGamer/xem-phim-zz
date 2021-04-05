@@ -37,7 +37,7 @@ export default function HomePage() {
     primary_release_year: '', //string
     'with_runtime.lte': '', //string
     'with_runtime.gte': '', //string
-    sort: '',
+    sort_by: '',
   });
 
   //re-render 2 times
@@ -55,7 +55,7 @@ export default function HomePage() {
       primary_release_year: '',
       'with_runtime.lte': '',
       'with_runtime.gte': '',
-      sort: '',
+      sort_by: '',
     };
 
     myQuery.forEach((queryItem) => {
@@ -95,6 +95,8 @@ export default function HomePage() {
 
     const updateFilterTerm = convertQueryToFilter(historySearch);
 
+    console.log(updateFilterTerm);
+
     setFilterTerm(updateFilterTerm);
   }, [historySearch]);
 
@@ -120,7 +122,7 @@ export default function HomePage() {
     const lengthMax = filter.max && `&with_runtime.lte=${filter.max}`;
 
     //sort descending
-    const sort = filter.sort && `&sort_by=${filter.sort}.desc`;
+    const sort = filter.sort_by && `&sort_by=${filter.sort_by}`;
 
     let filterCombied = [
       genres,
@@ -142,6 +144,8 @@ export default function HomePage() {
   const filterHandler = (type, value) => {
     const filterUpdate = { ...filterTerm };
 
+    console.log(type, value);
+
     if (type === 'length') {
       filterUpdate.max = value.max;
 
@@ -155,7 +159,11 @@ export default function HomePage() {
       filterUpdate[type] = '';
     }
 
+    console.log(filterUpdate);
+
     const query = covertFilterToQuery(filterUpdate);
+
+    console.log(query);
 
     history.push({
       pathname: '/',
