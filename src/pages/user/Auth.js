@@ -67,7 +67,7 @@ export default function Auth() {
         JSON.stringify(loginedUser)
       );
 
-      console.log(token, user);
+      console.log(user);
 
       auth.login(token, user);
     } else {
@@ -78,13 +78,15 @@ export default function Auth() {
         name: formState.inputs.name.value,
       };
 
-      const token = await sendRequest(
+      const { token, user } = await sendUser(
         'user/signup',
         'POST',
         JSON.stringify(newUser)
       );
 
-      auth.login(newUser.email, token);
+      console.log({ token, user });
+
+      auth.login(token, user);
     }
   };
 

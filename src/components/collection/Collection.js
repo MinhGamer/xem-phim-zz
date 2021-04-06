@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import './Collection.css';
 
@@ -39,7 +39,7 @@ export default function Collection(props) {
         {/* user click "Đã xem" */}
         {status && status.isDone && (
           <>
-            <i class='fa fa-check movie-is-done'></i>
+            <i class='fa fa-check '></i>
             <span>Đã xem</span>
           </>
         )}
@@ -70,13 +70,13 @@ export default function Collection(props) {
 
                 <p
                   //arg: movieIsDone
-                  onClick={() => props.onClick(true)}
+                  onClick={() => props.onClick('addDone')}
                   className='collection-dropdown--item '>
                   Thêm vào danh sách <span>Đã xem</span>
                 </p>
                 <p
                   //arg: movieIsDone
-                  onClick={() => props.onClick(false)}
+                  onClick={() => props.onClick('addFavorited')}
                   className='collection-dropdown--item'>
                   Thêm vào danh sách <span>Muốn xem</span>
                 </p>
@@ -85,6 +85,15 @@ export default function Collection(props) {
           </div>
         )}
       </span>
+
+      {isLoggedIn && status && (
+        <span
+          onClick={() => props.onClick('delete')}
+          className={`collection-header collection-delete`}>
+          <i class='fa fa-trash '></i>
+          <span>Xóa khỏi danh sách</span>
+        </span>
+      )}
     </>
   );
 }

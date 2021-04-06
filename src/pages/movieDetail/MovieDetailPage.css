@@ -139,16 +139,16 @@
   margin-right: 0.5rem;
 }
 
-.movie-detail__wrap-share-genres {
+/* .movie-detail__wrap-share-genres {
   margin-top: 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-}
+} */
 
 .movie-detail__share {
-  display: inline-block;
+  margin-top: 1rem;
 }
 
 .movie-detail__share span {
@@ -160,7 +160,6 @@
 .movie-detail__share--facebook {
   background-color: rgba(50, 115, 220, 0.93);
   border-color: transparent;
-  margin-right: 1rem;
 }
 
 .movie-detail__share--facebook .fa-facebook {
@@ -174,9 +173,8 @@
 }
 
 .movie-detail__genres {
+  margin-top: 1rem;
   text-align: right;
-  display: inline-block;
-  margin-left: 10%;
 }
 
 .movie-detail__genres--item {

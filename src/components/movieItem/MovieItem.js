@@ -21,7 +21,7 @@ export default function MovieItem(props) {
     backdrop_path,
   } = props.movie;
 
-  const { type, clickMovieHandler } = props;
+  const { type, clickMovieHandler, isAlreadyWatchced, isEdit } = props;
 
   const history = useHistory();
 
@@ -29,6 +29,21 @@ export default function MovieItem(props) {
 
   const gotoMovieDetailPage = () => {
     history.push(`/${type}/${id}`);
+  };
+
+  const onClickMovieHandler = () => {
+    if (type === 'series') {
+      return clickMovieHandler(id);
+    }
+
+    //default behavior
+    return gotoMovieDetailPage();
+  };
+
+  const onClickMovieEdit = (e, action) => {
+    e.stopPropagation();
+
+    clickMovieHandler(id, action);
   };
 
   return (
@@ -42,17 +57,43 @@ export default function MovieItem(props) {
           placeholder={<LoadingSpinner />}
           className='movie-item'>
           <div
-            onClick={
-              type === 'series'
-                ? () => clickMovieHandler(id)
-                : gotoMovieDetailPage
-            }
+            onClick={() => onClickMovieHandler()}
             className='movie-item__image'>
+            {isEdit && (
+              <div className='movie-item__edit'>
+                {isAlreadyWatchced && (
+                  <div
+                    onClick={(e) => onClickMovieEdit(e, 'addFavorited')}
+                    className='collection-wishlist'>
+                    <i class='fa fa-eye '></i>
+                    <span>Muốn xem lại</span>
+                  </div>
+                )}
+
+                {!isAlreadyWatchced && (
+                  <div
+                    onClick={(e) => onClickMovieEdit(e, 'addDone')}
+                    className='collection-done'>
+                    <i class='fa fa-check '></i>
+                    <span>Đã xem xong</span>
+                  </div>
+                )}
+
+                <div
+                  onClick={(e) => onClickMovieEdit(e, 'delete')}
+                  className='collection-delete'>
+                  <i class='fa fa-trash '></i>
+                  <span>Xoá</span>
+                </div>
+              </div>
+            )}
+
             <img src={imageUrl} alt={original_title} />
             <div className='movie-item__play-icon'>
-              <i className='fa fa-play '></i>
+              {!isEdit && <i className='fa fa-play '></i>}
             </div>
           </div>
+
           <p className='movie-item__title--vn'>{title || name}</p>
           {!props.noVnTitle && (
             <p className='movie-item__title--eng'>

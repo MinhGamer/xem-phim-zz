@@ -9,6 +9,7 @@ import useHttp from '../../shared/customHooks/useHttp';
 import { AuthContext } from '../../shared/context/AuthContext';
 
 import Collection from '../collection/Collection';
+import { act } from 'react-dom/test-utils';
 
 function MovieInfo(props) {
   const { movie, movieId } = props;
@@ -85,25 +86,31 @@ function MovieInfo(props) {
     history.push(`/person/${personId}`);
   };
 
-  console.log(auth.user);
-  console.log(auth.token);
-
-  const clickCollectionHandler = async (movieIsDone) => {
+  const clickCollectionHandler = async (action) => {
     //when movie go to collection
     // colletec: array = [
     //  1771: {isDone: true}, => finish list
     // 527774: {isDone: false} => wishlist
     // ]
 
-    auth.user.collection[movieId] = { isDone: movieIsDone };
+    const { collection } = auth.user;
 
-    const updateMovie = {
-      [movieId]: { isDone: movieIsDone },
-    };
+    if (action === 'addFavorited' || action === 'addDone') {
+      collection[movieId] = { isDone: action === 'addDone' ? true : false };
+    }
 
-    const data = await sendUser('user', 'PATCH', JSON.stringify(updateMovie), {
-      Authorization: 'Bearer ' + auth.token,
-    });
+    if (action === 'delete') {
+      delete collection[movieId];
+    }
+
+    const data = await sendUser(
+      'user',
+      'PATCH',
+      JSON.stringify({ collection }),
+      {
+        Authorization: 'Bearer ' + auth.token,
+      }
+    );
     console.log(data);
   };
 
@@ -156,25 +163,21 @@ function MovieInfo(props) {
         {movie.vote_average}
       </div>
 
-      <div className='movie-detail__wrap-share-genres'>
-        <div className='movie-detail__share'>
-          <span className='movie-detail__share--facebook'>
-            <i className='fab fa-facebook'></i>
-            Chia sẻ
-          </span>
-          <span className='movie-detail__share--bookmark'>
-            <Collection
-              isLoggedIn={auth.isLoggedIn}
-              status={(auth.user && auth.user.collection[movieId]) || null}
-              onClick={clickCollectionHandler}
-            />
-          </span>
-        </div>
-
-        <div className='movie-detail__genres '>
-          {renderGenres(movie.genres)}
-        </div>
+      <div className='movie-detail__share'>
+        <span className='movie-detail__share--facebook'>
+          <i className='fab fa-facebook'></i>
+          Chia sẻ
+        </span>
+        <span className='movie-detail__share--bookmark'>
+          <Collection
+            isLoggedIn={auth.isLoggedIn}
+            status={(auth.user && auth.user.collection[movieId]) || null}
+            onClick={clickCollectionHandler}
+          />
+        </span>
       </div>
+
+      <div className='movie-detail__genres '>{renderGenres(movie.genres)}</div>
 
       <div className='movie-detail__sub-info'>
         <p>

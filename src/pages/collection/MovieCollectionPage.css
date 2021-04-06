@@ -1,7 +1,11 @@
 .movie-collection {
   padding-top: 4rem;
-  margin: auto;
-  width: 90%;
+}
+
+.movie-collection-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .movie-collection__title {
