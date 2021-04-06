@@ -49,7 +49,7 @@ export default function MovieItem(props) {
   };
 
   const renderMovie = () => (
-    <div className='movie-item'>
+    <div className={`${!isEdit ? '' : 'movie-item'}`}>
       <div onClick={() => onClickMovieHandler()} className='movie-item__image'>
         {isEdit && (
           <div className='movie-item__edit'>

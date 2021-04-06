@@ -144,8 +144,6 @@ export default function MovieCollectionPage() {
       );
     }
 
-    console.log(deleteMovie);
-
     return _collection.map((movie) => (
       <>
         {activeId === movie.id && !deleteMovie && (
@@ -201,10 +199,6 @@ export default function MovieCollectionPage() {
   return (
     <div className='movie-collection'>
       {error && <ErrorModal error={error} clearError={clearError} />}
-
-      <Button onClick={() => setActiveMovie(!activeMovie)} isPrimary>
-        SHow
-      </Button>
 
       <h1 className='text-center'>Bộ sưu tập phim của bạn</h1>
 

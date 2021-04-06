@@ -23,7 +23,7 @@ import {
   VALIDATOR_REQUIRE,
 } from '../../shared/util/validators';
 
-import { OAUTH_CLIENT_KEY } from '../../shared/util/config';
+import { LOCAL_STORAGE_KEY, OAUTH_CLIENT_KEY } from '../../shared/util/config';
 
 import './Auth.css';
 
@@ -106,6 +106,8 @@ export default function Auth() {
     });
 
     auth.login(token, user);
+
+    localStorage.setItem(LOCAL_STORAGE_KEY, tokenId);
 
     refreshToken(res);
   };

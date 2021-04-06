@@ -9,6 +9,7 @@
 .collection-normal {
   background-color: #23d160;
   border: 1px solid #23d160;
+  transition: all 0.3s;
 }
 
 .collection-normal:hover {
@@ -20,11 +21,27 @@
 .collection-wishlist {
   background-color: #ffdd57;
   color: rgba(0, 0, 0, 0.7);
+  border: 1px solid #ffdd57;
+  transition: all 0.3s;
+}
+
+.collection-wishlist:hover {
+  color: #ffdd57;
+  background-color: transparent;
+  border: 1px solid #ffdd57;
 }
 
 .collection-done {
   background-color: #3273dc;
   color: #fff;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+}
+
+.collection-done:hover {
+  color: #3273dc;
+  background-color: transparent;
+  border: 1px solid #3273dc;
 }
 
 .collection-delete {
@@ -32,6 +49,7 @@
   background-color: #ff4b2b;
   color: #fff;
   border: 1px solid #ff4b2b;
+  transition: all 0.3s;
 }
 
 .collection-delete:hover {

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
@@ -8,13 +8,37 @@ import Button from '../UI/Button';
 
 import { AuthContext } from '../../context/AuthContext';
 
+import { LOCAL_STORAGE_KEY } from '../../util/config';
+
 import logo from '../../../assets/image/logo-full.png';
 import HeaderDropdown from './HeaderDropdown/HeaderDropdown';
+
+import useHttp from '../../customHooks/useHttp';
 
 export default function Header() {
   const [showDropdown, setShowDropdown] = useState(false);
   const auth = useContext(AuthContext);
   const [changeNavbarColor, setChangeNavbarColor] = useState(false);
+  const { sendUser } = useHttp();
+
+  useEffect(() => {
+    const loginUser = async () => {
+      const tokenId = localStorage.getItem(LOCAL_STORAGE_KEY);
+
+      // console.log(sendToken);
+
+      if (!tokenId) return;
+
+      const { token, user } = await sendUser('user/g-login', 'POST', null, {
+        Authorization: 'Bearer ' + tokenId,
+      });
+
+      console.log(token, user);
+      auth.login(token, user);
+    };
+
+    loginUser();
+  }, []);
 
   const renderLogin = () => {
     return (
