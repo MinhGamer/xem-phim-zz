@@ -22,3 +22,43 @@
   display: flex;
   align-items: center;
 }
+
+.movie-collection--whislist {
+  color: #ffdd57;
+}
+
+.movie-collection--finish {
+  color: #3273dc;
+}
+
+.movie-collection__no-movies {
+  color: #000;
+  background-color: #fff;
+  border-radius: 5px;
+  font-size: 1.3rem;
+  padding: 0.3rem 0.7rem;
+}
+
+/* appear */
+
+.fade-on-top-enter {
+  opacity: 0;
+  transform: translateY(-3rem);
+}
+
+.fade-on-top-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 1s;
+}
+
+.fade-on-top-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-on-top-exit-active {
+  opacity: 1;
+  transition: all 1s;
+  transform: translateY(-3rem);
+}

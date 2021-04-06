@@ -46,9 +46,55 @@ export default function MovieItem(props) {
     clickMovieHandler(id, action);
   };
 
+  const renderMovie = () => (
+    <div className='movie-item'>
+      <div onClick={() => onClickMovieHandler()} className='movie-item__image'>
+        {isEdit && (
+          <div className='movie-item__edit'>
+            {isAlreadyWatchced && (
+              <div
+                onClick={(e) => onClickMovieEdit(e, 'addFavorited')}
+                className='collection-wishlist'>
+                <i class='fa fa-eye '></i>
+                <span>Muốn xem lại</span>
+              </div>
+            )}
+
+            {!isAlreadyWatchced && (
+              <div
+                onClick={(e) => onClickMovieEdit(e, 'addDone')}
+                className='collection-done'>
+                <i class='fa fa-check '></i>
+                <span>Đã xem xong</span>
+              </div>
+            )}
+
+            <div
+              onClick={(e) => onClickMovieEdit(e, 'delete')}
+              className='collection-delete'>
+              <i class='fa fa-trash '></i>
+              <span>Xoá</span>
+            </div>
+          </div>
+        )}
+
+        <img src={imageUrl} alt={original_title} />
+        <div className='movie-item__play-icon'>
+          {!isEdit && <i className='fa fa-play '></i>}
+        </div>
+      </div>
+      <p className='movie-item__title--vn'>{title || name}</p>
+      {!props.noVnTitle && (
+        <p className='movie-item__title--eng'>
+          {original_title || original_name}
+        </p>
+      )}
+    </div>
+  );
+
   return (
     <>
-      {poster_path && (
+      {poster_path && !isEdit && (
         <LazyLoad
           once
           offset={[-100, -200]}
@@ -56,52 +102,11 @@ export default function MovieItem(props) {
           key={id}
           placeholder={<LoadingSpinner />}
           className='movie-item'>
-          <div
-            onClick={() => onClickMovieHandler()}
-            className='movie-item__image'>
-            {isEdit && (
-              <div className='movie-item__edit'>
-                {isAlreadyWatchced && (
-                  <div
-                    onClick={(e) => onClickMovieEdit(e, 'addFavorited')}
-                    className='collection-wishlist'>
-                    <i class='fa fa-eye '></i>
-                    <span>Muốn xem lại</span>
-                  </div>
-                )}
-
-                {!isAlreadyWatchced && (
-                  <div
-                    onClick={(e) => onClickMovieEdit(e, 'addDone')}
-                    className='collection-done'>
-                    <i class='fa fa-check '></i>
-                    <span>Đã xem xong</span>
-                  </div>
-                )}
-
-                <div
-                  onClick={(e) => onClickMovieEdit(e, 'delete')}
-                  className='collection-delete'>
-                  <i class='fa fa-trash '></i>
-                  <span>Xoá</span>
-                </div>
-              </div>
-            )}
-
-            <img src={imageUrl} alt={original_title} />
-            <div className='movie-item__play-icon'>
-              {!isEdit && <i className='fa fa-play '></i>}
-            </div>
-          </div>
-
-          <p className='movie-item__title--vn'>{title || name}</p>
-          {!props.noVnTitle && (
-            <p className='movie-item__title--eng'>
-              {original_title || original_name}
-            </p>
-          )}
+          {renderMovie()}
         </LazyLoad>
       )}
+
+      {poster_path && isEdit && renderMovie()}
     </>
   );
 }
