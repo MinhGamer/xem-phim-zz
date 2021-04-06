@@ -21,6 +21,8 @@ export default function MovieItem(props) {
     backdrop_path,
   } = props.movie;
 
+  // console.log('render', title);
+
   const { type, clickMovieHandler, isAlreadyWatchced, isEdit } = props;
 
   const history = useHistory();

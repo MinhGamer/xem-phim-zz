@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 
 import './Collection.css';
 
 export default function Collection(props) {
   const { status, isLoggedIn } = props;
   const [show, setShow] = useState(false);
+  const history = useHistory();
 
   //status === null => user did not login
   //status.isDone === true => user add movie to finish collection
@@ -87,12 +88,21 @@ export default function Collection(props) {
       </span>
 
       {isLoggedIn && status && (
-        <span
-          onClick={() => props.onClick('delete')}
-          className={`collection-header collection-delete`}>
-          <i class='fa fa-trash '></i>
-          <span>Xóa khỏi danh sách</span>
-        </span>
+        <>
+          <span
+            onClick={() => props.onClick('delete')}
+            className={`collection-header collection-delete`}>
+            <i class='fa fa-trash '></i>
+            <span>Xóa khỏi danh sách</span>
+          </span>
+
+          <span
+            onClick={() => history.push(`/collection`)}
+            className='collection-header collection-normal'>
+            <i class='fa fa-arrow-alt-circle-right'></i>
+            <span>Đi tới Bộ sưu tập</span>
+          </span>
+        </>
       )}
     </>
   );

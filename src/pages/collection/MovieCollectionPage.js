@@ -17,7 +17,8 @@ export default function MovieCollectionPage() {
   // const [likedMovies, setLikedMovies] = useState([]);
   const [collection, setCollection] = useState([]);
   const [activeMovie, setActiveMovie] = useState(true);
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeId, setActiveId] = useState(null);
+  const [deleteMovie, setDeleteMovie] = useState(false);
 
   const auth = useContext(AuthContext);
 
@@ -81,15 +82,25 @@ export default function MovieCollectionPage() {
       if (index === -1) return;
 
       renderCollection[index].isDone = !renderCollection[index].isDone;
+
+      setCollection(renderCollection);
     }
 
     if (action === 'delete') {
-      delete authCollection[movieId];
+      // delete authCollection[movieId];
 
-      renderCollection = renderCollection.filter(
-        (movie) => movie.id !== movieId
-      );
+      // renderCollection = renderCollection.filter(
+      //   (movie) => movie.id !== movieId
+      // );
+
+      console.log('delete');
+
+      //movie item enter exit phase
+      //dont' setCollection here
+      setDeleteMovie(true);
     }
+
+    setActiveId(movieId);
 
     // const data = await sendUser(
     //   'user',
@@ -102,17 +113,28 @@ export default function MovieCollectionPage() {
 
     //if update collection success
     //use to render base on the collection in authContent
-
-    setActiveIndex(movieId);
-    // setActiveMovie(true);
-    setCollection(renderCollection);
-    // console.log(data);
   };
 
-  console.log(activeMovie);
+  //when user delete a movie =>
+  //1. animate movie item first
+  //2. then delete from list
+  //-> because if we delete movie Id first there is no movie Id to attach to CSSTransition
+  const deleveMovieHandler = (movieId) => {
+    let renderCollection = [...collection];
 
-  const renderMovies = (collection) => {
-    if (!collection || collection.length === 0) {
+    console.log(movieId);
+
+    renderCollection = renderCollection.filter((movie) => movie.id !== movieId);
+
+    delete auth.user.collection[movieId];
+
+    setActiveId(null);
+    setDeleteMovie(false);
+    setCollection(renderCollection);
+  };
+
+  const renderMovies = (_collection) => {
+    if (!_collection || _collection.length === 0) {
       return (
         !isLoading && (
           <h1 className='movie-collection__no-movies'>
@@ -122,25 +144,47 @@ export default function MovieCollectionPage() {
       );
     }
 
-    return collection.map((movie) => (
-      <>
-        <CSSTransition
-          // onEntered={() => setActiveMovie(false)}
-          in={activeMovie}
-          unmountOnExit
-          timeout={1000}
-          classNames='fade-on-top'>
-          <MovieItem
-            isEdit
-            clickMovieHandler={onClickMovieHandler}
-            isAlreadyWatchced={movie.isDone}
-            type='movie'
-            key={movie.id}
-            movie={movie}
-          />
-        </CSSTransition>
+    console.log(deleteMovie);
 
-        {/* {activeIndex !== movie.id && (
+    return _collection.map((movie) => (
+      <>
+        {activeId === movie.id && !deleteMovie && (
+          <CSSTransition
+            in={true}
+            timeout={800}
+            appear
+            classNames={'fade-on-top'}>
+            <MovieItem
+              isEdit
+              clickMovieHandler={onClickMovieHandler}
+              isAlreadyWatchced={movie.isDone}
+              type='movie'
+              key={movie.id}
+              movie={movie}
+            />
+          </CSSTransition>
+        )}
+
+        {activeId === movie.id && deleteMovie && (
+          <CSSTransition
+            unmountOnExit
+            in={true}
+            timeout={800}
+            appear
+            onEntered={() => deleveMovieHandler(movie.id)}
+            classNames={'fade-on-top--delete'}>
+            <MovieItem
+              isEdit
+              clickMovieHandler={onClickMovieHandler}
+              isAlreadyWatchced={movie.isDone}
+              type='movie'
+              key={movie.id}
+              movie={movie}
+            />
+          </CSSTransition>
+        )}
+
+        {activeId !== movie.id && (
           <MovieItem
             isEdit
             clickMovieHandler={onClickMovieHandler}
@@ -149,7 +193,7 @@ export default function MovieCollectionPage() {
             key={movie.id}
             movie={movie}
           />
-        )} */}
+        )}
       </>
     ));
   };

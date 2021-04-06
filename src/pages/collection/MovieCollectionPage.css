@@ -39,7 +39,18 @@
   padding: 0.3rem 0.7rem;
 }
 
-/* appear */
+/* animation */
+
+.fade-on-top-appear {
+  opacity: 0;
+  transform: translateY(-3rem);
+}
+
+.fade-on-top-appear-active {
+  opacity: 1;
+  transform: translateY(0rem);
+  transition: all 0.8s;
+}
 
 .fade-on-top-enter {
   opacity: 0;
@@ -49,7 +60,7 @@
 .fade-on-top-enter-active {
   opacity: 1;
   transform: translateY(0);
-  transition: all 1s;
+  transition: all 0.8s;
 }
 
 .fade-on-top-exit {
@@ -58,7 +69,19 @@
 }
 
 .fade-on-top-exit-active {
-  opacity: 1;
-  transition: all 1s;
+  opacity: 0;
   transform: translateY(-3rem);
+  transition: all 1s;
+}
+
+/* fade--delete */
+.fade-on-top--delete-appear {
+  opacity: 1;
+  transform: translateY(0rem);
+}
+
+.fade-on-top--delete-appear-active {
+  opacity: 0;
+  transform: translateY(-3rem);
+  transition: all 0.8s;
 }

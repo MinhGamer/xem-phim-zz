@@ -2,10 +2,19 @@
   position: relative;
   border-color: transparent;
   transition: all 0.3s;
+  display: inline-block;
+  margin: 0.5rem;
 }
 
 .collection-normal {
   background-color: #23d160;
+  border: 1px solid #23d160;
+}
+
+.collection-normal:hover {
+  color: #23d160;
+  background-color: transparent;
+  border: 1px solid #23d160;
 }
 
 .collection-wishlist {
@@ -19,11 +28,16 @@
 }
 
 .collection-delete {
-  margin-left: 1rem;
-  margin-top: 1rem;
   display: inline-block;
   background-color: #ff4b2b;
   color: #fff;
+  border: 1px solid #ff4b2b;
+}
+
+.collection-delete:hover {
+  color: #ff4b2b;
+  background-color: transparent;
+  border: 1px solid #ff4b2b;
 }
 
 .collection-dropdown {
