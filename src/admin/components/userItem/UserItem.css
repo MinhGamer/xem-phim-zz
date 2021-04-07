@@ -1,0 +1,30 @@
+.user-item .icon-config {
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+  padding: 0.2rem;
+  text-align: center;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+}
+
+.user-item .icon-delete {
+  background-color: #ff4b2b;
+  margin-right: 0.5rem;
+}
+
+.user-item .icon-delete:hover {
+  background-color: transparent;
+  color: #ff4b2b;
+  border: 1px solid #ff4b2b;
+}
+
+.user-item .icon-edit {
+  background-color: #23d160;
+}
+
+.user-item .icon-edit:hover {
+  background-color: transparent;
+  color: #23d160;
+  border: 1px solid #23d160;
+}

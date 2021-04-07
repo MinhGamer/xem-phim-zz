@@ -2,14 +2,18 @@ import React, { useEffect, useContext, useState } from 'react';
 
 import './AllUser.css';
 
+import { ADMIN_EMAIL } from '../../../shared/util/config';
+
 import { AuthContext } from '../../../shared/context/AuthContext';
 
 import useHttp from '../../../shared/customHooks/useHttp';
 
 import UserItem from '../userItem/UserItem';
 
+import LoadingSpinner from '../../../shared/components/UI/LoadingSpinner';
+
 export default function AllUser() {
-  const { sendUser } = useHttp();
+  const { sendUser, isLoading } = useHttp();
   const [allUser, setAllUser] = useState(null);
   const auth = useContext(AuthContext);
 
@@ -24,28 +28,34 @@ export default function AllUser() {
       setAllUser(data.allUser);
     };
 
-    fetchAllUser();
+    auth.isAdmin && fetchAllUser();
   }, []);
 
   const renderUserItem = () =>
-    Object.values(allUser).map((user) => <UserItem user={user} />);
+    Object.values(allUser).map(
+      (user) => user.email !== ADMIN_EMAIL && <UserItem user={user} />
+    );
 
   return (
-    allUser && (
-      <div className='all-user-container'>
-        <table className='all-user-table'>
-          <thead>
-            <th>Tên</th>
-            <th>Email</th>
-            <th>Ngày tạo</th>
-            <th>Bộ sưu tập</th>
-            <th>Số lượng phim</th>
-            <th></th>
-            <th></th>
-          </thead>
-          <tbody>{renderUserItem()}</tbody>
-        </table>
-      </div>
-    )
+    <>
+      {isLoading && <LoadingSpinner />}
+
+      {allUser && !isLoading && (
+        <div className='all-user-container'>
+          <table className='all-user-table'>
+            <thead>
+              <th className='user-name'>Tên</th>
+              <th className='user-email'>Email</th>
+              <th className='user-create-date'>Ngày tạo</th>
+              <th>Bộ sưu tập</th>
+              <th>Số lượng phim</th>
+              <th></th>
+              <th></th>
+            </thead>
+            <tbody>{renderUserItem()}</tbody>
+          </table>
+        </div>
+      )}
+    </>
   );
 }

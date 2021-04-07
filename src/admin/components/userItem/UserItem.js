@@ -12,13 +12,17 @@ export default function UserItem(props) {
       <td>{createdAt}</td>
       <td></td>
       <td>{collection.length}</td>
-      <td className=''>
-        <i class='fa fa-trash'></i>
-        <span> Xóa</span>
+      <td>
+        <div className='icon-delete icon-config'>
+          <i class='fa fa-trash '></i>
+          <span> Xóa</span>
+        </div>
       </td>
       <td>
-        <i class='fa fa-pen'></i>
-        <span> Sửa</span>
+        <div className='icon-edit icon-config'>
+          <i class='fa fa-pen'></i>
+          <span> Sửa</span>
+        </div>
       </td>
     </tr>
   );
