@@ -35,7 +35,6 @@ export default function Header() {
 
       if (!token) return;
 
-      console.log(token, user);
       auth.login(token, user);
     };
 

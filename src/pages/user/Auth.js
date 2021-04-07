@@ -107,8 +107,6 @@ export default function Auth() {
 
     auth.login(token, user);
 
-    console.log(token);
-
     localStorage.setItem(LOCAL_STORAGE_KEY, tokenId);
 
     refreshToken(res);

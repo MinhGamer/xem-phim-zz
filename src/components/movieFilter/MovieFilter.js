@@ -21,8 +21,6 @@ function MovieFilter(props) {
 
   const memoRELEASE_YEAR = useMemo(() => RELEASE_YEAR, []);
 
-  console.log(filterTerm);
-
   return (
     <div className='movie-filter'>
       <div className='movie-filter--item'>

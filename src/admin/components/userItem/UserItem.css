@@ -1,3 +1,8 @@
+.user-item:hover {
+  cursor: pointer;
+  background-color: #102c48;
+}
+
 .user-item .icon-config {
   cursor: pointer;
   border-radius: 5px;
@@ -6,11 +11,12 @@
   text-align: center;
   transition: all 0.3s;
   border: 1px solid transparent;
+  transition: all 0.3s;
 }
 
 .user-item .icon-delete {
   background-color: #ff4b2b;
-  margin-right: 0.5rem;
+  margin: 0 0.5rem;
 }
 
 .user-item .icon-delete:hover {
@@ -27,4 +33,18 @@
   background-color: transparent;
   color: #23d160;
   border: 1px solid #23d160;
+}
+
+.user-item .icon-goto-collection {
+  opacity: 0;
+  background-color: #3273dc;
+  transition: all 0.3s;
+}
+
+.user-item:hover .icon-goto-collection {
+  opacity: 1;
+}
+
+.user-item .collection-count {
+  text-align: center;
 }

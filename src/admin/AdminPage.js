@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import './AdminPage.css';
 
-import AddMovie from './components/addMovie/AddMovie';
-import AddUser from './components/addUser/AddUser';
+import AddMovie from './components/userForm/UserForm';
+import UserForm from './components/userForm/UserForm';
 import AllUser from './components/allUser/AllUser';
+import UserDetail from './components/userDetail/UserDetail';
+
+import { AuthContext } from '../shared/context/AuthContext';
+
+import LoadingSpinner from '../shared/components/UI/LoadingSpinner';
+
+import useHttp from '../shared/customHooks/useHttp';
 
 const ADMIN_NAVTAB_LIST = [
   { id: 'allUser', label: 'Tất cả người dùng' },
@@ -12,10 +19,35 @@ const ADMIN_NAVTAB_LIST = [
   { id: 'addMovie', label: 'Đăng phim mới' },
 ];
 
-const ADMIN_NAVTAB_ITEM = [<AllUser />, <AddUser />, <AddMovie />];
-
 export default function AdminPage() {
   const [navtabIndex, setNavtabIndex] = useState(0);
+  const [userDetail, setUserDetail] = useState(null);
+  const [allUser, setAllUser] = useState(null);
+  const auth = useContext(AuthContext);
+  const { sendUser, isLoading } = useHttp();
+
+  const ADMIN_NAVTAB_ITEM = [
+    <>
+      {isLoading && <LoadingSpinner />}
+      {allUser && <AllUser allUser={allUser} />}
+    </>,
+    <UserForm />,
+    <AddMovie />,
+  ];
+
+  useEffect(() => {
+    const fetchAllUser = async () => {
+      const data = await sendUser('user/all', 'GET', null, {
+        Authorization: 'Bearer ' + auth.token,
+      });
+
+      console.log(data);
+
+      setAllUser(data.allUser);
+    };
+
+    auth.isAdmin && fetchAllUser();
+  }, [auth.isAdmin]);
 
   const renderNavtabList = () =>
     ADMIN_NAVTAB_LIST.map((navtab, index) => (
@@ -37,6 +69,7 @@ export default function AdminPage() {
       <div className='search-user '>Tìm kiếm người d</div>
       <div className='navtab-header'>{renderNavtabList()}</div>
       <div className='navtab-item'>{renderNavtabItem()}</div>
+      {userDetail && <UserDetail userDetail={userDetail} />}
     </div>
   );
 }

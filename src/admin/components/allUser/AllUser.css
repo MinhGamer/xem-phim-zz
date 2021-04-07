@@ -15,10 +15,10 @@
   padding: 0.5rem 0;
 }
 
-.all-user-table tr:hover {
+/* .all-user-table tr:hover {
   cursor: pointer;
   background-color: #102c48;
-}
+} */
 
 .all-user-table .user-name {
   width: 170px;
