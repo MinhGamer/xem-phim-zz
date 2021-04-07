@@ -6,15 +6,16 @@ import { ADMIN_EMAIL } from '../../../shared/util/config';
 
 import UserItem from '../userItem/UserItem';
 
-export default function AllUser(props) {
+import { connect } from 'react-redux';
+
+function AllUser(props) {
   const { allUser } = props;
 
   const renderUserItem = () =>
     Object.values(allUser).map(
-      (user) => user.email !== ADMIN_EMAIL && <UserItem user={user} />
+      (user) =>
+        user.email !== ADMIN_EMAIL && <UserItem key={user.userId} user={user} />
     );
-
-  console.log(allUser);
 
   return (
     <>
@@ -35,3 +36,11 @@ export default function AllUser(props) {
     </>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    allUser: state.userReducer.allUser,
+  };
+};
+
+export default connect(mapStateToProps, null)(AllUser);

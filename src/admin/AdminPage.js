@@ -13,23 +13,27 @@ import LoadingSpinner from '../shared/components/UI/LoadingSpinner';
 
 import useHttp from '../shared/customHooks/useHttp';
 
+import { connect } from 'react-redux';
+
+import { actSetAllUser } from '../redux/actionCreator/userActions';
+
 const ADMIN_NAVTAB_LIST = [
   { id: 'allUser', label: 'Tất cả người dùng' },
   { id: 'addUser', label: 'Thêm người dùng' },
   { id: 'addMovie', label: 'Đăng phim mới' },
 ];
 
-export default function AdminPage() {
+function AdminPage(props) {
   const [navtabIndex, setNavtabIndex] = useState(0);
   const [userDetail, setUserDetail] = useState(null);
-  const [allUser, setAllUser] = useState(null);
+
   const auth = useContext(AuthContext);
   const { sendUser, isLoading } = useHttp();
 
   const ADMIN_NAVTAB_ITEM = [
     <>
       {isLoading && <LoadingSpinner />}
-      {allUser && <AllUser allUser={allUser} />}
+      {!isLoading && <AllUser />}
     </>,
     <UserForm />,
     <AddMovie />,
@@ -43,7 +47,7 @@ export default function AdminPage() {
 
       console.log(data);
 
-      setAllUser(data.allUser);
+      props.setAllUser(data.allUser);
     };
 
     auth.isAdmin && fetchAllUser();
@@ -73,3 +77,11 @@ export default function AdminPage() {
     </div>
   );
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setAllUser: (allUser) => dispatch(actSetAllUser(allUser)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(AdminPage);

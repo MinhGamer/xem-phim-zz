@@ -2,8 +2,17 @@ import React from 'react';
 
 import './UserItem.css';
 
-export default function UserItem(props) {
-  const { name, email, createdAt, collection } = props.user;
+import { connect } from 'react-redux';
+
+import {
+  actDeleteUser,
+  actGetUser,
+} from '../../../redux/actionCreator/userActions';
+
+function UserItem(props) {
+  const { userId, name, email, createdAt, collection } = props.user;
+
+  console.log(props);
 
   return (
     <tr className='user-item'>
@@ -18,13 +27,17 @@ export default function UserItem(props) {
         </div>
       </td>
       <td>
-        <div className='icon-delete icon-config'>
+        <div
+          onClick={() => props.deleteUser(userId)}
+          className='icon-delete icon-config'>
           <i class='fa fa-trash '></i>
           <span> Xóa</span>
         </div>
       </td>
       <td>
-        <div className='icon-edit icon-config'>
+        <div
+          onClick={() => props.getUser(userId)}
+          className='icon-edit icon-config'>
           <i class='fa fa-pen'></i>
           <span> Sửa</span>
         </div>
@@ -32,3 +45,12 @@ export default function UserItem(props) {
     </tr>
   );
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteUser: (userId) => dispatch(actDeleteUser(userId)),
+    getUser: (userId) => dispatch(actGetUser(userId)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(UserItem);
