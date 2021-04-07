@@ -20,10 +20,11 @@ import SearchMovie from './pages/searchMovie/SearchMovie';
 import TvSeriesPage from './pages/tvSeries/TvSeriesPage';
 import MovieSeriesPage from './pages/movieSeries/MovieSeriesPage';
 import LazyLoadingMovie from './components/lazyLoading/LazyLoadingMovie';
-import MovieSeriesDetailPage from './pages/movieSeriesDetailPage/MovieSeriesDetailPage';
+
 import FAQPage from './pages/FAQ/FAQPage';
 import Footer from './shared/components/Footer/Footer';
 import Demo from './components/Demo';
+import AdminPage from './admin/AdminPage';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route exact path='/' component={HomePage} />
           <Route exact path='/tv' component={TvSeriesPage} />
           <Route exact path='/lazy' component={LazyLoadingMovie} />
+          <Route exact path='/admin' component={AdminPage} />
           <Route exact path='/movie/:movieId' component={MovieDetailPage} />
           <Route exact path='/tv/:movieId' component={MovieDetailPage} />
           <Route

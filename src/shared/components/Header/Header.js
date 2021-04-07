@@ -33,6 +33,8 @@ export default function Header() {
         Authorization: 'Bearer ' + tokenId,
       });
 
+      if (!token) return;
+
       console.log(token, user);
       auth.login(token, user);
     };
@@ -48,7 +50,7 @@ export default function Header() {
           className='navlinks__item fixed'
           onMouseLeave={() => setShowDropdown(false)}>
           <div onMouseEnter={() => setShowDropdown(true)} to='/user'>
-            {auth.user.name}
+            {auth.user.name} ({auth.isAdmin ? 'Admin' : ''})
             <i class='fa fa-chevron-down arrow-expand'></i>
           </div>
           {showDropdown && <HeaderDropdown username={'Minh'} />}

@@ -10,6 +10,13 @@ export default function HeaderDropdown(props) {
 
   return (
     <div className='header-dropdown__list'>
+      {auth.isAdmin && (
+        <NavLink className='header-dropdown__item' to='/admin'>
+          <i class='fa fa-user-cog'></i>
+          <span>Quản lý người dùng</span>
+        </NavLink>
+      )}
+
       <NavLink className='header-dropdown__item' to='/collection'>
         <i className='fa fa-film'></i>
         <span>Bộ sưu tập</span>

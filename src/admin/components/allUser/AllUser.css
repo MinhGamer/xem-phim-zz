@@ -1,0 +1,21 @@
+.all-user-container {
+  border: 1px solid #fff;
+}
+
+.all-user-table {
+  width: 100%;
+}
+
+.all-user-table th {
+  font-size: 1.1rem;
+}
+
+.all-user-table td {
+  padding: 0.5rem 0;
+  /* border-bottom: 1px dotted #fff; */
+}
+
+.all-user-table tr {
+  border-bottom: 2px dotted #fff;
+  height: 30px;
+}
