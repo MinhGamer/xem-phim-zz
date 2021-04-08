@@ -30,8 +30,20 @@ function UserDetail(props) {
     userDetail && fetchMovies();
   }, [userDetail]);
 
-  const settings = {
-    infinite: false,
+  const settingsFinishlist = {
+    infinite:
+      collection && collection.filter((movie) => movie.isDone).length > 3,
+    speed: 200,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    className: 'user-detail-list',
+    draggable: true,
+  };
+
+  const settingsWhislist = {
+    infinite:
+      collection && collection.filter((movie) => !movie.isDone).length > 3,
     speed: 200,
     slidesToShow: 3,
     slidesToScroll: 1,
@@ -56,7 +68,7 @@ function UserDetail(props) {
             Phim đã xem (
             {collection && collection.filter((movie) => movie.isDone).length})
           </h1>
-          <Slider {...settings}>
+          <Slider {...settingsFinishlist}>
             {collection &&
               renderMovies(collection.filter((movie) => movie.isDone))}
           </Slider>
@@ -66,7 +78,7 @@ function UserDetail(props) {
             Phim muốn xem (
             {collection && collection.filter((movie) => !movie.isDone).length})
           </h1>
-          <Slider {...settings}>
+          <Slider {...settingsWhislist}>
             {collection &&
               renderMovies(collection.filter((movie) => !movie.isDone))}
           </Slider>

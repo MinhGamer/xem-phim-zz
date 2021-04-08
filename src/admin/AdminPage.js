@@ -5,7 +5,8 @@ import './AdminPage.css';
 import AddMovie from './components/userForm/UserForm';
 import UserForm from './components/userForm/UserForm';
 import AllUser from './components/allUser/AllUser';
-import UserDetail from './components/userDetail/UserDetail';
+
+import Modal from '../shared/components/UI/Modal';
 
 import { AuthContext } from '../shared/context/AuthContext';
 
@@ -25,9 +26,9 @@ const ADMIN_NAVTAB_LIST = [
 
 function AdminPage(props) {
   const [navtabIndex, setNavtabIndex] = useState(0);
-
   const auth = useContext(AuthContext);
   const { sendUser, isLoading } = useHttp();
+  const [confirmDelete, setConfirmDelete] = useState(null);
 
   const ADMIN_NAVTAB_ITEM = [
     <>
@@ -70,10 +71,12 @@ function AdminPage(props) {
     ADMIN_NAVTAB_ITEM.map((navItem, index) => navtabIndex === index && navItem);
 
   return (
-    <div className='admin-container'>
-      <div className='navtab-header'>{renderNavtabList()}</div>
-      <div className='navtab-item'>{renderNavtabItem()}</div>
-    </div>
+    <>
+      <div className='admin-container'>
+        <div className='navtab-header'>{renderNavtabList()}</div>
+        <div className='navtab-item'>{renderNavtabItem()}</div>
+      </div>
+    </>
   );
 }
 

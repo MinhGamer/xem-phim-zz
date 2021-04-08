@@ -34,38 +34,27 @@ function AllUser(props) {
         user.email !== ADMIN_EMAIL && <UserItem key={user.userId} user={user} />
     );
 
+  const clickSortHandler = (field) => {
+    setCurrentPage(1);
+    props.sortUsersByField(field);
+  };
+
   const renderTableHead = () => {
-    return (
-      <>
-        <th className='user-name'>
-          Tên{' '}
-          <i
-            onClick={() => props.sortUsersByField('name')}
-            className='fa fa-sort-alpha-down icon-sort'></i>
-        </th>
-        <th className='user-email'>
-          Email{' '}
-          <i
-            onClick={() => props.sortUsersByField('email')}
-            className='fa fa-sort-alpha-down icon-sort'></i>
-        </th>
-        <th className='user-create-date'>
-          Ngày tạo{' '}
-          <i
-            onClick={() => props.sortUsersByField('createdAt')}
-            class='fa fa-sort-alpha-down icon-sort'></i>
-        </th>
-        <th>
-          Số lượng phim{' '}
-          <i
-            onClick={() => props.sortUsersByField('colletctionLength')}
-            className='fa fa-sort-numeric-down icon-sort'></i>
-        </th>
-        <th></th>
-        <th></th>
-        <th></th>
-      </>
-    );
+    const tableHead = [
+      { field: 'name', label: 'Tên' },
+      { field: 'email', label: 'Email' },
+      { field: 'createdAt', label: 'Ngày tạo' },
+      { field: 'colletctionLength', label: 'Số lượng phim' },
+    ];
+
+    return tableHead.map((header) => (
+      <th className={`user-${header.field}`}>
+        {header.label}{' '}
+        <i
+          onClick={() => clickSortHandler(header.field)}
+          className='fa fa-sort-alpha-down icon-sort'></i>
+      </th>
+    ));
   };
 
   const pagination = (users, pageNumber) => {
@@ -111,7 +100,7 @@ function AllUser(props) {
       let totalPages = [];
 
       //total pages <= USERS_PAGINATION_RANGE + 1
-      if (TOTAL_PAGE <= USERS_PAGINATION_RANGE + 1) {
+      if (TOTAL_PAGE <= USERS_PAGINATION_RANGE + 2) {
         return (totalPages = createPages(1, TOTAL_PAGE));
       }
 

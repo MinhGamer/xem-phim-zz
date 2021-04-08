@@ -114,14 +114,24 @@ export default function MovieCollectionPage() {
     //use to render base on the collection in authContent
   };
 
-  const settings = {
-    infinite: false,
+  const settingsWhislist = {
+    //fix bug when number of movies less than 4
+    infinite: collection.filter((movie) => !movie.isDone).length > 4,
     speed: 200,
     slidesToShow: 4,
     slidesToScroll: 1,
     arrows: true,
     className: 'movie-collection-list',
-    draggable: true,
+  };
+
+  const settingsFinishlist = {
+    //fix bug when number of movies less than 4
+    infinite: collection.filter((movie) => movie.isDone).length > 4,
+    speed: 200,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    arrows: true,
+    className: 'movie-collection-list',
   };
 
   //when user delete a movie =>
@@ -213,14 +223,14 @@ export default function MovieCollectionPage() {
 
       <h1 className='movie-collection--whislist'>Các phim bạn muốn xem:</h1>
       <div>
-        <Slider {...settings}>
+        <Slider {...settingsWhislist}>
           {renderMovies(collection.filter((movie) => !movie.isDone))}
         </Slider>
       </div>
 
       <h1 className='movie-collection--finish'>Các phim bạn đã xem:</h1>
       <div>
-        <Slider {...settings}>
+        <Slider {...settingsFinishlist}>
           {renderMovies(collection.filter((movie) => movie.isDone))}
         </Slider>
       </div>

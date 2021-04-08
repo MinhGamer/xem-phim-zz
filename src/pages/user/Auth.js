@@ -105,6 +105,8 @@ export default function Auth() {
       Authorization: 'Bearer ' + tokenId,
     });
 
+    console.log(tokenId);
+
     auth.login(token, user);
 
     localStorage.setItem(LOCAL_STORAGE_KEY, tokenId);

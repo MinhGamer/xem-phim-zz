@@ -58,6 +58,7 @@ const userReducer = (state = initialState, action) => {
       let compare = null;
       if (action.payload.field === 'colletctionLength') {
         compare = (a, b) => {
+          //compare collection length
           const aLength = Object.values(a.collection).length;
           const bLength = Object.values(b.collection).length;
 
@@ -72,10 +73,16 @@ const userReducer = (state = initialState, action) => {
         };
       } else {
         compare = (a, b) => {
-          if (a[action.payload.field] < b[action.payload.field]) {
+          if (
+            a[action.payload.field].toLowerCase() <
+            b[action.payload.field].toLowerCase()
+          ) {
             return updateSortASC ? -1 : 1;
           }
-          if (a[action.payload.field] > b[action.payload.field]) {
+          if (
+            a[action.payload.field].toLowerCase() >
+            b[action.payload.field].toLowerCase()
+          ) {
             return updateSortASC ? 1 : -1;
           }
 

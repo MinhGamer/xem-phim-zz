@@ -15,7 +15,7 @@ export default function Modal(props) {
       {showed && <Backdrop onClick={backdropClick} />}
       <CSSTransition
         in={showed}
-        timeout={200}
+        timeout={500}
         mountOnEnter
         unmountOnExit
         classNames='modal'>
