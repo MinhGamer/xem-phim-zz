@@ -5,19 +5,20 @@
 .all-user-table {
   border-collapse: collapse;
   width: 100%;
+  height: 200px;
 }
 
 .all-user-table th {
   font-size: 1.1rem;
 }
 
-.all-user-table td {
+.all-user-table tr {
   padding: 0.5rem 0;
+  line-height: 25px;
 }
 
-/* .all-user-table tr:hover {
-  cursor: pointer;
-  background-color: #102c48;
+/* .all-user-table td {
+  padding: 0.5rem 0;
 } */
 
 .all-user-table .user-name {
@@ -30,4 +31,44 @@
 
 .all-user-table .user-create-date {
   width: 220px;
+}
+
+.all-user-container .fa {
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.all-user-container .fa:hover {
+  color: #dcf836;
+}
+
+.all-user-container .fa.disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+.all-users-pagination {
+  text-align: center;
+}
+
+.all-users-pagination .page-number {
+  font-size: 1.2rem;
+  display: inline-block;
+  width: 40px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.all-users-pagination .page-number:hover {
+  color: #dcf836;
+}
+
+.all-users-pagination .page-number.active {
+  color: #dcf836;
+}
+
+.all-user-container .next-page {
+}
+
+.all-user-container .prev-page {
 }

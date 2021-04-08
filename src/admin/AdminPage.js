@@ -25,7 +25,6 @@ const ADMIN_NAVTAB_LIST = [
 
 function AdminPage(props) {
   const [navtabIndex, setNavtabIndex] = useState(0);
-  const [userDetail, setUserDetail] = useState(null);
 
   const auth = useContext(AuthContext);
   const { sendUser, isLoading } = useHttp();
@@ -39,6 +38,7 @@ function AdminPage(props) {
     <AddMovie />,
   ];
 
+  //get token from local storage to login
   useEffect(() => {
     const fetchAllUser = async () => {
       const data = await sendUser('user/all', 'GET', null, {
@@ -70,10 +70,9 @@ function AdminPage(props) {
 
   return (
     <div className='admin-container'>
-      <div className='search-user '>Tìm kiếm người d</div>
+      <div className='search-user '>Tìm kiếm người dùng</div>
       <div className='navtab-header'>{renderNavtabList()}</div>
       <div className='navtab-item'>{renderNavtabItem()}</div>
-      {userDetail && <UserDetail userDetail={userDetail} />}
     </div>
   );
 }

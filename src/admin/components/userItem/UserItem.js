@@ -10,12 +10,15 @@ import {
 } from '../../../redux/actionCreator/userActions';
 
 function UserItem(props) {
-  const { userId, name, email, createdAt, collection } = props.user;
-
-  console.log(props);
+  const { name, email, createdAt, collection } = props.user;
+  const { userDetail } = props;
 
   return (
-    <tr className='user-item'>
+    <tr
+      onClick={() => props.getUser(email)}
+      className={`user-item ${
+        userDetail && email === userDetail.email ? 'active' : ''
+      }`}>
       <td>{name}</td>
       <td>{email}</td>
       <td>{createdAt}</td>
@@ -28,7 +31,7 @@ function UserItem(props) {
       </td>
       <td>
         <div
-          onClick={() => props.deleteUser(userId)}
+          onClick={() => props.deleteUser(email)}
           className='icon-delete icon-config'>
           <i class='fa fa-trash '></i>
           <span> Xóa</span>
@@ -36,7 +39,7 @@ function UserItem(props) {
       </td>
       <td>
         <div
-          onClick={() => props.getUser(userId)}
+          onClick={() => props.getUser(email)}
           className='icon-edit icon-config'>
           <i class='fa fa-pen'></i>
           <span> Sửa</span>
@@ -46,11 +49,17 @@ function UserItem(props) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    deleteUser: (userId) => dispatch(actDeleteUser(userId)),
-    getUser: (userId) => dispatch(actGetUser(userId)),
+    userDetail: state.userReducer.userDetail,
   };
 };
 
-export default connect(null, mapDispatchToProps)(UserItem);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteUser: (userEmail) => dispatch(actDeleteUser(userEmail)),
+    getUser: (userEmail) => dispatch(actGetUser(userEmail)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserItem);

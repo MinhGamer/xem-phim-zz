@@ -1,2 +1,23 @@
-.user-detail {
+.user-detail-container {
+  width: 100%;
+  /* display: flex; */
+}
+
+.user-detail-list {
+  width: 75%;
+  margin: auto;
+}
+
+.user-detail-whislist__title {
+  font-size: 1.8rem;
+  color: #3273dc;
+}
+
+.user-detail-finishlist__title {
+  font-size: 1.8rem;
+  color: #dcf836;
+}
+
+.user-detail-container div div {
+  outline: none;
 }

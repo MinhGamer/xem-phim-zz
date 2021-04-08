@@ -3,6 +3,10 @@
   background-color: #102c48;
 }
 
+.user-item.active {
+  background-color: #102c48;
+}
+
 .user-item .icon-config {
   cursor: pointer;
   border-radius: 5px;

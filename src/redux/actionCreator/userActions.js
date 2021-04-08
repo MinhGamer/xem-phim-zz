@@ -4,20 +4,20 @@ import {
   SET_ALL_USER,
 } from '../actionTypes/actionTypes';
 
-export const actDeleteUser = (userId) => {
+export const actDeleteUser = (userEmail) => {
   return {
     type: DELETE_USER,
     payload: {
-      userId,
+      userEmail,
     },
   };
 };
 
-export const actGetUser = (userId) => {
+export const actGetUser = (userEmail) => {
   return {
     type: GET_USER,
     payload: {
-      userId,
+      userEmail,
     },
   };
 };

@@ -11,12 +11,9 @@ import ErrorModal from '../../shared/components/UI/ErrorModal';
 import useHttp from '../../shared/customHooks/useHttp';
 
 import { CSSTransition } from 'react-transition-group';
-import Button from '../../shared/components/UI/Button';
 
 export default function MovieCollectionPage() {
-  // const [likedMovies, setLikedMovies] = useState([]);
   const [collection, setCollection] = useState([]);
-  const [activeMovie, setActiveMovie] = useState(true);
   const [activeId, setActiveId] = useState(null);
   const [deleteMovie, setDeleteMovie] = useState(false);
 
