@@ -1,25 +1,60 @@
 .all-user-container {
   border: 1px solid #fff;
+  padding: 1rem;
+}
+
+.search-user {
+  width: 70%;
+  margin-bottom: 1rem;
+}
+
+.search-user__title {
+  font-size: 1.3rem;
+  margin-right: 1rem;
+}
+
+.search-user input {
+  width: 50%;
+  height: 30px;
+  font-size: 1.1rem;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  padding: 1rem;
 }
 
 .all-user-table {
   border-collapse: collapse;
   width: 100%;
-  height: 200px;
+  max-height: 200px;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+}
+
+.all-user-table thead {
+  line-height: 50px;
 }
 
 .all-user-table th {
   font-size: 1.1rem;
 }
 
-.all-user-table tr {
-  padding: 0.5rem 0;
-  line-height: 25px;
+.all-user-table th .icon-sort {
+  margin-left: 0.4rem;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #428bca;
 }
 
-/* .all-user-table td {
+.all-user-table th .icon-sort:hover {
+  color: #dcf836;
+}
+
+.all-user-table tr {
   padding: 0.5rem 0;
-} */
+
+  height: 40px;
+}
 
 .all-user-table .user-name {
   width: 170px;

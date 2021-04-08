@@ -32,6 +32,7 @@ function AdminPage(props) {
   const ADMIN_NAVTAB_ITEM = [
     <>
       {isLoading && <LoadingSpinner />}
+
       {!isLoading && <AllUser />}
     </>,
     <UserForm />,
@@ -70,7 +71,6 @@ function AdminPage(props) {
 
   return (
     <div className='admin-container'>
-      <div className='search-user '>Tìm kiếm người dùng</div>
       <div className='navtab-header'>{renderNavtabList()}</div>
       <div className='navtab-item'>{renderNavtabItem()}</div>
     </div>

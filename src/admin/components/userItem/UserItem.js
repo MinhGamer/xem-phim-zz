@@ -13,6 +13,16 @@ function UserItem(props) {
   const { name, email, createdAt, collection } = props.user;
   const { userDetail } = props;
 
+  const deleteHandler = (e) => {
+    e.stopPropagation();
+    props.deleteUser(email);
+  };
+
+  const editHandler = (e) => {
+    e.stopPropagation();
+    props.getUser(email);
+  };
+
   return (
     <tr
       onClick={() => props.getUser(email)}
@@ -30,17 +40,13 @@ function UserItem(props) {
         </div>
       </td>
       <td>
-        <div
-          onClick={() => props.deleteUser(email)}
-          className='icon-delete icon-config'>
+        <div onClick={deleteHandler} className='icon-delete icon-config'>
           <i class='fa fa-trash '></i>
           <span> Xóa</span>
         </div>
       </td>
       <td>
-        <div
-          onClick={() => props.getUser(email)}
-          className='icon-edit icon-config'>
+        <div onClick={editHandler} className='icon-edit icon-config'>
           <i class='fa fa-pen'></i>
           <span> Sửa</span>
         </div>

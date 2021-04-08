@@ -2,7 +2,15 @@ import {
   DELETE_USER,
   GET_USER,
   SET_ALL_USER,
+  SORT_USER,
 } from '../actionTypes/actionTypes';
+
+export const actSortUsers = (field) => {
+  return {
+    type: SORT_USER,
+    payload: field,
+  };
+};
 
 export const actDeleteUser = (userEmail) => {
   return {

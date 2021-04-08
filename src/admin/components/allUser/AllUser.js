@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './AllUser.css';
 
@@ -8,6 +8,8 @@ import {
   USERS_PAGINATION_RANGE,
 } from '../../../shared/util/config';
 
+import { actSortUsers } from '../../../redux/actionCreator/userActions';
+
 import UserItem from '../userItem/UserItem';
 
 import { connect } from 'react-redux';
@@ -16,27 +18,55 @@ import UserDetail from '../userDetail/UserDetail';
 
 function AllUser(props) {
   const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState('');
+  // const [allUser, setAllUser] = useState(null);
+
   const { allUser } = props;
 
-  const allUserArr = allUser && Object.values(allUser);
+  //set current page to 1 when admin search
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search]);
 
   const renderUserItem = () =>
-    pagination(allUserArr, currentPage).map(
+    pagination(filterUsersByName(allUser, search), currentPage).map(
       (user) =>
         user.email !== ADMIN_EMAIL && <UserItem key={user.userId} user={user} />
     );
 
-  const renderTableHead = () => (
-    <>
-      <th className='user-name'>Tên</th>
-      <th className='user-email'>Email</th>
-      <th className='user-create-date'>Ngày tạo</th>
-      <th>Số lượng phim</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </>
-  );
+  const renderTableHead = () => {
+    return (
+      <>
+        <th className='user-name'>
+          Tên{' '}
+          <i
+            onClick={() => props.sortUsersByField('name')}
+            className='fa fa-sort-alpha-down icon-sort'></i>
+        </th>
+        <th className='user-email'>
+          Email{' '}
+          <i
+            onClick={() => props.sortUsersByField('email')}
+            className='fa fa-sort-alpha-down icon-sort'></i>
+        </th>
+        <th className='user-create-date'>
+          Ngày tạo{' '}
+          <i
+            onClick={() => props.sortUsersByField('createdAt')}
+            class='fa fa-sort-alpha-down icon-sort'></i>
+        </th>
+        <th>
+          Số lượng phim{' '}
+          <i
+            onClick={() => props.sortUsersByField('colletctionLength')}
+            className='fa fa-sort-numeric-down icon-sort'></i>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </>
+    );
+  };
 
   const pagination = (users, pageNumber) => {
     const start = (pageNumber - 1) * USERS_PER_PAGE;
@@ -45,8 +75,8 @@ function AllUser(props) {
     return users.slice(start, end);
   };
 
-  const renderPagination = () => {
-    const TOTAL_PAGE = Math.ceil(allUserArr.length / USERS_PER_PAGE);
+  const renderPagination = (users) => {
+    const TOTAL_PAGE = Math.ceil(users.length / USERS_PER_PAGE);
 
     const createPages = (from, to) => {
       const totalPages = [];
@@ -80,11 +110,17 @@ function AllUser(props) {
     const renderTotalPages = () => {
       let totalPages = [];
 
+      //total pages <= USERS_PAGINATION_RANGE + 1
+      if (TOTAL_PAGE <= USERS_PAGINATION_RANGE + 1) {
+        return (totalPages = createPages(1, TOTAL_PAGE));
+      }
+
       //1. range from 1 to (USERS_PAGINATION_RANGE + 1)
       if (currentPage <= USERS_PAGINATION_RANGE + 1) {
         totalPages = createPages(1, USERS_PAGINATION_RANGE + 1);
         totalPages.push(dots);
         totalPages.push(createPages(TOTAL_PAGE, TOTAL_PAGE));
+        return totalPages;
       }
 
       //2. range from  (USERS_PAGINATION_RANGE + 2) to (TOTAL_PAGE - USERS_PAGINATION_RANGE - 2)
@@ -97,6 +133,7 @@ function AllUser(props) {
         totalPages.push(createPages(currentPage - 1, currentPage + 1));
         totalPages.push(dots);
         totalPages.push(createPages(TOTAL_PAGE, TOTAL_PAGE));
+        return totalPages;
       }
 
       // 3. range from TOTAL_PAGE - USERS_PAGINATION_RANGE - 1) to TOTAL_PAGE
@@ -106,9 +143,10 @@ function AllUser(props) {
         totalPages.push(
           ...createPages(TOTAL_PAGE - USERS_PAGINATION_RANGE, TOTAL_PAGE)
         );
+        return totalPages;
       }
 
-      return <span className='page-number-list'>{totalPages}</span>;
+      // return totalPages;
     };
 
     return (
@@ -122,7 +160,7 @@ function AllUser(props) {
             currentPage === 1 ? 'disabled' : ''
           }`}></i>
 
-        {renderTotalPages()}
+        <span className='page-number-list'>{renderTotalPages()}</span>
 
         {/* next-page */}
         <i
@@ -138,16 +176,58 @@ function AllUser(props) {
     );
   };
 
+  const filterUsersByName = (users, keyword) => {
+    users = users.filter((user) =>
+      user.name.trim().toLowerCase().includes(keyword.toLowerCase())
+    );
+
+    return users;
+  };
+
+  const sortByField = (field) => {
+    const sortUsers = [...allUser];
+
+    function compare(a, b) {
+      if (a.name < b.name) {
+        return 1;
+      }
+      if (a.name > b.name) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    }
+
+    allUser.sort(compare);
+
+    console.log(allUser);
+
+    // switch (field) {
+    //   case 'name':
+    //     sortUsers.sort(compare);
+
+    //   default:
+    // }
+  };
+
   return (
     <>
       {allUser && (
         <div className='all-user-container'>
+          <div className='search-user'>
+            <span className='search-user__title'>Tìm kiếm </span>
+            <input
+              placeholder='Nhập tên người dùng...'
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+
           <table className='all-user-table'>
             <thead>{renderTableHead()}</thead>
-            <tbody>{renderUserItem()}</tbody>
+            <tbody>{allUser && renderUserItem()}</tbody>
           </table>
 
-          {renderPagination()}
+          {renderPagination(filterUsersByName(allUser, search))}
 
           <UserDetail />
         </div>
@@ -162,4 +242,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(AllUser);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    sortUsersByField: (field) => dispatch(actSortUsers(field)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllUser);

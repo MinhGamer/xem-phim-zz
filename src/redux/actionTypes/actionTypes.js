@@ -7,3 +7,7 @@ export const GET_USER = 'GET_USER';
 export const SET_ALL_USER = 'SET_ALL_USER';
 
 export const SHOW_USER_DETAIL = 'SHOW_USER_DETAIL';
+
+export const SORT_USER = 'SORT_USER';
+
+export const FILTER_USER = 'FILTER_USER';
