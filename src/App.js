@@ -8,13 +8,10 @@ import { AuthContextWrapper } from './shared/context/AuthContext';
 
 import Footer from './shared/components/Footer/Footer';
 
-import AdminPage from './admin/AdminPage';
-
 import PrivateRoute from './routes/PrivateRoute';
 
-import AdminRoute from './routes/AdminRoute';
-
 import { commonRoutes, privateRoutes, adminRoutes } from './routes/routes';
+import HomePage from './pages/homePage/HomePage';
 
 function App() {
   return (
@@ -41,11 +38,11 @@ function App() {
           ))}
           {/* only for admin*/}
           {adminRoutes.map((route) => (
-            <AdminRoute
+            <PrivateRoute
+              isAdmin
               exact={route.exact}
               path={route.path}
               component={route.Component}
-              redirectTo='/'
             />
           ))}
           {/* <Route exact path='/admin' component={AdminPage} /> */}

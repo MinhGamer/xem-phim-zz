@@ -36,15 +36,3 @@ export const privateRoutes = [
 export const adminRoutes = [
   { path: '/admin', exact: true, Component: AdminPage },
 ];
-
-// export default function useRoutes() {
-//   const auth = useContext(AuthContext);
-
-//   console.log(auth);
-
-//   const commonRoutes = _commonRoutes;
-
-//   const privateRoutes = auth.isLoggedIn && _privateRoutes;
-
-//   return { commonRoutes, privateRoutes };
-// }
