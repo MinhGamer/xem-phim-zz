@@ -41,8 +41,6 @@ function UserDetail(props) {
   };
 
   const renderMovies = (_collection) => {
-    console.log(_collection);
-
     return _collection.map((movie) => (
       <div>
         <MovieItem type='movie' key={movie.id} movie={movie} />
@@ -55,7 +53,7 @@ function UserDetail(props) {
       <div className='user-detail-container'>
         <div className='user-detail-whislist'>
           <h1 className='user-detail-whislist__title'>
-            Phim đã xem ({' '}
+            Phim đã xem (
             {collection && collection.filter((movie) => movie.isDone).length})
           </h1>
           <Slider {...settings}>

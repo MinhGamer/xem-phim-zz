@@ -184,32 +184,6 @@ function AllUser(props) {
     return users;
   };
 
-  const sortByField = (field) => {
-    const sortUsers = [...allUser];
-
-    function compare(a, b) {
-      if (a.name < b.name) {
-        return 1;
-      }
-      if (a.name > b.name) {
-        return -1;
-      }
-      // a must be equal to b
-      return 0;
-    }
-
-    allUser.sort(compare);
-
-    console.log(allUser);
-
-    // switch (field) {
-    //   case 'name':
-    //     sortUsers.sort(compare);
-
-    //   default:
-    // }
-  };
-
   return (
     <>
       {allUser && (

@@ -10,6 +10,7 @@ import { ADMIN_EMAIL } from '../../shared/util/config';
 const initialState = {
   allUser: null,
   userDetail: null,
+  sortASC: true,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -52,29 +53,30 @@ const userReducer = (state = initialState, action) => {
 
     case SORT_USER: {
       const sortUsers = [...state.allUser];
+      let updateSortASC = !state.sortASC;
 
       let compare = null;
-      if (action.payload === 'colletctionLength') {
+      if (action.payload.field === 'colletctionLength') {
         compare = (a, b) => {
           const aLength = Object.values(a.collection).length;
           const bLength = Object.values(b.collection).length;
 
           if (aLength < bLength) {
-            return 1;
+            return updateSortASC ? -1 : 1;
           }
           if (aLength > bLength) {
-            return -1;
+            return updateSortASC ? 1 : -1;
           }
 
           return 0;
         };
       } else {
         compare = (a, b) => {
-          if (a[action.payload] < b[action.payload]) {
-            return 1;
+          if (a[action.payload.field] < b[action.payload.field]) {
+            return updateSortASC ? -1 : 1;
           }
-          if (a[action.payload] > b[action.payload]) {
-            return -1;
+          if (a[action.payload.field] > b[action.payload.field]) {
+            return updateSortASC ? 1 : -1;
           }
 
           return 0;
@@ -86,6 +88,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         allUser: sortUsers,
+        sortASC: updateSortASC,
       };
     }
 

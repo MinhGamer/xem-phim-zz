@@ -28,7 +28,6 @@
   width: 100%;
   max-height: 200px;
   border-top: 1px solid #fff;
-  border-bottom: 1px solid #fff;
 }
 
 .all-user-table thead {
@@ -86,8 +85,10 @@
   opacity: 0.3;
 }
 
-.all-users-pagination {
+.all-user-container .all-users-pagination {
   text-align: center;
+  border-bottom: 1px solid #fff;
+  padding-bottom: 0.5rem;
 }
 
 .all-users-pagination .page-number-list {

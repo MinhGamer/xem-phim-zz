@@ -8,7 +8,9 @@ import {
 export const actSortUsers = (field) => {
   return {
     type: SORT_USER,
-    payload: field,
+    payload: {
+      field,
+    },
   };
 };
 
