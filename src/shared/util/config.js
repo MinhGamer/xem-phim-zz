@@ -15,9 +15,9 @@ export const USERS_PER_PAGE = 3;
 
 export const USERS_PAGINATION_RANGE = 3;
 
-export const MOVIES_PER_PAGE = 15;
+export const MOVIES_PER_PAGE = 3;
 
-export const MOVIES_PAGINATION_RANGE = 4;
+export const MOVIES_PAGINATION_RANGE = 3;
 
 export const SERIES_PER_PAGE = 5;
 

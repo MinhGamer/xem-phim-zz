@@ -13,9 +13,6 @@ import Button from '../../shared/components/UI/Button';
 
 function MovieList(props) {
   const { movies, type, clickMovieHandler } = props;
-
-  console.log('Movie List render');
-
   const [currentPage, setCurrentPage] = useState(1);
 
   const MOVIE_ITEM_PER_PAGE =
@@ -30,85 +27,68 @@ function MovieList(props) {
     return movies.slice(start, end);
   };
 
-  const nextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
-
-  const prevPage = () => {
-    setCurrentPage((prevPage) => prevPage - 1);
-  };
-
-  const gotoPage = (page) => {
-    setCurrentPage(page);
-  };
-
   const renderPageNumbers = (movies) => {
-    const pageNumbers = [];
+    let numberOfPages = [];
 
-    const numberOfPages = Math.ceil(movies.length / MOVIE_ITEM_PER_PAGE);
+    const TOTAL_PAGES = Math.ceil(movies.length / MOVIE_ITEM_PER_PAGE);
 
-    if (numberOfPages <= 5) {
-      for (let page = 1; page <= numberOfPages; page++) {
-        pageNumbers.push(
+    const createPages = (from, to) => {
+      if (from === to) {
+        return (
           <span
-            className={page === currentPage ? 'pagination-page--active' : ''}
-            onClick={() => gotoPage(page)}>
-            {page}
+            className={from === currentPage ? 'pagination-page--active' : ''}
+            onClick={() => setCurrentPage(from)}>
+            {from}
           </span>
         );
       }
 
-      return pageNumbers;
+      const totalPages = [];
+      for (let page = from; page <= to; page++) {
+        totalPages.push(
+          <span
+            className={page === currentPage ? 'pagination-page--active' : ''}
+            onClick={() => setCurrentPage(page)}>
+            {page}
+          </span>
+        );
+      }
+      return totalPages;
+    };
+
+    const dots = <p>...</p>;
+
+    if (TOTAL_PAGES <= MOVIES_PAGINATION_RANGE + 2) {
+      return (numberOfPages = createPages(1, TOTAL_PAGES));
     }
 
-    if (currentPage > numberOfPages - MOVIES_PAGINATION_RANGE + 1) {
-      pageNumbers.unshift(
-        <span onClick={() => gotoPage(currentPage - 2)}>{currentPage - 2}</span>
-      );
+    if (currentPage <= MOVIES_PAGINATION_RANGE + 1) {
+      numberOfPages = createPages(1, MOVIES_PAGINATION_RANGE + 2);
+      numberOfPages.push(dots);
+      numberOfPages.push(createPages(TOTAL_PAGES, TOTAL_PAGES));
+      return numberOfPages;
     }
 
-    for (
-      let page = currentPage - 1;
-      page <= currentPage + MOVIES_PAGINATION_RANGE - 2;
-      page++
+    if (
+      currentPage > MOVIES_PAGINATION_RANGE + 1 &&
+      currentPage <= TOTAL_PAGES - MOVIES_PAGINATION_RANGE - 1
     ) {
-      if (page > numberOfPages) {
-        break;
-      }
+      numberOfPages.push(createPages(1, 1));
+      numberOfPages.push(dots);
+      numberOfPages.push(...createPages(currentPage - 1, currentPage + 1));
+      numberOfPages.push(dots);
+      numberOfPages.push(createPages(TOTAL_PAGES, TOTAL_PAGES));
+      return numberOfPages;
+    }
 
-      if (page <= 0) {
-        continue;
-      }
-
-      pageNumbers.push(
-        <span
-          className={page === currentPage ? 'pagination-page--active' : ''}
-          onClick={() => gotoPage(page)}>
-          {page}
-        </span>
+    if (currentPage > TOTAL_PAGES - MOVIES_PAGINATION_RANGE - 1) {
+      numberOfPages.push(createPages(1, 1));
+      numberOfPages.push(dots);
+      numberOfPages.push(
+        createPages(TOTAL_PAGES - MOVIES_PAGINATION_RANGE - 1, TOTAL_PAGES)
       );
+      return numberOfPages;
     }
-
-    //reander first few pages
-    if (currentPage <= MOVIES_PAGINATION_RANGE - 1) {
-      pageNumbers.push(
-        <span onClick={() => gotoPage(currentPage + 2)}>{currentPage + 2}</span>
-      );
-    }
-
-    if (currentPage >= MOVIES_PAGINATION_RANGE + 1) {
-      pageNumbers.unshift(<p>...</p>);
-      pageNumbers.unshift(<span onClick={() => gotoPage(1)}>{1}</span>);
-    }
-
-    if (currentPage <= numberOfPages - MOVIES_PAGINATION_RANGE) {
-      pageNumbers.push(<p>...</p>);
-      pageNumbers.push(
-        <span onClick={() => gotoPage(numberOfPages)}>{numberOfPages}</span>
-      );
-    }
-
-    return pageNumbers;
   };
 
   return (
@@ -130,7 +110,7 @@ function MovieList(props) {
           {/* next and prev button */}
           <div className='next-prev-button'>
             <Button
-              onClick={prevPage}
+              onClick={() => setCurrentPage(currentPage - 1)}
               disabled={currentPage === 1}
               style={{ margin: '1rem' }}
               isClear>
@@ -138,7 +118,7 @@ function MovieList(props) {
             </Button>
             <Button
               disabled={currentPage === numberOfPages}
-              onClick={nextPage}
+              onClick={() => setCurrentPage + 1}
               isClear>
               Trang sau
             </Button>
