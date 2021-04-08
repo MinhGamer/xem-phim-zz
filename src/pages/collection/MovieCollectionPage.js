@@ -12,6 +12,8 @@ import useHttp from '../../shared/customHooks/useHttp';
 
 import { CSSTransition } from 'react-transition-group';
 
+import Slider from 'react-slick';
+
 export default function MovieCollectionPage() {
   const [collection, setCollection] = useState([]);
   const [activeId, setActiveId] = useState(null);
@@ -112,6 +114,16 @@ export default function MovieCollectionPage() {
     //use to render base on the collection in authContent
   };
 
+  const settings = {
+    infinite: false,
+    speed: 200,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    arrows: true,
+    className: 'movie-collection-list',
+    draggable: true,
+  };
+
   //when user delete a movie =>
   //1. animate movie item first
   //2. then delete from list
@@ -200,13 +212,17 @@ export default function MovieCollectionPage() {
       <h1 className='text-center'>Bộ sưu tập phim của bạn</h1>
 
       <h1 className='movie-collection--whislist'>Các phim bạn muốn xem:</h1>
-      <div className='movie-collection-list'>
-        {renderMovies(collection.filter((movie) => !movie.isDone))}
+      <div>
+        <Slider {...settings}>
+          {renderMovies(collection.filter((movie) => !movie.isDone))}
+        </Slider>
       </div>
 
       <h1 className='movie-collection--finish'>Các phim bạn đã xem:</h1>
-      <div className='movie-collection-list'>
-        {renderMovies(collection.filter((movie) => movie.isDone))}
+      <div>
+        <Slider {...settings}>
+          {renderMovies(collection.filter((movie) => movie.isDone))}
+        </Slider>
       </div>
     </div>
   );

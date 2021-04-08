@@ -3,9 +3,11 @@
 }
 
 .movie-collection-list {
-  display: flex;
+  width: 70%;
+  margin: auto;
+  /* display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: center; */
 }
 
 .movie-collection__title {
