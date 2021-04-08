@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 
 import './AllUser.css';
 
-import { ADMIN_EMAIL, USERS_PER_PAGE } from '../../../shared/util/config';
+import {
+  ADMIN_EMAIL,
+  USERS_PER_PAGE,
+  USERS_PAGINATION_RANGE,
+} from '../../../shared/util/config';
 
 import UserItem from '../userItem/UserItem';
 
@@ -42,22 +46,69 @@ function AllUser(props) {
   };
 
   const renderPagination = () => {
-    const USER_TOTAL_PAGE = Math.ceil(allUserArr.length / USERS_PER_PAGE);
+    const TOTAL_PAGE = Math.ceil(allUserArr.length / USERS_PER_PAGE);
 
-    // console.log(USER_TOTAL_PAGE);
-    const renderTotalPages = () => {
+    const createPages = (from, to) => {
       const totalPages = [];
-      for (let page = 1; page <= USER_TOTAL_PAGE; page++) {
-        totalPages.push(
+
+      if (from === to) {
+        return (
+          <span
+            onClick={() => setCurrentPage(from)}
+            className={`page-number ${currentPage === from ? 'active' : ''}`}>
+            {from}
+          </span>
+        );
+      }
+
+      for (let page = from; page <= to; page++) {
+        const pageEle = (
           <span
             onClick={() => setCurrentPage(page)}
             className={`page-number ${currentPage === page ? 'active' : ''}`}>
             {page}
           </span>
         );
+        totalPages.push(pageEle);
       }
 
       return totalPages;
+    };
+
+    const dots = <span className={`page-dots`}>...</span>;
+
+    const renderTotalPages = () => {
+      let totalPages = [];
+
+      //1. range from 1 to (USERS_PAGINATION_RANGE + 1)
+      if (currentPage <= USERS_PAGINATION_RANGE + 1) {
+        totalPages = createPages(1, USERS_PAGINATION_RANGE + 1);
+        totalPages.push(dots);
+        totalPages.push(createPages(TOTAL_PAGE, TOTAL_PAGE));
+      }
+
+      //2. range from  (USERS_PAGINATION_RANGE + 2) to (TOTAL_PAGE - USERS_PAGINATION_RANGE - 2)
+      if (
+        currentPage >= USERS_PAGINATION_RANGE + 2 &&
+        currentPage < TOTAL_PAGE - USERS_PAGINATION_RANGE
+      ) {
+        totalPages.push(createPages(1, 1));
+        totalPages.push(dots);
+        totalPages.push(createPages(currentPage - 1, currentPage + 1));
+        totalPages.push(dots);
+        totalPages.push(createPages(TOTAL_PAGE, TOTAL_PAGE));
+      }
+
+      // 3. range from TOTAL_PAGE - USERS_PAGINATION_RANGE - 1) to TOTAL_PAGE
+      if (currentPage >= TOTAL_PAGE - USERS_PAGINATION_RANGE) {
+        totalPages.push(createPages(1, 1));
+        totalPages.push(dots);
+        totalPages.push(
+          ...createPages(TOTAL_PAGE - USERS_PAGINATION_RANGE, TOTAL_PAGE)
+        );
+      }
+
+      return <span className='page-number-list'>{totalPages}</span>;
     };
 
     return (
@@ -67,7 +118,7 @@ function AllUser(props) {
           onClick={() =>
             setCurrentPage((prevPage) => (prevPage === 1 ? 1 : prevPage - 1))
           }
-          className={`fa fa-less-than prev-page ${
+          className={`fa fa-less-than arrow-page ${
             currentPage === 1 ? 'disabled' : ''
           }`}></i>
 
@@ -77,11 +128,11 @@ function AllUser(props) {
         <i
           onClick={() =>
             setCurrentPage((prevPage) =>
-              prevPage === USER_TOTAL_PAGE ? USER_TOTAL_PAGE : prevPage + 1
+              prevPage === TOTAL_PAGE ? TOTAL_PAGE : prevPage + 1
             )
           }
-          className={`fa fa-greater-than next-page ${
-            currentPage === USER_TOTAL_PAGE ? 'disabled' : ''
+          className={`fa fa-greater-than arrow-page ${
+            currentPage === TOTAL_PAGE ? 'disabled' : ''
           }`}></i>
       </div>
     );
@@ -97,6 +148,7 @@ function AllUser(props) {
           </table>
 
           {renderPagination()}
+
           <UserDetail />
         </div>
       )}
