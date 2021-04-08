@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "/xem-phim-zz/static/css/main.ec8395f7.chunk.css",
-    "main.js": "/xem-phim-zz/static/js/main.451fdac3.chunk.js",
-    "main.js.map": "/xem-phim-zz/static/js/main.451fdac3.chunk.js.map",
-    "runtime-main.js": "/xem-phim-zz/static/js/runtime-main.8a0195de.js",
-    "runtime-main.js.map": "/xem-phim-zz/static/js/runtime-main.8a0195de.js.map",
-    "static/css/2.153de236.chunk.css": "/xem-phim-zz/static/css/2.153de236.chunk.css",
-    "static/js/2.4926cc6c.chunk.js": "/xem-phim-zz/static/js/2.4926cc6c.chunk.js",
-    "static/js/2.4926cc6c.chunk.js.map": "/xem-phim-zz/static/js/2.4926cc6c.chunk.js.map",
-    "static/js/3.feb4eabe.chunk.js": "/xem-phim-zz/static/js/3.feb4eabe.chunk.js",
-    "static/js/3.feb4eabe.chunk.js.map": "/xem-phim-zz/static/js/3.feb4eabe.chunk.js.map",
+    "main.css": "/xem-phim-zz/static/css/main.746ee2dd.chunk.css",
+    "main.js": "/xem-phim-zz/static/js/main.66b30619.chunk.js",
+    "main.js.map": "/xem-phim-zz/static/js/main.66b30619.chunk.js.map",
+    "runtime-main.js": "/xem-phim-zz/static/js/runtime-main.b8211a1c.js",
+    "runtime-main.js.map": "/xem-phim-zz/static/js/runtime-main.b8211a1c.js.map",
+    "static/css/2.e8bdba43.chunk.css": "/xem-phim-zz/static/css/2.e8bdba43.chunk.css",
+    "static/js/2.929eb3d2.chunk.js": "/xem-phim-zz/static/js/2.929eb3d2.chunk.js",
+    "static/js/2.929eb3d2.chunk.js.map": "/xem-phim-zz/static/js/2.929eb3d2.chunk.js.map",
+    "static/js/3.e853fa69.chunk.js": "/xem-phim-zz/static/js/3.e853fa69.chunk.js",
+    "static/js/3.e853fa69.chunk.js.map": "/xem-phim-zz/static/js/3.e853fa69.chunk.js.map",
     "index.html": "/xem-phim-zz/index.html",
-    "static/css/2.153de236.chunk.css.map": "/xem-phim-zz/static/css/2.153de236.chunk.css.map",
-    "static/css/main.ec8395f7.chunk.css.map": "/xem-phim-zz/static/css/main.ec8395f7.chunk.css.map",
-    "static/js/2.4926cc6c.chunk.js.LICENSE.txt": "/xem-phim-zz/static/js/2.4926cc6c.chunk.js.LICENSE.txt",
+    "static/css/2.e8bdba43.chunk.css.map": "/xem-phim-zz/static/css/2.e8bdba43.chunk.css.map",
+    "static/css/main.746ee2dd.chunk.css.map": "/xem-phim-zz/static/css/main.746ee2dd.chunk.css.map",
+    "static/js/2.929eb3d2.chunk.js.LICENSE.txt": "/xem-phim-zz/static/js/2.929eb3d2.chunk.js.LICENSE.txt",
     "static/media/footer-bg.7b1562b2.jpg": "/xem-phim-zz/static/media/footer-bg.7b1562b2.jpg",
     "static/media/slick-theme.css": "/xem-phim-zz/static/media/slick.c94f7671.ttf"
   },
   "entrypoints": [
-    "static/js/runtime-main.8a0195de.js",
-    "static/css/2.153de236.chunk.css",
-    "static/js/2.4926cc6c.chunk.js",
-    "static/css/main.ec8395f7.chunk.css",
-    "static/js/main.451fdac3.chunk.js"
+    "static/js/runtime-main.b8211a1c.js",
+    "static/css/2.e8bdba43.chunk.css",
+    "static/js/2.929eb3d2.chunk.js",
+    "static/css/main.746ee2dd.chunk.css",
+    "static/js/main.66b30619.chunk.js"
   ]
 }
