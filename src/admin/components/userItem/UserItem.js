@@ -30,6 +30,7 @@ function UserItem(props) {
 
   return (
     <>
+      {/* confirm delete Modal */}
       <Modal
         backdropClick={() => setConfirmDelete(false)}
         showed={confirmDelete}>

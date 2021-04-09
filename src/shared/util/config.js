@@ -2,10 +2,11 @@ export const API_KEY = '838c50953b29e1152a488ae92467e67c';
 
 export const ADMIN_EMAIL = 'minhnguyenuehk38@gmail.com';
 
-export const API_USER = 'http://localhost:5000/xem-phim-zz/us-central1/api';
+export const API_USER =
+  'https://us-central1-xem-phim-zz.cloudfunctions.net/api';
 
 export const OAUTH_CLIENT_KEY =
-  '727042721453-71eou4s34mf4mro6e11k0j0n0f29f3sq.apps.googleusercontent.com';
+  '727042721453-1kdkllq89t726n1mfd97slu50ls01s9d.apps.googleusercontent.com';
 
 export const API_MOVIE = 'https://api.themoviedb.org/3';
 
@@ -15,7 +16,7 @@ export const USERS_PER_PAGE = 3;
 
 export const USERS_PAGINATION_RANGE = 3;
 
-export const MOVIES_PER_PAGE = 3;
+export const MOVIES_PER_PAGE = 5;
 
 export const MOVIES_PAGINATION_RANGE = 3;
 

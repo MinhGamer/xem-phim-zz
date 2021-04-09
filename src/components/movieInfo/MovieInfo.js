@@ -2,14 +2,13 @@ import React, { useContext, useCallback } from 'react';
 
 import { LANGUAGE_LIST_VN } from '../../shared/util/config';
 
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import useHttp from '../../shared/customHooks/useHttp';
 
 import { AuthContext } from '../../shared/context/AuthContext';
 
 import Collection from '../collection/Collection';
-import { act } from 'react-dom/test-utils';
 
 function MovieInfo(props) {
   const { movie, movieId } = props;
@@ -168,13 +167,15 @@ function MovieInfo(props) {
           <i className='fab fa-facebook'></i>
           Chia sẻ
         </span>
-        <span className='movie-detail__share--bookmark'>
-          <Collection
-            isLoggedIn={auth.isLoggedIn}
-            status={(auth.user && auth.user.collection[movieId]) || null}
-            onClick={clickCollectionHandler}
-          />
-        </span>
+        {type !== 'tv' && (
+          <span className='movie-detail__share--bookmark'>
+            <Collection
+              isLoggedIn={auth.isLoggedIn}
+              status={(auth.user && auth.user.collection[movieId]) || null}
+              onClick={clickCollectionHandler}
+            />
+          </span>
+        )}
       </div>
 
       <div className='movie-detail__genres '>{renderGenres(movie.genres)}</div>

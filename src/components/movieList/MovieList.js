@@ -75,7 +75,7 @@ function MovieList(props) {
     ) {
       numberOfPages.push(createPages(1, 1));
       numberOfPages.push(dots);
-      numberOfPages.push(...createPages(currentPage - 1, currentPage + 1));
+      numberOfPages.push(...createPages(currentPage - 2, currentPage + 2));
       numberOfPages.push(dots);
       numberOfPages.push(createPages(TOTAL_PAGES, TOTAL_PAGES));
       return numberOfPages;
@@ -118,7 +118,7 @@ function MovieList(props) {
             </Button>
             <Button
               disabled={currentPage === numberOfPages}
-              onClick={() => setCurrentPage + 1}
+              onClick={() => setCurrentPage(currentPage + 1)}
               isClear>
               Trang sau
             </Button>

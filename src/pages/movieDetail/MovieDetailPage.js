@@ -16,8 +16,6 @@ import MovieTrailer from '../../components/movieTrailer/MovieTrailer';
 
 import { API_MOVIE_IMAGE } from '../../shared/util/config';
 
-import { AuthContext } from '../../shared/context/AuthContext';
-
 import './MovieDetailPage.css';
 
 import TrailerSlider from '../../components/trailerSlider/TrailerSlider';
@@ -33,7 +31,6 @@ import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
 import ProductionCompany from '../../components/productionCompany/ProductionCompany';
 
 function MovieDetailPage() {
-  const auth = useContext(AuthContext);
   const history = useHistory();
   const type = history.location.pathname.split('/')[1];
   const { movieId, seasonNumber } = useParams();

@@ -6,8 +6,6 @@ import AddMovie from './components/userForm/UserForm';
 import UserForm from './components/userForm/UserForm';
 import AllUser from './components/allUser/AllUser';
 
-import Modal from '../shared/components/UI/Modal';
-
 import { AuthContext } from '../shared/context/AuthContext';
 
 import LoadingSpinner from '../shared/components/UI/LoadingSpinner';
@@ -17,12 +15,7 @@ import useHttp from '../shared/customHooks/useHttp';
 import { connect } from 'react-redux';
 
 import { actSetAllUser } from '../redux/actionCreator/userActions';
-
-const ADMIN_NAVTAB_LIST = [
-  { id: 'allUser', label: 'Tất cả người dùng' },
-  { id: 'addUser', label: 'Thêm người dùng' },
-  { id: 'addMovie', label: 'Đăng phim mới' },
-];
+import DashBoard from '../components/dashboard/DashBoard';
 
 function AdminPage(props) {
   const [navtabIndex, setNavtabIndex] = useState(0);
@@ -30,14 +23,32 @@ function AdminPage(props) {
   const { sendUser, isLoading } = useHttp();
   const [confirmDelete, setConfirmDelete] = useState(null);
 
-  const ADMIN_NAVTAB_ITEM = [
-    <>
-      {isLoading && <LoadingSpinner />}
+  const ADMIN_NAVTAB_LIST = [
+    // { id: 'allUser', label: 'Thống kê' },
+    // { id: 'allUser', label: 'Quản lý người dùng' },
+    // { id: 'addUser', label: 'Thêm người dùng' },
+    // { id: 'addMovie', label: 'Quản lý phim' },
 
-      {!isLoading && <AllUser />}
-    </>,
-    <UserForm />,
-    <AddMovie />,
+    {
+      label: 'Thống kê',
+      icon: <i class='fa fa-chart-line'></i>,
+      component: <DashBoard />,
+    },
+    {
+      label: 'Quản lý người dùng',
+      icon: <i class='fa fa-users'></i>,
+      component: (
+        <>
+          {isLoading && <LoadingSpinner />}
+          {!isLoading && <AllUser />}
+        </>
+      ),
+    },
+    {
+      label: 'Quản lý phim',
+      icon: <i class='fa fa-film'></i>,
+      component: DashBoard,
+    },
   ];
 
   //get token from local storage to login
@@ -63,12 +74,14 @@ function AdminPage(props) {
           navtabIndex === index ? 'active' : ''
         }`}
         key='navtab.id'>
-        {navtab.label}
+        {navtab.icon} {navtab.label}
       </div>
     ));
 
   const renderNavtabItem = () =>
-    ADMIN_NAVTAB_ITEM.map((navItem, index) => navtabIndex === index && navItem);
+    ADMIN_NAVTAB_LIST.map(
+      (navItem, index) => navtabIndex === index && navItem.component
+    );
 
   return (
     <>

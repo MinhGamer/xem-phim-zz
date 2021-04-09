@@ -1,0 +1,56 @@
+.dashboard-container {
+  width: 95%;
+  margin: auto;
+}
+
+.dashboard-statistic {
+  display: flex;
+}
+
+.dashboard-statistic--item {
+  width: 25%;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0.7rem;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.statistic-header {
+  font-size: 1.3rem;
+}
+
+.statistic-count-total {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.statistic-count-today {
+  font-size: 1.1rem;
+}
+
+.dashboard-statistic--item .statistic-icon {
+  font-size: 3.8rem;
+}
+
+.dashboard-container .statistic-users {
+  background-color: #fb7e6d;
+}
+
+.dashboard-container .statistic-downloads {
+  background-color: #9261c6;
+}
+
+.dashboard-container .statistic-movies {
+  background-color: #f1b53d;
+}
+
+.dashboard-container .statistic-messages {
+  background-color: #3db9dc;
+}
+
+.dashboard-container .chart-title {
+  margin-top: 1rem;
+  font-size: 1.4rem;
+}
