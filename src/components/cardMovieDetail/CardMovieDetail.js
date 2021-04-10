@@ -1,26 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import { API_MOVIE_IMAGE } from '../../shared/util/config';
 
 import './CardMovieDetail.css';
 
+import { AuthContext } from '../../shared/context/AuthContext';
+
 import Button from '../../shared/components/UI/Button';
+import { NavLink } from 'react-router-dom';
 
 export default function CardMovieDetail(props) {
   const [showFullOverview, setShowFullOverview] = useState(false);
+  const [showLoginRequired, setShowLoginRequired] = useState(false);
+
+  const auth = useContext(AuthContext);
 
   const { movie, cardMovieRight } = props;
 
   return (
     <div
-      style={{
-        backgroundImage: `url('${API_MOVIE_IMAGE}/${movie.backdrop_path}')`,
-      }}
       className={`card-movie-detail ${
         showFullOverview ? 'overview-full' : ''
       } ${cardMovieRight ? 'card-right' : 'card-left'}`}>
       {/* <img src={`${API_MOVIE_IMAGE}/${movie.poster_path}`} alt={movie.title} /> */}
-      <div className='movie-content'>
+      <div
+        style={{
+          backgroundImage: `url('${API_MOVIE_IMAGE}/${movie.backdrop_path}')`,
+        }}
+        className='movie-content'>
         <div className={`movie-overview `}>{movie.overview}</div>
 
         {!showFullOverview && (
@@ -58,13 +65,22 @@ export default function CardMovieDetail(props) {
             <span className='IMDb--icon'>IMDb</span>
           </div>
         </div>
-        <div className='movie-cart'>
-          <Button isGreen>
+        <div
+          onMouseLeave={() => setShowLoginRequired(false)}
+          className='movie-cart'>
+          <Button onMouseEnter={() => setShowLoginRequired(true)} isGreen>
             Thêm vào giỏ hàng <i class='fa fa-shopping-cart '></i>
           </Button>
-          <div className='icon-heart'>
+          <div
+            onMouseEnter={() => setShowLoginRequired(true)}
+            className='icon-heart'>
             <i class='fa fa-heart'></i>
           </div>
+          {!auth.isLoggedIn && showLoginRequired && (
+            <div className='movie-login-require'>
+              Xin hãy <NavLink to='/auth'>Đăng nhập</NavLink> để tiếp tục{' '}
+            </div>
+          )}
         </div>
       </div>
     </div>

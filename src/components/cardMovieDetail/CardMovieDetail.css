@@ -5,9 +5,6 @@
   width: 300px;
   height: 370px;
   border-radius: 6px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center 10%;
 }
 
 .card-movie-detail.card-left {
@@ -19,24 +16,13 @@
 }
 
 .card-movie-detail.overview-full {
-  width: 600px;
-  height: 420px;
+  width: 450px;
+  height: 100%;
 }
 
 .card-movie-detail img {
   width: 100%;
   height: 100%;
-}
-
-.card-movie-detail::before {
-  z-index: 1;
-  content: '';
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .card-movie-detail .movie-content {
@@ -45,6 +31,20 @@
   left: 0;
   z-index: 2;
   padding: 1rem;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center 10%;
+}
+
+.card-movie-detail .movie-content::before {
+  z-index: -1;
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .card-movie-detail .movie-overview {
@@ -180,6 +180,26 @@
 
 .card-movie-detail .movie-cart .button:hover i {
   color: #23d160;
+}
+
+.card-movie-detail .movie-login-require {
+  position: absolute;
+  bottom: -1rem;
+  left: 2rem;
+  background-color: #fff;
+  color: #000;
+  padding: 0.3rem;
+  border-radius: 5px;
+}
+
+.card-movie-detail .movie-login-require a {
+  color: #3273dc;
+  text-decoration: none;
+}
+
+.movie-login-require a:hover {
+  text-decoration: underline;
+  color: #428bca;
 }
 
 /* animation  */

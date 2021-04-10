@@ -19,12 +19,16 @@ export default function Button(props) {
     buttonFull,
   ].join(' ');
 
+  const { onMouseEnter, onMouseLeave } = props;
+
   return (
     <button
       style={props.style}
       type={props.type}
       disabled={props.disabled}
       onClick={props.onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       className={`button ${buttonStyled} ${props.className}`}>
       {props.children}
     </button>
