@@ -84,11 +84,11 @@ export default function MovieItem(props) {
           unmountOnExit
           classNames={'fade-on-left'}>
           <CardMovieDetail
+            onBackdropClick={() => setShowCardMovie(false)}
             cardMovieRight={cardMovieRight}
             movie={props.movie}
           />
         </CSSTransition>
-
         <div
           onClick={() => onClickMovieHandler()}
           className='movie-item__image'>

@@ -44,6 +44,18 @@ export default function Header() {
   const renderLogin = () => {
     return (
       <>
+        <div className='user-collection user-icon'>
+          <i class='fa fa-film '></i>
+          <div className='user-message'>
+            <p>1</p>
+          </div>
+        </div>
+        <div className='user-cart user-icon'>
+          <i class='fa fa-shopping-cart '></i>
+          <div className='user-message'>
+            <p>2</p>
+          </div>
+        </div>
         <NavLink
           to='/user'
           className='navlinks__item fixed'

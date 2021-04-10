@@ -25,6 +25,34 @@
   height: 100%;
 }
 
+.card-movie-poster {
+  width: 250px;
+  position: absolute;
+  top: 15px;
+  z-index: 10;
+}
+
+.card-movie-poster.card-right {
+  left: -1rem;
+}
+
+.card-movie-poster.card-left {
+  right: -1rem;
+}
+
+.card-movie-poster .title-vn {
+  font-size: 1.2rem;
+}
+
+.card-movie-poster .title-en {
+  font-size: 1.1rem;
+  color: #7a7a7a;
+}
+
+.card-movie-poster img {
+  width: 100%;
+}
+
 .card-movie-detail .movie-content {
   position: absolute;
   top: 0;

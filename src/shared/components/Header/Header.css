@@ -59,13 +59,40 @@ a.navlinks__item {
 }
 
 .login {
-  /* width: 25%; */
-  max-width: 250px;
+  display: flex;
   position: relative;
+  align-items: center;
+}
+
+.login .user-icon {
+  font-size: 1.7rem;
+  margin-left: 1rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.login .user-message {
+  position: absolute;
+  right: -0.7rem;
+  top: 0;
+  background-color: red;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+}
+
+.login .user-message p {
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .login .arrow-expand {
   margin-left: 0.6rem;
+}
+
+.login .user-message {
 }
 
 @media screen and (max-width: 768px) {
