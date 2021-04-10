@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -9,6 +9,7 @@ import { API_MOVIE_IMAGE } from '../../shared/util/config';
 import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
 
 import './MovieItem.css';
+import CardMovieDetail from '../cardMovieDetail/CardMovieDetail';
 
 export default function MovieItem(props) {
   const {
@@ -21,7 +22,7 @@ export default function MovieItem(props) {
     backdrop_path,
   } = props.movie;
 
-  // console.log('render', title);
+  const [showCardMovie, setShowCardMovie] = useState(false);
 
   const { type, clickMovieHandler, isAlreadyWatchced, isEdit } = props;
 
@@ -49,7 +50,12 @@ export default function MovieItem(props) {
   };
 
   const renderMovie = () => (
-    <div className={`${!isEdit ? '' : 'movie-item'}`}>
+    <div
+      onMouseLeave={() => setShowCardMovie(false)}
+      onMouseEnter={() => setShowCardMovie(true)}
+      className={`${!isEdit ? '' : 'movie-item'}`}>
+      {/* when user hover to movie Item at homepage */}
+      {showCardMovie && <CardMovieDetail movie={props.movie} />}
       <div onClick={() => onClickMovieHandler()} className='movie-item__image'>
         {isEdit && (
           <div className='movie-item__edit'>
@@ -81,11 +87,14 @@ export default function MovieItem(props) {
         )}
 
         <img src={imageUrl} alt={original_title} />
+
         <div className='movie-item__play-icon'>
           {!isEdit && <i className='fa fa-play '></i>}
         </div>
       </div>
+
       <p className='movie-item__title--vn'>{title || name}</p>
+
       {!props.noVnTitle && (
         <p className='movie-item__title--eng'>
           {original_title || original_name}

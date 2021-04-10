@@ -204,6 +204,8 @@ export default function HomePage() {
     </div>
   );
 
+  console.log(movies);
+
   return (
     <div className='home-page'>
       {true && <ErrorModal error={error} clearError={clearError} />}

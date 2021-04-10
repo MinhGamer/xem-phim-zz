@@ -2,6 +2,7 @@
   width: 274px;
   padding: 0.8rem;
   font-weight: 700;
+  position: relative;
 }
 
 .movie-item__image {
