@@ -1,16 +1,31 @@
 .card-movie-detail {
-  background-color: #fff;
   position: absolute;
   top: 13px;
-  right: -90%;
   z-index: 10;
   width: 300px;
   height: 370px;
   border-radius: 6px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center 10%;
+}
+
+.card-movie-detail.card-left {
+  right: 90%;
+}
+
+.card-movie-detail.card-right {
+  left: 90%;
+}
+
+.card-movie-detail.overview-full {
+  width: 600px;
+  height: 420px;
 }
 
 .card-movie-detail img {
   width: 100%;
+  height: 100%;
 }
 
 .card-movie-detail::before {
@@ -33,11 +48,26 @@
 }
 
 .card-movie-detail .movie-overview {
+  color: #d4d3dd;
   font-size: 1rem;
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.card-movie-detail.overview-full .movie-overview {
+  display: block;
+}
+
+.card-movie-detail .movie-read-more {
+  color: #3273dc;
+}
+
+.card-movie-detail .movie-read-more:hover {
+  color: #428bca;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .card-movie-detail .fa {
@@ -50,6 +80,7 @@
 }
 
 .card-movie-detail .movie-info--item {
+  color: #efefbb;
   margin: 0.3rem 0;
 }
 
@@ -57,6 +88,50 @@
   display: inline-block;
   font-size: 1.1rem;
   width: 90px;
+}
+
+.card-movie-detail.overview-full .movie-info {
+  display: flex;
+}
+
+.card-movie-detail.overview-full .movie-info--item {
+  border-radius: 5px;
+  /* border: 1px solid #fff; */
+  width: 33%;
+  padding: 0.5rem 2rem;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.card-movie-detail.overview-full .movie-info--item i {
+  font-size: 1.3rem;
+}
+
+.card-movie-detail.overview-full .movie-statistic {
+  display: block;
+  width: 100%;
+  margin: 0;
+}
+
+.card-movie-detail.overview-full .movie-cart .button {
+  display: inline-block;
+  width: 80%;
+}
+
+.card-movie-detail.overview-full .item-like {
+  color: #3273dc;
+}
+
+.card-movie-detail.overview-full .item-buy {
+  color: #23d160;
+}
+
+.card-movie-detail.overview-full .item-imdb {
+  color: #dcf836;
+}
+
+.card-movie-detail.overview-full .movie-info--item p {
+  display: none;
 }
 
 .card-movie-detail .movie-statistic {
@@ -104,5 +179,29 @@
 }
 
 .card-movie-detail .movie-cart .button:hover i {
-  color: #428bca;
+  color: #23d160;
+}
+
+/* animation  */
+
+.fade-on-left-enter {
+  opacity: 0;
+  transform: translateX(-5rem);
+}
+
+.fade-on-left-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 0.5s;
+}
+
+.fade-on-left-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-on-left-exit-active {
+  opacity: 0;
+  transform: translateX(-5rem);
+  transition: all 0.5s;
 }

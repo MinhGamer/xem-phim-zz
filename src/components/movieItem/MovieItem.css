@@ -6,6 +6,7 @@
 }
 
 .movie-item__image {
+  width: 100%;
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -32,7 +33,6 @@
 }
 
 .movie-item__play-icon {
-  z-index: 2;
   position: absolute;
   top: 0;
   left: 0;
