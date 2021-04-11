@@ -205,8 +205,12 @@
   font-size: 1rem;
 }
 
-.card-movie-detail .movie-cart .button:hover i {
+.card-movie-detail .movie-cart .button:hover .fa-shopping-cart {
   color: #23d160;
+}
+
+.card-movie-detail .movie-cart .button:hover .fa-check {
+  color: #3273dc;
 }
 
 .card-movie-detail .movie-login-require {

@@ -7,6 +7,7 @@ import {
 const initialState = {
   moviesCart: [],
   totalOrderAmount: 0,
+  // totalQuantity: 0,
 };
 
 const moviesCartReducer = (state = initialState, action) => {

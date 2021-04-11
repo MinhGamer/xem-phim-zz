@@ -16,13 +16,16 @@ import HeaderDropdown from './HeaderDropdown/HeaderDropdown';
 import useHttp from '../../customHooks/useHttp';
 
 import CartModal from '../CartModal/CartModal';
+import { connect } from 'react-redux';
 
-export default function Header() {
+function Header(props) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showCartModal, setShowCartModal] = useState(false);
   const auth = useContext(AuthContext);
   const [changeNavbarColor, setChangeNavbarColor] = useState(false);
   const { sendUser } = useHttp();
+
+  const { moviesCart } = props;
 
   useEffect(() => {
     const loginUser = async () => {
@@ -53,14 +56,18 @@ export default function Header() {
             <p>1</p>
           </div>
         </div>
+
         <div
           onClick={() => setShowCartModal(true)}
           className='user-cart user-icon'>
           <i class='fa fa-shopping-cart '></i>
-          <div className='user-message'>
-            <p>2</p>
-          </div>
+          {moviesCart.length > 0 && (
+            <div className='user-message'>
+              <p>{moviesCart.length}</p>
+            </div>
+          )}
         </div>
+
         <NavLink
           to='/user'
           className='navlinks__item fixed'
@@ -126,3 +133,11 @@ export default function Header() {
     </header>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    moviesCart: state.moviesCartReducer.moviesCart,
+  };
+};
+
+export default connect(mapStateToProps, null)(Header);

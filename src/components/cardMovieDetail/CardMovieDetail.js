@@ -20,7 +20,10 @@ function CardMovieDetail(props) {
 
   const auth = useContext(AuthContext);
 
-  const { movie, cardMovieRight, onBackdropClick } = props;
+  const { movie, cardMovieRight, onBackdropClick, moviesCart } = props;
+
+  const isAddedToCart =
+    moviesCart.findIndex((_movie) => _movie.id === movie.id) !== -1;
 
   return (
     <>
@@ -89,17 +92,34 @@ function CardMovieDetail(props) {
           <div
             onMouseLeave={() => setShowLoginRequired(false)}
             className='movie-cart'>
-            <Button
-              onClick={() => props.addMovieToCart(movie)}
-              onMouseEnter={() => setShowLoginRequired(true)}
-              isGreen>
-              Thêm vào giỏ hàng <i class='fa fa-shopping-cart '></i>
-            </Button>
+            {!isAddedToCart && (
+              <Button
+                onClick={() => props.addMovieToCart(movie)}
+                onMouseEnter={() => setShowLoginRequired(true)}
+                isGreen>
+                <span>
+                  Thêm vào giỏ hàng <i class='fa fa-shopping-cart '></i>
+                </span>
+              </Button>
+            )}
+
+            {isAddedToCart && (
+              <Button
+                onClick={() => props.addMovieToCart(movie)}
+                onMouseEnter={() => setShowLoginRequired(true)}
+                isDarkblue>
+                <span>
+                  Đã thêm vào giỏ hàng <i class='fa fa-check'></i>
+                </span>
+              </Button>
+            )}
+
             <div
               onMouseEnter={() => setShowLoginRequired(true)}
               className='icon-heart'>
               <i class='fa fa-heart'></i>
             </div>
+
             {!auth.isLoggedIn && showLoginRequired && (
               <div className='movie-login-require'>
                 Xin hãy <NavLink to='/auth'>Đăng nhập</NavLink> để tiếp tục
@@ -112,10 +132,16 @@ function CardMovieDetail(props) {
   );
 }
 
+const mapStateToProps = (state) => {
+  return {
+    moviesCart: state.moviesCartReducer.moviesCart,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     addMovieToCart: (movie) => dispatch(actAddMovieToCart(movie)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(CardMovieDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(CardMovieDetail);

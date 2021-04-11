@@ -12,8 +12,9 @@ import './MovieItem.css';
 import CardMovieDetail from '../cardMovieDetail/CardMovieDetail';
 
 import { CSSTransition } from 'react-transition-group';
+import { connect } from 'react-redux';
 
-export default function MovieItem(props) {
+function MovieItem(props) {
   const {
     id,
     original_title,
@@ -157,3 +158,5 @@ export default function MovieItem(props) {
     </>
   );
 }
+
+export default MovieItem;
