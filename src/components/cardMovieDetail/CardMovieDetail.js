@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react';
 
 import { API_MOVIE_IMAGE } from '../../shared/util/config';
 
+import { actAddMovieToCart } from '../../redux/actionCreator/moviesCartAction';
+
 import './CardMovieDetail.css';
 
 import { AuthContext } from '../../shared/context/AuthContext';
@@ -10,8 +12,9 @@ import Button from '../../shared/components/UI/Button';
 import { NavLink } from 'react-router-dom';
 
 import Backdrop from '../../shared/components/UI/Backdrop';
+import { connect } from 'react-redux';
 
-export default function CardMovieDetail(props) {
+function CardMovieDetail(props) {
   const [showFullOverview, setShowFullOverview] = useState(false);
   const [showLoginRequired, setShowLoginRequired] = useState(false);
 
@@ -86,7 +89,10 @@ export default function CardMovieDetail(props) {
           <div
             onMouseLeave={() => setShowLoginRequired(false)}
             className='movie-cart'>
-            <Button onMouseEnter={() => setShowLoginRequired(true)} isGreen>
+            <Button
+              onClick={() => props.addMovieToCart(movie)}
+              onMouseEnter={() => setShowLoginRequired(true)}
+              isGreen>
               Thêm vào giỏ hàng <i class='fa fa-shopping-cart '></i>
             </Button>
             <div
@@ -96,7 +102,7 @@ export default function CardMovieDetail(props) {
             </div>
             {!auth.isLoggedIn && showLoginRequired && (
               <div className='movie-login-require'>
-                Xin hãy <NavLink to='/auth'>Đăng nhập</NavLink> để tiếp tục{' '}
+                Xin hãy <NavLink to='/auth'>Đăng nhập</NavLink> để tiếp tục
               </div>
             )}
           </div>
@@ -105,3 +111,11 @@ export default function CardMovieDetail(props) {
     </>
   );
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addMovieToCart: (movie) => dispatch(actAddMovieToCart(movie)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(CardMovieDetail);

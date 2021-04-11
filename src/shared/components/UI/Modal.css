@@ -1,11 +1,11 @@
 .modal {
   z-index: 20;
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
   border-radius: 5px;
   box-shadow: 0 0 2px 1px #ccc;
   color: #000000;
   position: fixed;
-  top: 27vh;
+  top: 17vh;
   left: 35%;
   width: 500px;
 }

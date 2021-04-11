@@ -8,7 +8,7 @@ import Backdrop from './Backdrop';
 import { CSSTransition } from 'react-transition-group';
 
 export default function Modal(props) {
-  const { showed, backdropClick } = props;
+  const { showed, backdropClick, className } = props;
 
   const modal = (
     <>
@@ -19,7 +19,7 @@ export default function Modal(props) {
         mountOnEnter
         unmountOnExit
         classNames='modal'>
-        <div className='modal'>{props.children}</div>
+        <div className={`modal ${className}`}>{props.children}</div>
       </CSSTransition>
     </>
   );

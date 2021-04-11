@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import MovieList from '../../components/movieList/MovieList';
 
@@ -203,8 +203,6 @@ export default function HomePage() {
       </span>
     </div>
   );
-
-  console.log(movies);
 
   return (
     <div className='home-page'>

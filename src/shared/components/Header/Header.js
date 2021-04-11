@@ -15,8 +15,11 @@ import HeaderDropdown from './HeaderDropdown/HeaderDropdown';
 
 import useHttp from '../../customHooks/useHttp';
 
+import CartModal from '../CartModal/CartModal';
+
 export default function Header() {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showCartModal, setShowCartModal] = useState(false);
   const auth = useContext(AuthContext);
   const [changeNavbarColor, setChangeNavbarColor] = useState(false);
   const { sendUser } = useHttp();
@@ -50,7 +53,9 @@ export default function Header() {
             <p>1</p>
           </div>
         </div>
-        <div className='user-cart user-icon'>
+        <div
+          onClick={() => setShowCartModal(true)}
+          className='user-cart user-icon'>
           <i class='fa fa-shopping-cart '></i>
           <div className='user-message'>
             <p>2</p>
@@ -83,6 +88,11 @@ export default function Header() {
 
   return (
     <header className={`header ${changeNavbarColor ? 'active' : ''}`}>
+      <CartModal
+        backdropClick={() => setShowCartModal(false)}
+        showed={showCartModal}
+      />
+
       <div className='header--wrapper'>
         <NavLink to='/' className='logo'>
           <img src={logo} alt='logo' />
