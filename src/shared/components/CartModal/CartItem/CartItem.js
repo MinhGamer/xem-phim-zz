@@ -29,8 +29,8 @@ function CartItem(props) {
         </div>
 
         <div className='item-price'>
-          <p className='price-promotion'>$ {movie.vote_average} </p>
-          <p className='price-original'>$ 29.99</p>
+          <p className='price-promotion'>${movie.vote_average} </p>
+          <p className='price-original'>$29.99</p>
         </div>
         <div className='item-quantity'>
           <i onClick={() => addMovie(movie)} class='fa fa-plus icon-plus'></i>
@@ -40,7 +40,7 @@ function CartItem(props) {
             class='fa fa-minus icon-minus'></i>
         </div>
         <div className='item-total'>
-          $ {(movie.quantity * movie.vote_average).toFixed(1)}
+          ${(movie.quantity * movie.vote_average).toFixed(1)}
         </div>
         <div className='item-delete'>
           <i onClick={() => removeMovie(movie)} class='fa fa-trash'></i>

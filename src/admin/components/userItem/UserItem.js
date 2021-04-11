@@ -9,7 +9,7 @@ import Modal from '../../../shared/components/UI/Modal';
 import {
   actDeleteUser,
   actGetUser,
-} from '../../../redux/actionCreator/userActions';
+} from '../../../redux/actionCreator/adminActions';
 import Button from '../../../shared/components/UI/Button';
 
 function UserItem(props) {
@@ -87,7 +87,7 @@ function UserItem(props) {
 
 const mapStateToProps = (state) => {
   return {
-    userDetail: state.userReducer.userDetail,
+    adminReducer: state.adminReducer.userDetail,
   };
 };
 

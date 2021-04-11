@@ -2,8 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 
 import './AdminPage.css';
 
-import AddMovie from './components/userForm/UserForm';
-import UserForm from './components/userForm/UserForm';
 import AllUser from './components/allUser/AllUser';
 
 import { AuthContext } from '../shared/context/AuthContext';
@@ -14,7 +12,7 @@ import useHttp from '../shared/customHooks/useHttp';
 
 import { connect } from 'react-redux';
 
-import { actSetAllUser } from '../redux/actionCreator/userActions';
+import { actSetAllUser } from '../redux/actionCreator/adminActions';
 import DashBoard from '../components/dashboard/DashBoard';
 
 function AdminPage(props) {

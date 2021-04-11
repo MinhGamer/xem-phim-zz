@@ -8,7 +8,7 @@ import {
   USERS_PAGINATION_RANGE,
 } from '../../../shared/util/config';
 
-import { actSortUsers } from '../../../redux/actionCreator/userActions';
+import { actSortUsers } from '../../../redux/actionCreator/adminActions';
 
 import UserItem from '../userItem/UserItem';
 
@@ -209,8 +209,8 @@ function AllUser(props) {
 
 const mapStateToProps = (state) => {
   return {
-    allUser: state.userReducer.allUser,
-    userDetail: state.userReducer.userDetail,
+    allUser: state.adminReducer.allUser,
+    userDetail: state.adminReducer.userDetail,
   };
 };
 

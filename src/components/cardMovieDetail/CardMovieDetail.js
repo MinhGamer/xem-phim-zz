@@ -12,7 +12,7 @@ import './CardMovieDetail.css';
 import { AuthContext } from '../../shared/context/AuthContext';
 
 import Button from '../../shared/components/UI/Button';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 
 import Backdrop from '../../shared/components/UI/Backdrop';
 import { connect } from 'react-redux';
@@ -21,6 +21,8 @@ function CardMovieDetail(props) {
   const [showFullOverview, setShowFullOverview] = useState(false);
   const [showLoginRequired, setShowLoginRequired] = useState(false);
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
+
+  const history = useHistory();
 
   const auth = useContext(AuthContext);
 
@@ -106,7 +108,11 @@ function CardMovieDetail(props) {
             className='movie-cart'>
             {!isAddedToCart && (
               <Button
-                onClick={() => props.addMovieToCart(movie)}
+                onClick={
+                  auth.isLoggedIn
+                    ? () => props.addMovieToCart(movie)
+                    : () => history.push(`/auth`)
+                }
                 onMouseEnter={() => setShowLoginRequired(true)}
                 isGreen>
                 <span>
@@ -122,7 +128,7 @@ function CardMovieDetail(props) {
                     onMouseEnter={() => setShowDeleteBtn(true)}
                     isDarkblue>
                     <span>
-                      Đã thêm vào giỏ hàng <i class='fa fa-check'></i>
+                      Đã thêm vào giỏ hàng <i className='fa fa-check'></i>
                     </span>
                   </Button>
                 )}
@@ -134,7 +140,7 @@ function CardMovieDetail(props) {
                     onMouseEnter={() => setShowLoginRequired(true)}
                     isPrimary>
                     <span>
-                      Xoá khỏi giỏ hàng <i class='fa fa-trash'></i>
+                      Xoá khỏi giỏ hàng <i className='fa fa-trash'></i>
                     </span>
                   </Button>
                 )}
@@ -142,9 +148,12 @@ function CardMovieDetail(props) {
             )}
 
             <div
+              onClick={() =>
+                (auth.user.collection[movie.id] = { isDone: false })
+              }
               onMouseEnter={() => setShowLoginRequired(true)}
               className='icon-heart'>
-              <i class='fa fa-heart'></i>
+              <i className='fa fa-heart'></i>
             </div>
 
             {!auth.isLoggedIn && showLoginRequired && (
