@@ -9,6 +9,8 @@ import {
   actAddMovieToCart,
 } from '../../../../redux/actionCreator/moviesCartAction';
 
+import './CartItem.css';
+
 function CartItem(props) {
   const { movie, minusMovieByOne, removeMovie, addMovie, onClick } = props;
 

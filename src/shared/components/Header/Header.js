@@ -28,6 +28,8 @@ function Header(props) {
 
   const { moviesCart } = props;
 
+  const userCollectionArr = auth.user && Object.values(auth.user.collection);
+
   useEffect(() => {
     const loginUser = async () => {
       const tokenId = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -48,19 +50,18 @@ function Header(props) {
     loginUser();
   }, []);
 
-  // //cart modal will close when change page
-  // useEffect(() => {
-  //   setShowCartModal(false);
-  // }, [history.location]);
-
   const renderLogin = () => {
     return (
       <>
-        <div className='user-collection user-icon'>
+        <div
+          onClick={() => history.push('/collection')}
+          className='user-collection user-icon'>
           <i class='fa fa-film '></i>
-          <div className='user-message'>
-            <p>1</p>
-          </div>
+          {userCollectionArr.length > 0 && (
+            <div className='user-message'>
+              <p>{userCollectionArr.length}</p>
+            </div>
+          )}
         </div>
 
         <div

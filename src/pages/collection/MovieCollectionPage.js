@@ -14,7 +14,7 @@ import { CSSTransition } from 'react-transition-group';
 
 import Slider from 'react-slick';
 
-export default function MovieCollectionPage() {
+export default function MovieCollectionPage(props) {
   const [collection, setCollection] = useState([]);
   const [activeId, setActiveId] = useState(null);
   const [deleteMovie, setDeleteMovie] = useState(false);
@@ -29,9 +29,30 @@ export default function MovieCollectionPage() {
 
   const auth = useContext(AuthContext);
 
+  const username = props.username;
+
+  const fetchCollection = props.collection || auth.user.collection;
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      let _collection = await fetchMoviesByIdList(fetchCollection);
+
+      //assign property isDone to collection fetched from db
+      _collection = _collection.map((movie) => ({
+        ...movie,
+        isDone: fetchCollection[movie.id].isDone,
+      }));
+
+      setCollection(_collection);
+    };
+
+    fetchMovies();
+  }, [fetchCollection]);
+
   const settingsWhislist = {
     //fix bug when number of movies less than 4
     infinite: collection.filter((movie) => !movie.isDone).length > 4,
+    // infinite: false,
     speed: 200,
     slidesToShow: 4,
     slidesToScroll: 1,
@@ -42,6 +63,7 @@ export default function MovieCollectionPage() {
   const settingsFinishlist = {
     //fix bug when number of movies less than 4
     infinite: collection.filter((movie) => movie.isDone).length > 4,
+    // infinite: false,
     speed: 200,
     slidesToShow: 4,
     slidesToScroll: 1,
@@ -111,24 +133,6 @@ export default function MovieCollectionPage() {
       </>
     ));
   };
-
-  const authCollection = auth.user.collection;
-
-  useEffect(() => {
-    const fetchMovies = async () => {
-      let _collection = await fetchMoviesByIdList(authCollection);
-
-      //assign property isDone to collection fetched from db
-      _collection = _collection.map((movie) => ({
-        ...movie,
-        isDone: authCollection[movie.id].isDone,
-      }));
-
-      setCollection(_collection);
-    };
-
-    fetchMovies();
-  }, [auth.user, fetchMoviesByIdList]);
 
   const onClickMovieHandler = async (movieId, action) => {
     //when movie go to collection
@@ -221,7 +225,7 @@ export default function MovieCollectionPage() {
 
   const navTab = [
     {
-      label: 'Muốn xem',
+      label: `Muốn xem (${collection.filter((movie) => !movie.isDone).length})`,
       component: (
         <Slider {...settingsWhislist}>
           {renderMovies(collection.filter((movie) => !movie.isDone))}
@@ -229,7 +233,7 @@ export default function MovieCollectionPage() {
       ),
     },
     {
-      label: 'Đã xem',
+      label: `Đã xem (${collection.filter((movie) => movie.isDone).length})`,
       component: (
         <Slider {...settingsFinishlist}>
           {renderMovies(collection.filter((movie) => movie.isDone))}
@@ -242,7 +246,9 @@ export default function MovieCollectionPage() {
     <div className='movie-collection'>
       {error && <ErrorModal error={error} clearError={clearError} />}
 
-      <h1 className='text-center'>Bộ sưu tập phim của bạn</h1>
+      <div className='collection-header'>
+        Bộ sưu tập phim của <span>{username ? username : 'bạn'}</span>
+      </div>
 
       <div className='movie-collection-navtab '>
         {navTab.map((navItem, index) => (
@@ -259,22 +265,6 @@ export default function MovieCollectionPage() {
       {navTab.map(
         (navItem, index) => activeTabIndex === index && <>{navItem.component}</>
       )}
-
-      {/* 
-      <h1 className='movie-collection--whislist'>Các phim bạn muốn xem:</h1> */}
-
-      {/* <div>
-        <Slider {...settingsWhislist}>
-          {renderMovies(collection.filter((movie) => !movie.isDone))}
-        </Slider>
-      </div>
-
-      <h1 className='movie-collection--finish'>Các phim bạn đã xem:</h1>
-      <div>
-        <Slider {...settingsFinishlist}>
-          {renderMovies(collection.filter((movie) => movie.isDone))}
-        </Slider>
-      </div> */}
     </div>
   );
 }

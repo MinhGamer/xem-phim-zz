@@ -120,3 +120,16 @@
 .all-users-pagination .page-dots {
   margin: 0 0.5rem;
 }
+
+.all-user-container .user-collection .movie-collection {
+  padding-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.all-user-container .user-collection .collection-header span {
+  color: #dcf836;
+}
+
+.all-user-container .user-collection .movie-collection-list {
+  width: 95%;
+}

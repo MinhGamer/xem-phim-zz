@@ -15,9 +15,9 @@
 }
 
 .movie-collection-navtab .navtab-active {
-  height: 40px;
-  width: 150px;
-  line-height: 35px;
+  height: 45px;
+  width: 190px;
+  line-height: 40px;
   background: linear-gradient(to bottom, #8e2de2, #4a00e0);
   color: #fff;
   border-radius: 5px;
@@ -36,6 +36,13 @@
 
 .movie-collection-navtab:hover .movie-collection__title.navtab-active {
   color: #fff;
+}
+
+.movie-collection .collection-header {
+  width: 100%;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
 }
 
 .movie-collection__liked-movies {

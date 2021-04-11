@@ -1,0 +1,96 @@
+.cart-modal .cart-item {
+  text-align: center;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 0.7rem;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 1px 1px #fff;
+  border-color: transparent;
+  margin-bottom: 0.7rem;
+}
+
+.cart-modal .cart-item img {
+  width: 60%;
+  border: 3px solid transparent;
+}
+
+.cart-modal .cart-item img:hover {
+  cursor: pointer;
+  border: 3px solid #3273dc;
+}
+
+.cart-modal .item-img {
+  width: 20%;
+}
+
+.cart-modal .item-title {
+  width: 20%;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.cart-modal .item-title:hover {
+  text-decoration: underline;
+  color: #3273dc;
+  cursor: pointer;
+}
+
+.cart-modal .item-price {
+  width: 15%;
+  font-style: italic;
+}
+
+.cart-modal .price-original {
+  text-decoration: line-through;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.cart-modal .price-promotion {
+  font-size: 1.3rem;
+  color: #ff4b2b;
+  font-weight: 700;
+}
+
+.cart-modal .item-quantity {
+  width: 20%;
+}
+
+.cart-modal .item-quantity span {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #bdc3c7;
+  text-align: center;
+  line-height: 26px;
+  margin: 0 0.5rem;
+  border-radius: 5px;
+}
+
+.cart-modal .item-quantity .fa {
+  cursor: pointer;
+}
+
+.cart-modal .item-quantity .icon-plus:hover {
+  color: #3273dc;
+}
+
+.cart-modal .item-quantity .icon-minus:hover {
+  color: red;
+}
+
+.cart-modal .item-total {
+  width: 15%;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.cart-modal .item-delete {
+  width: 10%;
+  cursor: pointer;
+}
+
+.cart-modal .item-delete:hover {
+  color: red;
+}

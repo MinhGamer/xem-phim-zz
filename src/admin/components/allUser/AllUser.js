@@ -14,12 +14,11 @@ import UserItem from '../userItem/UserItem';
 
 import { connect } from 'react-redux';
 
-import UserDetail from '../userDetail/UserDetail';
+import MovieCollectionPage from '../../../pages/collection/MovieCollectionPage';
 
 function AllUser(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState('');
-  // const [allUser, setAllUser] = useState(null);
 
   const { allUser } = props;
 
@@ -173,6 +172,8 @@ function AllUser(props) {
     return users;
   };
 
+  console.log(props.userDetail);
+
   return (
     <>
       {allUser && (
@@ -192,7 +193,14 @@ function AllUser(props) {
 
           {renderPagination(filterUsersByName(allUser, search))}
 
-          <UserDetail />
+          <div className='user-collection'>
+            {props.userDetail && (
+              <MovieCollectionPage
+                username={props.userDetail.name}
+                collection={props.userDetail.collection}
+              />
+            )}
+          </div>
         </div>
       )}
     </>
@@ -202,6 +210,7 @@ function AllUser(props) {
 const mapStateToProps = (state) => {
   return {
     allUser: state.userReducer.allUser,
+    userDetail: state.userReducer.userDetail,
   };
 };
 
