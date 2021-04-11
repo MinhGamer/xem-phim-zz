@@ -18,11 +18,7 @@ export default function MovieCollectionPage() {
   const [collection, setCollection] = useState([]);
   const [activeId, setActiveId] = useState(null);
   const [deleteMovie, setDeleteMovie] = useState(false);
-
-  const auth = useContext(AuthContext);
-
-  const authCollection = auth.user.collection;
-
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
   const {
     fetchMoviesByIdList,
     isLoading,
@@ -31,88 +27,7 @@ export default function MovieCollectionPage() {
     sendUser,
   } = useHttp();
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      let _collection = await fetchMoviesByIdList(authCollection);
-
-      //assign property isDone to collection fetched from db
-      _collection = _collection.map((movie) => ({
-        ...movie,
-        isDone: authCollection[movie.id].isDone,
-      }));
-
-      setCollection(_collection);
-    };
-
-    fetchMovies();
-  }, [auth.user, fetchMoviesByIdList]);
-
-  const onClickMovieHandler = async (movieId, action) => {
-    //when movie go to collection
-
-    // list of Ids
-    // authCollection = [
-    //  1771: {isDone: true}, => finish list
-    // 527774: {isDone: false} => wishlist
-    // ]
-
-    // list of movie obj use to render
-    //renderCollection = [
-    //       {
-    //         id: 399566
-    // imdb_id: "tt5034838"
-    // original_language: "en"
-    // original_title: "Godzilla vs. Kong"
-    // overview: "Khi
-    //       }, ...
-    //     ]
-
-    let renderCollection = [...collection];
-
-    const authCollection = auth.user.collection;
-
-    if (action === 'addFavorited' || action === 'addDone') {
-      authCollection[movieId] = {
-        isDone: action === 'addDone' ? true : false,
-      };
-
-      const index = renderCollection.findIndex((movie) => movie.id === movieId);
-
-      if (index === -1) return;
-
-      renderCollection[index].isDone = !renderCollection[index].isDone;
-
-      setCollection(renderCollection);
-    }
-
-    if (action === 'delete') {
-      // delete authCollection[movieId];
-
-      // renderCollection = renderCollection.filter(
-      //   (movie) => movie.id !== movieId
-      // );
-
-      console.log('delete');
-
-      //movie item enter exit phase
-      //dont' setCollection here
-      setDeleteMovie(true);
-    }
-
-    setActiveId(movieId);
-
-    // const data = await sendUser(
-    //   'user',
-    //   'PATCH',
-    //   JSON.stringify({ collection: authCollection }),
-    //   {
-    //     Authorization: 'Bearer ' + auth.token,
-    //   }
-    // );
-
-    //if update collection success
-    //use to render base on the collection in authContent
-  };
+  const auth = useContext(AuthContext);
 
   const settingsWhislist = {
     //fix bug when number of movies less than 4
@@ -132,24 +47,6 @@ export default function MovieCollectionPage() {
     slidesToScroll: 1,
     arrows: true,
     className: 'movie-collection-list',
-  };
-
-  //when user delete a movie =>
-  //1. animate movie item first
-  //2. then delete from list
-  //-> because if we delete movie Id first there is no movie Id to attach to CSSTransition
-  const deleveMovieHandler = (movieId) => {
-    let renderCollection = [...collection];
-
-    console.log(movieId);
-
-    renderCollection = renderCollection.filter((movie) => movie.id !== movieId);
-
-    delete auth.user.collection[movieId];
-
-    setActiveId(null);
-    setDeleteMovie(false);
-    setCollection(renderCollection);
   };
 
   const renderMovies = (_collection) => {
@@ -215,14 +112,158 @@ export default function MovieCollectionPage() {
     ));
   };
 
+  const authCollection = auth.user.collection;
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      let _collection = await fetchMoviesByIdList(authCollection);
+
+      //assign property isDone to collection fetched from db
+      _collection = _collection.map((movie) => ({
+        ...movie,
+        isDone: authCollection[movie.id].isDone,
+      }));
+
+      setCollection(_collection);
+    };
+
+    fetchMovies();
+  }, [auth.user, fetchMoviesByIdList]);
+
+  const onClickMovieHandler = async (movieId, action) => {
+    //when movie go to collection
+
+    // list of Ids
+    // authCollection = [
+    //  1771: {isDone: true}, => finish list
+    // 527774: {isDone: false} => wishlist
+    // ]
+
+    // list of movie obj use to render
+    //renderCollection = [
+    //       {
+    //         id: 399566
+    // imdb_id: "tt5034838"
+    // original_language: "en"
+    // original_title: "Godzilla vs. Kong"
+    // overview: "Khi
+    //       }, ...
+    //     ]
+
+    let renderCollection = [...collection];
+
+    const authCollection = auth.user.collection;
+
+    if (action === 'addFavorited' || action === 'addDone') {
+      authCollection[movieId] = {
+        isDone: action === 'addDone' ? true : false,
+      };
+
+      const index = renderCollection.findIndex((movie) => movie.id === movieId);
+
+      if (index === -1) return;
+
+      renderCollection[index].isDone = !renderCollection[index].isDone;
+
+      //add at the begin to see animation
+      renderCollection.unshift(renderCollection[index]);
+      renderCollection.splice(index + 1, 1);
+
+      setCollection(renderCollection);
+    }
+
+    if (action === 'delete') {
+      // delete authCollection[movieId];
+
+      // renderCollection = renderCollection.filter(
+      //   (movie) => movie.id !== movieId
+      // );
+
+      console.log('delete');
+
+      //movie item enter exit phase
+      //dont' setCollection here
+      setDeleteMovie(true);
+    }
+
+    setActiveId(movieId);
+
+    // const data = await sendUser(
+    //   'user',
+    //   'PATCH',
+    //   JSON.stringify({ collection: authCollection }),
+    //   {
+    //     Authorization: 'Bearer ' + auth.token,
+    //   }
+    // );
+
+    //if update collection success
+    //use to render base on the collection in authContent
+  };
+
+  //when user delete a movie =>
+  //1. animate movie item first
+  //2. then delete from list
+  //-> because if we delete movie Id first there is no movie Id to attach to CSSTransition
+  const deleveMovieHandler = (movieId) => {
+    let renderCollection = [...collection];
+
+    console.log(movieId);
+
+    renderCollection = renderCollection.filter((movie) => movie.id !== movieId);
+
+    delete auth.user.collection[movieId];
+
+    setActiveId(null);
+    setDeleteMovie(false);
+    setCollection(renderCollection);
+  };
+
+  const navTab = [
+    {
+      label: 'Muốn xem',
+      component: (
+        <Slider {...settingsWhislist}>
+          {renderMovies(collection.filter((movie) => !movie.isDone))}
+        </Slider>
+      ),
+    },
+    {
+      label: 'Đã xem',
+      component: (
+        <Slider {...settingsFinishlist}>
+          {renderMovies(collection.filter((movie) => movie.isDone))}
+        </Slider>
+      ),
+    },
+  ];
+
   return (
     <div className='movie-collection'>
       {error && <ErrorModal error={error} clearError={clearError} />}
 
       <h1 className='text-center'>Bộ sưu tập phim của bạn</h1>
 
-      <h1 className='movie-collection--whislist'>Các phim bạn muốn xem:</h1>
-      <div>
+      <div className='movie-collection-navtab '>
+        {navTab.map((navItem, index) => (
+          <div
+            onClick={() => setActiveTabIndex(index)}
+            className={`movie-collection__title ${
+              activeTabIndex === index ? 'navtab-active' : ''
+            }`}>
+            {navItem.label}
+          </div>
+        ))}
+      </div>
+
+      {navTab.map(
+        (navItem, index) => activeTabIndex === index && <>{navItem.component}</>
+      )}
+
+      {/* 
+      <h1 className='movie-collection--whislist'>Các phim bạn muốn xem:</h1> */}
+
+      {/* <div>
         <Slider {...settingsWhislist}>
           {renderMovies(collection.filter((movie) => !movie.isDone))}
         </Slider>
@@ -233,7 +274,7 @@ export default function MovieCollectionPage() {
         <Slider {...settingsFinishlist}>
           {renderMovies(collection.filter((movie) => movie.isDone))}
         </Slider>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -90,6 +90,7 @@ function MovieItem(props) {
             movie={props.movie}
           />
         </CSSTransition>
+
         <div
           onClick={() => onClickMovieHandler()}
           className='movie-item__image'>

@@ -5,14 +5,37 @@
 .movie-collection-list {
   width: 70%;
   margin: auto;
-  /* display: flex;
-  flex-wrap: wrap;
-  justify-content: center; */
+}
+
+.movie-collection-navtab {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.movie-collection-navtab .navtab-active {
+  height: 40px;
+  width: 150px;
+  line-height: 35px;
+  background: linear-gradient(to bottom, #8e2de2, #4a00e0);
+  color: #fff;
+  border-radius: 5px;
 }
 
 .movie-collection__title {
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.6rem;
+  cursor: pointer;
+  margin: 1rem;
+}
+
+.movie-collection__title:hover {
+  color: #8e2de2;
+}
+
+.movie-collection-navtab:hover .movie-collection__title.navtab-active {
+  color: #fff;
 }
 
 .movie-collection__liked-movies {

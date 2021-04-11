@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
@@ -16,11 +16,13 @@ import {
 } from '../../../redux/actionCreator/moviesCartAction';
 
 import './CartModal.css';
+import CartItem from './CartItem/CartItem';
 
 function CartModal(props) {
   const { showed, backdropClick, closeCartModal } = props;
 
   const history = useHistory();
+
   const {
     moviesCart,
     totalOrderAmount,
@@ -52,41 +54,11 @@ function CartModal(props) {
             moviesCart.length > 0 ? 'cart-list-scrollable' : ''
           }`}>
           {moviesCart.length > 0 &&
-            moviesCart.map((movie, index) => (
-              <div className='cart-item'>
-                <div className='item-img'>
-                  <img
-                    onClick={() => gotoMovieDetailPage(movie.id)}
-                    src={`${API_MOVIE_IMAGE}/${movie.poster_path}`}
-                    alt={movie.title}
-                  />
-                </div>
-                <div className='item-title'>
-                  <p onClick={() => gotoMovieDetailPage(movie.id)}>
-                    {movie.title}
-                  </p>
-                </div>
-
-                <div className='item-price'>
-                  <p className='price-promotion'>$ {movie.vote_average} </p>
-                  <p className='price-original'>$ 29.99</p>
-                </div>
-                <div className='item-quantity'>
-                  <i
-                    onClick={() => addMovie(movie)}
-                    class='fa fa-plus icon-plus'></i>
-                  <span> {movie.quantity}</span>
-                  <i
-                    onClick={() => minusMovieByOne(movie.id)}
-                    class='fa fa-minus icon-minus'></i>
-                </div>
-                <div className='item-total'>
-                  $ {(movie.quantity * movie.vote_average).toFixed(1)}
-                </div>
-                <div className='item-delete'>
-                  <i onClick={() => removeMovie(movie)} class='fa fa-trash'></i>
-                </div>
-              </div>
+            moviesCart.map((movie) => (
+              <CartItem
+                onClick={() => gotoMovieDetailPage(movie.id)}
+                movie={movie}
+              />
             ))}
 
           {moviesCart.length === 0 && (
