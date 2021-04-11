@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+
+import { useHistory } from 'react-router-dom';
 
 import Modal from '../UI/Modal';
 
@@ -16,8 +18,9 @@ import {
 import './CartModal.css';
 
 function CartModal(props) {
-  const { showed, backdropClick } = props;
+  const { showed, backdropClick, closeCartModal } = props;
 
+  const history = useHistory();
   const {
     moviesCart,
     totalOrderAmount,
@@ -26,7 +29,11 @@ function CartModal(props) {
     addMovie,
   } = props;
 
-  console.log(moviesCart);
+  const gotoMovieDetailPage = (movieId) => {
+    history.push(`/movie/${movieId}`);
+
+    closeCartModal();
+  };
 
   return (
     <>
@@ -34,6 +41,12 @@ function CartModal(props) {
         className='cart-modal'
         backdropClick={backdropClick}
         showed={showed}>
+        <div className='cart-header'>
+          <div className='cart-header--title'>Giỏ hàng của bạn</div>
+          <div>
+            <i onClick={closeCartModal} class='fa fa-times'></i>
+          </div>
+        </div>
         <div
           className={`cart-list ${
             moviesCart.length > 0 ? 'cart-list-scrollable' : ''
@@ -43,12 +56,15 @@ function CartModal(props) {
               <div className='cart-item'>
                 <div className='item-img'>
                   <img
+                    onClick={() => gotoMovieDetailPage(movie.id)}
                     src={`${API_MOVIE_IMAGE}/${movie.poster_path}`}
                     alt={movie.title}
                   />
                 </div>
                 <div className='item-title'>
-                  <p>{movie.title} </p>
+                  <p onClick={() => gotoMovieDetailPage(movie.id)}>
+                    {movie.title}
+                  </p>
                 </div>
 
                 <div className='item-price'>
@@ -79,6 +95,7 @@ function CartModal(props) {
             </div>
           )}
         </div>
+
         {moviesCart.length > 0 && (
           <div className='cart-summary'>
             <div>Tổng đơn hàng: </div>

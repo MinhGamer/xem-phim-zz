@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 
 import './Header.css';
 
@@ -24,6 +24,7 @@ function Header(props) {
   const auth = useContext(AuthContext);
   const [changeNavbarColor, setChangeNavbarColor] = useState(false);
   const { sendUser } = useHttp();
+  const history = useHistory();
 
   const { moviesCart } = props;
 
@@ -46,6 +47,11 @@ function Header(props) {
 
     loginUser();
   }, []);
+
+  // //cart modal will close when change page
+  // useEffect(() => {
+  //   setShowCartModal(false);
+  // }, [history.location]);
 
   const renderLogin = () => {
     return (
@@ -96,6 +102,7 @@ function Header(props) {
   return (
     <header className={`header ${changeNavbarColor ? 'active' : ''}`}>
       <CartModal
+        closeCartModal={() => setShowCartModal(false)}
         backdropClick={() => setShowCartModal(false)}
         showed={showCartModal}
       />

@@ -2,7 +2,10 @@ import React, { useState, useContext } from 'react';
 
 import { API_MOVIE_IMAGE } from '../../shared/util/config';
 
-import { actAddMovieToCart } from '../../redux/actionCreator/moviesCartAction';
+import {
+  actAddMovieToCart,
+  actRemoveMovie,
+} from '../../redux/actionCreator/moviesCartAction';
 
 import './CardMovieDetail.css';
 
@@ -17,11 +20,20 @@ import { connect } from 'react-redux';
 function CardMovieDetail(props) {
   const [showFullOverview, setShowFullOverview] = useState(false);
   const [showLoginRequired, setShowLoginRequired] = useState(false);
+  const [showDeleteBtn, setShowDeleteBtn] = useState(false);
 
   const auth = useContext(AuthContext);
 
-  const { movie, cardMovieRight, onBackdropClick, moviesCart } = props;
+  const {
+    movie,
+    cardMovieRight,
+    onBackdropClick,
+    moviesCart,
+    removeMovie,
+    addMovieToCart,
+  } = props;
 
+  //check to see if movie is in cart or not
   const isAddedToCart =
     moviesCart.findIndex((_movie) => _movie.id === movie.id) !== -1;
 
@@ -104,14 +116,29 @@ function CardMovieDetail(props) {
             )}
 
             {isAddedToCart && (
-              <Button
-                onClick={() => props.addMovieToCart(movie)}
-                onMouseEnter={() => setShowLoginRequired(true)}
-                isDarkblue>
-                <span>
-                  Đã thêm vào giỏ hàng <i class='fa fa-check'></i>
-                </span>
-              </Button>
+              <>
+                {!showDeleteBtn && (
+                  <Button
+                    onMouseEnter={() => setShowDeleteBtn(true)}
+                    isDarkblue>
+                    <span>
+                      Đã thêm vào giỏ hàng <i class='fa fa-check'></i>
+                    </span>
+                  </Button>
+                )}
+
+                {showDeleteBtn && (
+                  <Button
+                    onMouseLeave={() => setShowDeleteBtn(false)}
+                    onClick={() => removeMovie(movie)}
+                    onMouseEnter={() => setShowLoginRequired(true)}
+                    isPrimary>
+                    <span>
+                      Xoá khỏi giỏ hàng <i class='fa fa-trash'></i>
+                    </span>
+                  </Button>
+                )}
+              </>
             )}
 
             <div
@@ -141,6 +168,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addMovieToCart: (movie) => dispatch(actAddMovieToCart(movie)),
+    removeMovie: (movie) => dispatch(actRemoveMovie(movie)),
   };
 };
 

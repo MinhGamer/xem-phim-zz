@@ -213,6 +213,10 @@
   color: #3273dc;
 }
 
+.card-movie-detail .movie-cart .button:hover .fa-trash {
+  color: #ff4b2b;
+}
+
 .card-movie-detail .movie-login-require {
   position: absolute;
   bottom: -1rem;
