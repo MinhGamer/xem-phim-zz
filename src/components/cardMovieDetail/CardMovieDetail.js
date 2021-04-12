@@ -7,6 +7,8 @@ import {
   actRemoveMovie,
 } from '../../redux/actionCreator/moviesCartAction';
 
+import { actAddMovieToCollection } from '../../redux/actionCreator/userActions';
+
 import './CardMovieDetail.css';
 
 import { AuthContext } from '../../shared/context/AuthContext';
@@ -149,7 +151,9 @@ function CardMovieDetail(props) {
               </>
             )}
 
-            <div className='btn-add-to-collection'>
+            <div
+              onClick={() => props.addMovieToCollection(movie)}
+              className='btn-add-to-collection'>
               <div
                 onClick={() =>
                   (auth.user.collection[movie.id] = { isDone: false })
@@ -185,6 +189,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addMovieToCart: (movie) => dispatch(actAddMovieToCart(movie)),
     removeMovie: (movie) => dispatch(actRemoveMovie(movie)),
+    addMovieToCollection: (movie) => dispatch(actAddMovieToCollection(movie)),
   };
 };
 

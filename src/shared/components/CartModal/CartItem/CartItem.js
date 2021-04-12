@@ -40,7 +40,7 @@ function CartItem(props) {
             class='fa fa-minus icon-minus'></i>
         </div>
         <div className='item-total'>
-          ${(movie.quantity * movie.vote_average).toFixed(1)}
+          <span>${(movie.quantity * movie.vote_average).toFixed(1)}</span>
         </div>
         <div className='item-delete'>
           <i onClick={() => removeMovie(movie)} class='fa fa-trash'></i>

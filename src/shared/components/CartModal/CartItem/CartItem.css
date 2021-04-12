@@ -82,8 +82,15 @@
 
 .cart-modal .item-total {
   width: 15%;
+}
+
+.cart-modal .item-total span {
+  display: inline-block;
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  padding: 0.4rem;
+  border-radius: 5px;
+  background-color: #bdc3c7;
 }
 
 .cart-modal .item-delete {

@@ -13,8 +13,9 @@ import useHttp from '../../shared/customHooks/useHttp';
 import { CSSTransition } from 'react-transition-group';
 
 import Slider from 'react-slick';
+import { connect } from 'react-redux';
 
-export default function MovieCollectionPage(props) {
+function MovieCollectionPage(props) {
   const [collection, setCollection] = useState([]);
   const [activeId, setActiveId] = useState(null);
   const [deleteMovie, setDeleteMovie] = useState(false);
@@ -29,29 +30,17 @@ export default function MovieCollectionPage(props) {
 
   const auth = useContext(AuthContext);
 
-  const username = props.username;
+  const { user, username } = props;
 
-  const fetchCollection = props.collection || auth.user.collection;
-
+  //set collection when load page
   useEffect(() => {
-    const fetchMovies = async () => {
-      let _collection = await fetchMoviesByIdList(fetchCollection);
-
-      //assign property isDone to collection fetched from db
-      _collection = _collection.map((movie) => ({
-        ...movie,
-        isDone: fetchCollection[movie.id].isDone,
-      }));
-
-      setCollection(_collection);
-    };
-
-    fetchMovies();
-  }, [fetchCollection]);
+    setCollection(Object.values(user.collection));
+  }, []);
 
   const settingsWhislist = {
     //fix bug when number of movies less than 4
-    infinite: collection.filter((movie) => !movie.isDone).length > 4,
+    infinite:
+      collection && collection.filter((movie) => !movie.isDone).length > 4,
     // infinite: false,
     speed: 200,
     slidesToShow: 4,
@@ -62,7 +51,8 @@ export default function MovieCollectionPage(props) {
 
   const settingsFinishlist = {
     //fix bug when number of movies less than 4
-    infinite: collection.filter((movie) => movie.isDone).length > 4,
+    infinite:
+      collection && collection.filter((movie) => movie.isDone).length > 4,
     // infinite: false,
     speed: 200,
     slidesToShow: 4,
@@ -228,12 +218,15 @@ export default function MovieCollectionPage(props) {
       label: `Muốn xem (${collection.filter((movie) => !movie.isDone).length})`,
       component: (
         <Slider {...settingsWhislist}>
-          {renderMovies(collection.filter((movie) => !movie.isDone))}
+          {collection &&
+            renderMovies(collection.filter((movie) => !movie.isDone))}
         </Slider>
       ),
     },
     {
-      label: `Đã xem (${collection.filter((movie) => movie.isDone).length})`,
+      label: `Đã xem (${
+        collection && collection.filter((movie) => movie.isDone).length
+      })`,
       component: (
         <Slider {...settingsFinishlist}>
           {renderMovies(collection.filter((movie) => movie.isDone))}
@@ -243,28 +236,39 @@ export default function MovieCollectionPage(props) {
   ];
 
   return (
-    <div className='movie-collection'>
-      {error && <ErrorModal error={error} clearError={clearError} />}
+    collection && (
+      <div className='movie-collection'>
+        {error && <ErrorModal error={error} clearError={clearError} />}
 
-      <div className='collection-header'>
-        Bộ sưu tập phim của <span>{username ? username : 'bạn'}</span>
+        <div className='collection-header'>
+          Bộ sưu tập phim của <span>{username ? username : 'bạn'}</span>
+        </div>
+
+        <div className='movie-collection-navtab '>
+          {navTab.map((navItem, index) => (
+            <div
+              onClick={() => setActiveTabIndex(index)}
+              className={`movie-collection__title ${
+                activeTabIndex === index ? 'navtab-active' : ''
+              }`}>
+              {navItem.label}
+            </div>
+          ))}
+        </div>
+
+        {navTab.map(
+          (navItem, index) =>
+            activeTabIndex === index && <>{navItem.component}</>
+        )}
       </div>
-
-      <div className='movie-collection-navtab '>
-        {navTab.map((navItem, index) => (
-          <div
-            onClick={() => setActiveTabIndex(index)}
-            className={`movie-collection__title ${
-              activeTabIndex === index ? 'navtab-active' : ''
-            }`}>
-            {navItem.label}
-          </div>
-        ))}
-      </div>
-
-      {navTab.map(
-        (navItem, index) => activeTabIndex === index && <>{navItem.component}</>
-      )}
-    </div>
+    )
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.userReducer.user,
+  };
+};
+
+export default connect(mapStateToProps, null)(MovieCollectionPage);

@@ -72,7 +72,7 @@ function MovieItem(props) {
   const renderMovie = () => {
     return (
       <div
-        onMouseLeave={() => setShowCardMovie(true)}
+        onMouseLeave={() => setShowCardMovie(false)}
         onMouseEnter={mouseEnterMovieHandler}
         ref={movieRef}
         className={`${!isEdit ? '' : 'movie-item'}`}>

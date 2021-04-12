@@ -15,11 +15,11 @@ export const actLoginUser = (token, user) => {
   };
 };
 
-export const actAddMovieToCollection = (movieId) => {
+export const actAddMovieToCollection = (movie) => {
   return {
     type: ADD_MOVIE_TO_COLLECTION,
     payload: {
-      movieId,
+      movie,
     },
   };
 };

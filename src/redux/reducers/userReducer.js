@@ -12,7 +12,6 @@ const initialState = {
   token: null,
   isLoggined: false,
   isAdmin: false,
-  collection: null,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -25,7 +24,6 @@ const userReducer = (state = initialState, action) => {
         user,
         isLoggined: token !== null,
         isAdmin: user.email === ADMIN_EMAIL,
-        collection: user.collection,
       };
     }
 
@@ -35,16 +33,22 @@ const userReducer = (state = initialState, action) => {
         token: null,
         user: null,
         isLoggined: false,
-        collection: [],
       };
     }
 
     case ADD_MOVIE_TO_COLLECTION: {
-      const { movieId } = action.payload;
+      const { movie } = action.payload;
+      const updateCollection = { ...state.user.collection };
+
+      //isDone: false => add to whislist
+      updateCollection[movie.id] = { ...movie, isDone: false };
 
       return {
         ...state,
-        collection: [],
+        user: {
+          ...state.user,
+          collection: updateCollection,
+        },
       };
     }
 
