@@ -47,24 +47,23 @@ function CardMovieDetail(props) {
     movie,
     cardMovieRight,
     onBackdropClick,
-    moviesCart,
-    removeMovie,
-    addMovieToCart,
     user,
     isLoggined,
     userToken,
+    addMovieToCart,
+    removeMovieFromCart,
     addMovieToCollection,
     removeMovieFromCollection,
   } = props;
 
   //check to see if movie is in cart or not
-  const cartArr = user && user.cart && Object.values(user.cart);
+  const cartArr = (user && user.cart && Object.values(user.cart)) || [];
   const isAddedToCart =
     cartArr.findIndex((_movie) => _movie.id === movie.id) !== -1;
 
   //check to see if movie is in collection or not
   const collectionArr =
-    user && user.collection && Object.values(user.collection);
+    (user && user.collection && Object.values(user.collection)) || [];
   const isAddToCollection =
     collectionArr.findIndex((_movie) => _movie.id === movie.id) !== -1;
 
@@ -73,7 +72,7 @@ function CardMovieDetail(props) {
 
     try {
       const data = await sendUser(
-        'user',
+        'user/collection',
         'PATCH',
         JSON.stringify({ collection: user.collection }),
         {
@@ -91,7 +90,7 @@ function CardMovieDetail(props) {
 
     try {
       const data = await sendUser(
-        'user',
+        'user/collection',
         'PATCH',
         JSON.stringify({ collection: user.collection }),
         {
@@ -105,22 +104,50 @@ function CardMovieDetail(props) {
   };
 
   const addMovieToCartHandler = async (movie) => {
-    console.log(moviesCart, movie);
+    // if (user.cart[movie.id]) {
+    //   //movie is already in cart
+    //   user.cart[movie.id].quantity += 1;
+    // } else {
+    //   //movie is NOT in cart
 
+    //   user.cart[movie.id] = { ...movie, quantity: 1 };
+    // }
+
+    addMovieToCart(movie);
+
+    //call api to store data
     // try {
     //   const data = await sendUser(
-    //     'user',
+    //     'user/cart',
     //     'PATCH',
-    //     JSON.stringify({ collection: user.collection }),
+    //     JSON.stringify({ cart: user.cart }),
     //     {
     //       Authorization: 'Bearer ' + userToken,
     //     }
     //   );
 
-    //   addMovieToCollection(movie);
+    //   //then set redux store
+    //   addMovieToCart(movie);
     //   console.log(data);
     // } catch (err) {}
-    addMovieToCart(movie);
+  };
+
+  const removeMovieFromCartHandler = async (movie) => {
+    delete user.cart[movie.id];
+
+    try {
+      const data = await sendUser(
+        'user/cart',
+        'PATCH',
+        JSON.stringify({ cart: user.cart }),
+        {
+          Authorization: 'Bearer ' + userToken,
+        }
+      );
+
+      removeMovieFromCart(movie);
+      console.log(data);
+    } catch (err) {}
   };
 
   return (
@@ -190,7 +217,9 @@ function CardMovieDetail(props) {
           <div
             onMouseLeave={() => setShowLoginRequired(false)}
             className='movie-action'>
-            {!isAddedToCart && (
+            {isLoading && <LoadingSpinner />}
+
+            {!isLoading && !isAddedToCart && (
               <Button
                 isFull
                 onClick={
@@ -206,9 +235,9 @@ function CardMovieDetail(props) {
               </Button>
             )}
 
-            {isAddedToCart && (
+            {!isLoading && isAddedToCart && (
               <>
-                {!showRemoveFromCartBtn && (
+                {!isLoading && !showRemoveFromCartBtn && (
                   <Button
                     onMouseEnter={() => setShowDeleteBtn(true)}
                     isDarkblue>
@@ -221,7 +250,7 @@ function CardMovieDetail(props) {
                 {showRemoveFromCartBtn && (
                   <Button
                     onMouseLeave={() => setShowDeleteBtn(false)}
-                    onClick={() => removeMovie(movie)}
+                    onClick={() => removeMovieFromCartHandler(movie)}
                     onMouseEnter={() => setShowLoginRequired(true)}
                     isPrimary>
                     <span>
@@ -234,18 +263,14 @@ function CardMovieDetail(props) {
 
             {!isAddToCollection && (
               <>
-                {isLoading && <LoadingSpinner />}
                 {!isLoading && (
                   <div
                     onClick={() => addMovieToCollectionHandler(movie)}
                     className={`btn-add-to-collection`}>
-                    {!isLoading && (
-                      <>
-                        <div className='icon-heart'>
-                          <i className='fa fa-heart'></i>
-                        </div>
-                      </>
-                    )}
+                    <div className='icon-heart'>
+                      <i className='fa fa-heart'></i>
+                    </div>
+
                     <div className='add-to-collection-text'>
                       Thêm vào danh sách thích
                     </div>
@@ -256,7 +281,6 @@ function CardMovieDetail(props) {
 
             {isAddToCollection && (
               <>
-                {isLoading && <LoadingSpinner />}
                 {!isLoading && (
                   <div
                     onClick={() => removeMovieFromCollectionHandler(movie.id)}
@@ -316,7 +340,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addMovieToCart: (movie) => dispatch(actAddMovieToCart(movie)),
-    removeMovie: (movie) => dispatch(actRemoveMovieFromCart(movie)),
+    removeMovieFromCart: (movie) => dispatch(actRemoveMovieFromCart(movie)),
     addMovieToCollection: (movie) => dispatch(actAddMovieToCollection(movie)),
     removeMovieFromCollection: (movieId) =>
       dispatch(actRemoveMovieFromCollection(movieId)),

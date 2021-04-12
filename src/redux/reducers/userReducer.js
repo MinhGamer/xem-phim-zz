@@ -8,10 +8,33 @@ const initialState = {
   isLoggined: false,
   isAdmin: false,
   totalOrderAmount: 0,
+  isLoading: false,
+  isError: false,
 };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.USER_SEND_API_START: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+
+    case actionTypes.USER_SEND_API_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+
+    case actionTypes.USER_SEND_API_FAIL: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+
     case actionTypes.LOGIN_USER: {
       const { token, user } = action.payload;
       return {
@@ -66,8 +89,6 @@ const userReducer = (state = initialState, action) => {
     case actionTypes.ADD_MOVIE_TO_CART: {
       const { movie } = action.payload;
       const updateCart = { ...state.user.cart };
-
-      console.log(updateCart);
 
       if (updateCart[movie.id]) {
         //movie is already in cart
