@@ -54,7 +54,7 @@ function CardMovieDetail(props) {
     moviesCart.findIndex((_movie) => _movie.id === movie.id) !== -1;
 
   //check to see if movie is in collection or not
-  const collectionArr = Object.values(user.collection);
+  const collectionArr = user && Object.values(user.collection);
 
   const isAddToCollection =
     collectionArr.findIndex((_movie) => _movie.id === movie.id) !== -1;
@@ -168,44 +168,52 @@ function CardMovieDetail(props) {
               </>
             )}
 
-            <div
-              onClick={() => props.addMovieToCollection(movie)}
-              className={`btn-add-to-collection ${
-                isAddToCollection ? 'is-added-to-collection' : ''
-              }`}>
+            {!isAddToCollection && (
               <div
-                onMouseLeave={() => setShowRemoveFromCollectionBtn(false)}
-                onMouseEnter={
-                  isLoggined
-                    ? () => setShowRemoveFromCollectionBtn(true)
-                    : () => setShowLoginRequired(true)
-                }
-                // onClick={() =>
-                //   (auth.user.collection[movie.id] = { isDone: false })
-                // }
-                className='icon-heart'>
-                {(!isAddToCollection || !showRemoveFromCollectionBtn) && (
+                onClick={() => props.addMovieToCollection(movie)}
+                className={`btn-add-to-collection`}>
+                <div className='icon-heart'>
                   <i className='fa fa-heart'></i>
-                )}
+                </div>
+                <div
+                  // onMouseEnter={setShowLoginRequired(true)}
+                  className='add-to-collection-text'>
+                  Thêm vào danh sách thích
+                </div>
+              </div>
+            )}
 
-                {isAddToCollection && showRemoveFromCollectionBtn && (
-                  <i class='fa fa-heart-broken'></i>
-                )}
-                {/* <i class='fa fa-heart-broken'></i> */}
-              </div>
+            {isAddToCollection && (
               <div
-                onMouseLeave={() => setShowRemoveFromCollectionBtn(false)}
-                onMouseEnter={
-                  isLoggined
-                    ? () => setShowRemoveFromCollectionBtn(true)
-                    : () => setShowLoginRequired(true)
-                }
-                className='add-to-collection-text'>
-                {isAddToCollection
-                  ? 'Đã thích phim này'
-                  : 'Thêm vào danh sách thích'}
+                onClick={() => props.removeMovieFromCollection(movie.id)}
+                className='btn-add-to-collection 
+                 is-added-to-collection'>
+                <div
+                  onMouseLeave={() => setShowRemoveFromCollectionBtn(false)}
+                  onMouseEnter={
+                    isLoggined
+                      ? () => setShowRemoveFromCollectionBtn(true)
+                      : () => setShowLoginRequired(true)
+                  }
+                  className='icon-heart'>
+                  {!showRemoveFromCollectionBtn && (
+                    <i className='fa fa-heart'></i>
+                  )}
+
+                  {showRemoveFromCollectionBtn && (
+                    <i class='fa fa-heart-broken'></i>
+                  )}
+                </div>
+                <div
+                  onMouseLeave={() => setShowRemoveFromCollectionBtn(false)}
+                  onMouseEnter={() => setShowRemoveFromCollectionBtn(true)}
+                  className='add-to-collection-text'>
+                  {showRemoveFromCollectionBtn
+                    ? 'Xóa phim khỏi danh sách'
+                    : 'Đã thích phim này'}
+                </div>
               </div>
-            </div>
+            )}
 
             {!auth.isLoggedIn && showLoginRequired && (
               <div className='movie-login-require'>
