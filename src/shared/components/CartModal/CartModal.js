@@ -5,15 +5,14 @@ import { useHistory } from 'react-router-dom';
 
 import Modal from '../UI/Modal';
 
-import { API_MOVIE_IMAGE } from '../../util/config';
+// import { API_MOVIE_IMAGE } from '../../util/config';
 
 import Button from '../UI/Button';
 
 import {
-  actMinusMovieByOne,
-  actRemoveMovie,
   actAddMovieToCart,
-} from '../../../redux/actionCreator/moviesCartAction';
+  actRemoveMovieFromCart,
+} from '../../../redux/actionCreator/userActions';
 
 import './CartModal.css';
 import CartItem from './CartItem/CartItem';
@@ -24,12 +23,14 @@ function CartModal(props) {
   const history = useHistory();
 
   const {
-    moviesCart,
     totalOrderAmount,
     minusMovieByOne,
     removeMovie,
     addMovie,
+    user,
   } = props;
+
+  const cartArr = (user && Object.values(user.cart)) || [];
 
   const gotoMovieDetailPage = (movieId) => {
     history.push(`/movie/${movieId}`);
@@ -51,28 +52,28 @@ function CartModal(props) {
         </div>
         <div
           className={`cart-list ${
-            moviesCart.length > 0 ? 'cart-list-scrollable' : ''
+            cartArr.length > 0 ? 'cart-list-scrollable' : ''
           }`}>
-          {moviesCart.length > 0 &&
-            moviesCart.map((movie) => (
+          {cartArr.length > 0 &&
+            cartArr.map((movie) => (
               <CartItem
                 onClick={() => gotoMovieDetailPage(movie.id)}
                 movie={movie}
               />
             ))}
 
-          {moviesCart.length === 0 && (
+          {cartArr.length === 0 && (
             <div className='cart-empty'>
               Bạn chưa có phim nào trong giỏ hàng !!
             </div>
           )}
         </div>
 
-        {moviesCart.length > 0 && (
+        {cartArr.length > 0 && (
           <div className='cart-summary'>
             <div>Tổng đơn hàng: </div>
-            <div>{moviesCart.length} phim</div>
-            <div>$ {totalOrderAmount.toFixed(1)}</div>
+            <div>{cartArr.length} phim</div>
+            <div>${totalOrderAmount.toFixed(1)}</div>
             <Button isPrimary>ĐẶT MUA</Button>
           </div>
         )}
@@ -83,16 +84,16 @@ function CartModal(props) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    minusMovieByOne: (movieId) => dispatch(actMinusMovieByOne(movieId)),
-    removeMovie: (movie) => dispatch(actRemoveMovie(movie)),
+    minusMovieByOne: (movieId) => dispatch(actAddMovieToCart(movieId)),
+    removeMovie: (movie) => dispatch(actRemoveMovieFromCart(movie)),
     addMovie: (movie) => dispatch(actAddMovieToCart(movie)),
   };
 };
 
 const mapStateToProps = (state) => {
   return {
-    moviesCart: state.moviesCartReducer.moviesCart,
-    totalOrderAmount: state.moviesCartReducer.totalOrderAmount,
+    totalOrderAmount: state.userReducer.totalOrderAmount,
+    user: state.userReducer.user,
   };
 };
 

@@ -28,9 +28,12 @@ function Header(props) {
   const { sendUser } = useHttp();
   const history = useHistory();
 
-  const { moviesCart, user } = props;
+  const { user } = props;
 
-  const userCollectionArr = user && Object.values(user.collection);
+  const userCartArr = (user && user.cart && Object.values(user.cart)) || [];
+
+  const userCollectionArr =
+    (user && user.collection && Object.values(user.collection)) || [];
 
   useEffect(() => {
     const loginUserAsync = async () => {
@@ -72,9 +75,9 @@ function Header(props) {
           onClick={() => setShowCartModal(true)}
           className='user-cart user-icon'>
           <i class='fa fa-shopping-cart '></i>
-          {moviesCart.length > 0 && (
+          {userCartArr.length > 0 && (
             <div className='user-message'>
-              <p>{moviesCart.length}</p>
+              <p>{userCartArr.length}</p>
             </div>
           )}
         </div>
@@ -150,7 +153,7 @@ function Header(props) {
 
 const mapStateToProps = (state) => {
   return {
-    moviesCart: state.moviesCartReducer.moviesCart,
+    // moviesCart: state.moviesCartReducer.moviesCart,
     user: state.userReducer.user,
   };
 };

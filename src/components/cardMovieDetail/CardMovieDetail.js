@@ -2,14 +2,16 @@ import React, { useState, useContext } from 'react';
 
 import { API_MOVIE_IMAGE } from '../../shared/util/config';
 
-import {
-  actAddMovieToCart,
-  actRemoveMovie,
-} from '../../redux/actionCreator/moviesCartAction';
+// import {
+//   actAddMovieToCart,
+//   actRemoveMovie,
+// } from '../../redux/actionCreator/moviesCartAction';
 
 import {
   actAddMovieToCollection,
   actRemoveMovieFromCollection,
+  actAddMovieToCart,
+  actRemoveMovieFromCart,
 } from '../../redux/actionCreator/userActions';
 
 import './CardMovieDetail.css';
@@ -22,6 +24,10 @@ import { NavLink, useHistory } from 'react-router-dom';
 import Backdrop from '../../shared/components/UI/Backdrop';
 import { connect } from 'react-redux';
 
+import useHttp from '../../shared/customHooks/useHttp';
+
+import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
+
 function CardMovieDetail(props) {
   const [showFullOverview, setShowFullOverview] = useState(false);
   const [showLoginRequired, setShowLoginRequired] = useState(false);
@@ -30,6 +36,8 @@ function CardMovieDetail(props) {
     showRemoveFromCollectionBtn,
     setShowRemoveFromCollectionBtn,
   ] = useState(false);
+
+  const { sendUser, isLoading, error } = useHttp();
 
   const history = useHistory();
 
@@ -42,22 +50,78 @@ function CardMovieDetail(props) {
     moviesCart,
     removeMovie,
     addMovieToCart,
-    collection,
     user,
     isLoggined,
+    userToken,
+    addMovieToCollection,
+    removeMovieFromCollection,
   } = props;
 
-  console.log(user);
-
   //check to see if movie is in cart or not
+  const cartArr = user && user.cart && Object.values(user.cart);
   const isAddedToCart =
-    moviesCart.findIndex((_movie) => _movie.id === movie.id) !== -1;
+    cartArr.findIndex((_movie) => _movie.id === movie.id) !== -1;
 
   //check to see if movie is in collection or not
-  const collectionArr = user && Object.values(user.collection);
-
+  const collectionArr =
+    user && user.collection && Object.values(user.collection);
   const isAddToCollection =
     collectionArr.findIndex((_movie) => _movie.id === movie.id) !== -1;
+
+  const addMovieToCollectionHandler = async (movie) => {
+    user.collection[movie.id] = movie;
+
+    try {
+      const data = await sendUser(
+        'user',
+        'PATCH',
+        JSON.stringify({ collection: user.collection }),
+        {
+          Authorization: 'Bearer ' + userToken,
+        }
+      );
+
+      addMovieToCollection(movie);
+      console.log(data);
+    } catch (err) {}
+  };
+
+  const removeMovieFromCollectionHandler = async (movieId) => {
+    delete user.collection[movieId];
+
+    try {
+      const data = await sendUser(
+        'user',
+        'PATCH',
+        JSON.stringify({ collection: user.collection }),
+        {
+          Authorization: 'Bearer ' + userToken,
+        }
+      );
+
+      removeMovieFromCollection(movie);
+      console.log(data);
+    } catch (err) {}
+  };
+
+  const addMovieToCartHandler = async (movie) => {
+    console.log(moviesCart, movie);
+
+    // try {
+    //   const data = await sendUser(
+    //     'user',
+    //     'PATCH',
+    //     JSON.stringify({ collection: user.collection }),
+    //     {
+    //       Authorization: 'Bearer ' + userToken,
+    //     }
+    //   );
+
+    //   addMovieToCollection(movie);
+    //   console.log(data);
+    // } catch (err) {}
+    addMovieToCart(movie);
+  };
 
   return (
     <>
@@ -131,7 +195,7 @@ function CardMovieDetail(props) {
                 isFull
                 onClick={
                   auth.isLoggedIn
-                    ? () => props.addMovieToCart(movie)
+                    ? () => addMovieToCartHandler(movie)
                     : () => history.push(`/auth`)
                 }
                 onMouseEnter={() => setShowLoginRequired(true)}
@@ -169,50 +233,64 @@ function CardMovieDetail(props) {
             )}
 
             {!isAddToCollection && (
-              <div
-                onClick={() => props.addMovieToCollection(movie)}
-                className={`btn-add-to-collection`}>
-                <div className='icon-heart'>
-                  <i className='fa fa-heart'></i>
-                </div>
-                <div
-                  // onMouseEnter={setShowLoginRequired(true)}
-                  className='add-to-collection-text'>
-                  Thêm vào danh sách thích
-                </div>
-              </div>
+              <>
+                {isLoading && <LoadingSpinner />}
+                {!isLoading && (
+                  <div
+                    onClick={() => addMovieToCollectionHandler(movie)}
+                    className={`btn-add-to-collection`}>
+                    {!isLoading && (
+                      <>
+                        <div className='icon-heart'>
+                          <i className='fa fa-heart'></i>
+                        </div>
+                      </>
+                    )}
+                    <div className='add-to-collection-text'>
+                      Thêm vào danh sách thích
+                    </div>
+                  </div>
+                )}
+              </>
             )}
 
             {isAddToCollection && (
-              <div
-                onClick={() => props.removeMovieFromCollection(movie.id)}
-                className='btn-add-to-collection 
+              <>
+                {isLoading && <LoadingSpinner />}
+                {!isLoading && (
+                  <div
+                    onClick={() => removeMovieFromCollectionHandler(movie.id)}
+                    className='btn-add-to-collection 
                  is-added-to-collection'>
-                <div
-                  onMouseLeave={() => setShowRemoveFromCollectionBtn(false)}
-                  onMouseEnter={
-                    isLoggined
-                      ? () => setShowRemoveFromCollectionBtn(true)
-                      : () => setShowLoginRequired(true)
-                  }
-                  className='icon-heart'>
-                  {!showRemoveFromCollectionBtn && (
-                    <i className='fa fa-heart'></i>
-                  )}
+                    <div
+                      onMouseLeave={() => setShowRemoveFromCollectionBtn(false)}
+                      onMouseEnter={
+                        isLoggined
+                          ? () => setShowRemoveFromCollectionBtn(true)
+                          : () => setShowLoginRequired(true)
+                      }
+                      className='icon-heart'>
+                      {!showRemoveFromCollectionBtn && (
+                        <i className='fa fa-heart'></i>
+                      )}
 
-                  {showRemoveFromCollectionBtn && (
-                    <i class='fa fa-heart-broken'></i>
-                  )}
-                </div>
-                <div
-                  onMouseLeave={() => setShowRemoveFromCollectionBtn(false)}
-                  onMouseEnter={() => setShowRemoveFromCollectionBtn(true)}
-                  className='add-to-collection-text'>
-                  {showRemoveFromCollectionBtn
-                    ? 'Xóa phim khỏi danh sách'
-                    : 'Đã thích phim này'}
-                </div>
-              </div>
+                      {showRemoveFromCollectionBtn && (
+                        <i class='fa fa-heart-broken'></i>
+                      )}
+                    </div>
+                    (
+                    <div
+                      onMouseLeave={() => setShowRemoveFromCollectionBtn(false)}
+                      onMouseEnter={() => setShowRemoveFromCollectionBtn(true)}
+                      className='add-to-collection-text'>
+                      {showRemoveFromCollectionBtn
+                        ? 'Xóa phim khỏi danh sách'
+                        : 'Đã thích phim này'}
+                    </div>
+                    )
+                  </div>
+                )}
+              </>
             )}
 
             {!auth.isLoggedIn && showLoginRequired && (
@@ -229,16 +307,16 @@ function CardMovieDetail(props) {
 
 const mapStateToProps = (state) => {
   return {
-    moviesCart: state.moviesCartReducer.moviesCart,
     user: state.userReducer.user,
     isLoggined: state.userReducer.isLoggined,
+    userToken: state.userReducer.token,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     addMovieToCart: (movie) => dispatch(actAddMovieToCart(movie)),
-    removeMovie: (movie) => dispatch(actRemoveMovie(movie)),
+    removeMovie: (movie) => dispatch(actRemoveMovieFromCart(movie)),
     addMovieToCollection: (movie) => dispatch(actAddMovieToCollection(movie)),
     removeMovieFromCollection: (movieId) =>
       dispatch(actRemoveMovieFromCollection(movieId)),

@@ -1,6 +1,6 @@
 .cart-modal .cart-item {
+  color: #2c5364;
   text-align: center;
-  background-color: #fff;
   border-radius: 5px;
   padding: 0.7rem;
   display: flex;
@@ -8,6 +8,8 @@
   box-shadow: 0 0 1px 1px #fff;
   border-color: transparent;
   margin-bottom: 0.7rem;
+  background: linear-gradient(to top right, #c6ffdd 45%, #fbd786);
+  background: linear-gradient(to top right, #c471ed 45%, #12c2e9);
 }
 
 .cart-modal .cart-item img {
@@ -95,11 +97,10 @@
 .cart-modal .item-total span {
   display: inline-block;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.2rem;
   padding: 0.5rem;
   color: #fff;
   border-radius: 5px;
-  background: linear-gradient(to top right, #c471ed 45%, #12c2e9);
 }
 
 .cart-modal .item-delete {

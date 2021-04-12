@@ -1,9 +1,11 @@
 .cart-modal {
-  background-color: #eaeaea;
+  background-color: #203a43;
   width: 750px;
   padding: 1rem;
   top: 10vh;
   left: 25%;
+  color: #fff;
+  box-shadow: none;
 }
 
 .cart-modal .cart-header {
@@ -23,7 +25,7 @@
 }
 
 .cart-list {
-  max-height: 480px;
+  max-height: 460px;
 }
 
 .cart-list-scrollable {
@@ -32,17 +34,19 @@
 
 .cart-summary {
   align-items: center;
-  padding: 0.5rem 0;
+  padding: 0.7rem 0;
   z-index: 50;
   width: 750px;
   position: absolute;
   bottom: -3rem;
-  left: 0;
-  background-color: #eaeaea;
+  left: 0px;
+  background-color: #203a43;
   display: flex;
   justify-content: space-around;
   font-weight: 700;
   font-size: 1.2rem;
+  border-radius: 5px;
+  color: #fff;
 }
 
 .cart-empty {
@@ -55,4 +59,5 @@
   margin-bottom: 0.7rem;
   font-size: 1.6rem;
   font-weight: 700;
+  color: #000;
 }

@@ -1,9 +1,4 @@
-import {
-  LOGIN_USER,
-  LOGOUT_USER,
-  ADD_MOVIE_TO_COLLECTION,
-  REMOVIE_MOVIE_FROM_COLLECTION,
-} from '../actionTypes/actionTypes';
+import * as actionTypes from '../actionTypes/actionTypes';
 
 import { ADMIN_EMAIL } from '../../shared/util/config';
 
@@ -12,11 +7,12 @@ const initialState = {
   token: null,
   isLoggined: false,
   isAdmin: false,
+  totalOrderAmount: 0,
 };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_USER: {
+    case actionTypes.LOGIN_USER: {
       const { token, user } = action.payload;
       return {
         ...state,
@@ -27,7 +23,7 @@ const userReducer = (state = initialState, action) => {
       };
     }
 
-    case LOGOUT_USER: {
+    case actionTypes.LOGOUT_USER: {
       return {
         ...state,
         token: null,
@@ -36,7 +32,7 @@ const userReducer = (state = initialState, action) => {
       };
     }
 
-    case ADD_MOVIE_TO_COLLECTION: {
+    case actionTypes.ADD_MOVIE_TO_COLLECTION: {
       const { movie } = action.payload;
       const updateCollection = { ...state.user.collection };
 
@@ -52,7 +48,7 @@ const userReducer = (state = initialState, action) => {
       };
     }
 
-    case REMOVIE_MOVIE_FROM_COLLECTION: {
+    case actionTypes.REMOVIE_MOVIE_FROM_COLLECTION: {
       const { movieId } = action.payload;
       let updateCollection = { ...state.user.collection };
 
@@ -64,6 +60,66 @@ const userReducer = (state = initialState, action) => {
           ...state.user,
           collection: updateCollection,
         },
+      };
+    }
+
+    case actionTypes.ADD_MOVIE_TO_CART: {
+      const { movie } = action.payload;
+      const updateCart = { ...state.user.cart };
+
+      console.log(updateCart);
+
+      if (updateCart[movie.id]) {
+        //movie is already in cart
+        updateCart[movie.id].quantity += 1;
+      } else {
+        //movie is NOT in cart
+        updateCart[movie.id] = { ...movie, quantity: 1 };
+      }
+
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          cart: updateCart,
+        },
+        totalOrderAmount: state.totalOrderAmount + movie.vote_average,
+      };
+    }
+
+    case actionTypes.REMOVE_MOVIE_FROM_CART: {
+      const { movie } = action.payload;
+      const updateCart = { ...state.user.cart };
+
+      delete updateCart[movie.id];
+
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          cart: updateCart,
+        },
+        totalOrderAmount: state.totalOrderAmount - movie.vote_average,
+      };
+    }
+
+    case actionTypes.MINUS_MOVIE_BY_ONE_FROM_CART: {
+      const { movie } = action.payload;
+      const updateCart = { ...state.user.cart };
+
+      if (updateCart[movie.id].quantity === 1) {
+        delete updateCart[movie.id];
+      } else {
+        updateCart[movie.id].quantity -= 1;
+      }
+
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          cart: updateCart,
+        },
+        totalOrderAmount: state.totalOrderAmount - movie.vote_average,
       };
     }
 

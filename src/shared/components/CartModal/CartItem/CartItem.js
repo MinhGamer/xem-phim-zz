@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { API_MOVIE_IMAGE } from '../../../util/config';
 
 import {
-  actMinusMovieByOne,
-  actRemoveMovie,
+  actMinusMovieByOneFromCart,
+  actRemoveMovieFromCart,
   actAddMovieToCart,
-} from '../../../../redux/actionCreator/moviesCartAction';
+} from '../../../../redux/actionCreator/userActions';
 
 import './CartItem.css';
 
@@ -36,7 +36,7 @@ function CartItem(props) {
           <i onClick={() => addMovie(movie)} class='fa fa-plus icon-plus'></i>
           <span> {movie.quantity}</span>
           <i
-            onClick={() => minusMovieByOne(movie.id)}
+            onClick={() => minusMovieByOne(movie)}
             class='fa fa-minus icon-minus'></i>
         </div>
         <div className='item-total'>
@@ -52,8 +52,8 @@ function CartItem(props) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    minusMovieByOne: (movieId) => dispatch(actMinusMovieByOne(movieId)),
-    removeMovie: (movie) => dispatch(actRemoveMovie(movie)),
+    minusMovieByOne: (movieId) => dispatch(actMinusMovieByOneFromCart(movieId)),
+    removeMovie: (movie) => dispatch(actRemoveMovieFromCart(movie)),
     addMovie: (movie) => dispatch(actAddMovieToCart(movie)),
   };
 };

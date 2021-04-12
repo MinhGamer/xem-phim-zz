@@ -23,7 +23,6 @@ export default function useHttp() {
         const resData = await res.json();
 
         setIsLoading(false);
-
         return resData;
       } catch (err) {
         setIsLoading(false);

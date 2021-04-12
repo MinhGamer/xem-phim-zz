@@ -77,6 +77,8 @@ function MovieCollectionPage(props) {
         {activeId === movie.id && !deleteMovie && (
           <CSSTransition
             in={true}
+            mountOnEnter
+            unmountOnExit
             timeout={800}
             appear
             classNames={'fade-on-top'}>

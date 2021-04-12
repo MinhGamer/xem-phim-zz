@@ -1,9 +1,9 @@
 .movie-collection {
-  padding-top: 4rem;
+  padding: 4rem 1rem 0 1rem;
 }
 
 .movie-collection-list {
-  width: 70%;
+  width: 75%;
   margin: auto;
 }
 

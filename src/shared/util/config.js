@@ -2,8 +2,7 @@ export const API_KEY = '838c50953b29e1152a488ae92467e67c';
 
 export const ADMIN_EMAIL = 'minhnguyenuehk38@gmail.com';
 
-export const API_USER =
-  'https://us-central1-xem-phim-zz.cloudfunctions.net/api';
+export const API_USER = 'http://localhost:5000/xem-phim-zz/us-central1/api';
 
 export const OAUTH_CLIENT_KEY =
   '727042721453-1kdkllq89t726n1mfd97slu50ls01s9d.apps.googleusercontent.com';
