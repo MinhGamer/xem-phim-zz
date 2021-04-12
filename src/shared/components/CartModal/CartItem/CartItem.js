@@ -29,7 +29,7 @@ function CartItem(props) {
         </div>
 
         <div className='item-price'>
-          <p className='price-promotion'>${movie.vote_average} </p>
+          <span className='price-promotion'>${movie.vote_average} </span>
           <p className='price-original'>$29.99</p>
         </div>
         <div className='item-quantity'>

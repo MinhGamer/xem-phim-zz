@@ -61,6 +61,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center 10%;
+  cursor: auto;
 }
 
 .card-movie-detail .movie-content::before {
@@ -186,6 +187,7 @@
 }
 
 .card-movie-detail .movie-action .button {
+  width: 220px;
   font-size: 1rem;
 }
 
@@ -195,6 +197,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  height: 60px;
 }
 
 .card-movie-detail .add-to-collection-text {
@@ -207,21 +210,37 @@
   top: 0.5rem;
   transition: all 0.3s;
   border: 1px solid transparent;
+  cursor: pointer;
 }
 
-.card-movie-detail .btn-add-to-collection:hover .add-to-collection-text {
+.card-movie-detail .btn-add-to-collection .add-to-collection-text:hover {
   color: #ff4b2b;
   background-color: transparent;
   border: 1px solid #ff4b2b;
 }
 
-.card-movie-detail .btn-add-to-collection:hover .icon-heart i {
+.card-movie-detail .btn-add-to-collection .icon-heart:hover i {
   color: #ff4b2b;
   transform: scale(1.2);
 }
 
-.card-movie-detail .btn-add-to-collection:hover .icon-heart {
+.card-movie-detail .btn-add-to-collection .icon-heart:hover {
   border: 1px solid #ff4b2b;
+  background-color: #fff;
+}
+
+.card-movie-detail .btn-add-to-collection.is-added-to-collection .icon-heart {
+  background-color: #fff;
+}
+
+.card-movie-detail .btn-add-to-collection.is-added-to-collection .icon-heart i {
+  color: #ff4b2b;
+}
+
+.card-movie-detail
+  .btn-add-to-collection.is-added-to-collection
+  .add-to-collection-text {
+  color: #ff4b2b;
   background-color: #fff;
 }
 

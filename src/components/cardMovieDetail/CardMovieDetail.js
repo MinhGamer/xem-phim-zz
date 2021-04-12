@@ -7,7 +7,10 @@ import {
   actRemoveMovie,
 } from '../../redux/actionCreator/moviesCartAction';
 
-import { actAddMovieToCollection } from '../../redux/actionCreator/userActions';
+import {
+  actAddMovieToCollection,
+  actRemoveMovieFromCollection,
+} from '../../redux/actionCreator/userActions';
 
 import './CardMovieDetail.css';
 
@@ -22,7 +25,11 @@ import { connect } from 'react-redux';
 function CardMovieDetail(props) {
   const [showFullOverview, setShowFullOverview] = useState(false);
   const [showLoginRequired, setShowLoginRequired] = useState(false);
-  const [showDeleteBtn, setShowDeleteBtn] = useState(false);
+  const [showRemoveFromCartBtn, setShowDeleteBtn] = useState(false);
+  const [
+    showRemoveFromCollectionBtn,
+    setShowRemoveFromCollectionBtn,
+  ] = useState(false);
 
   const history = useHistory();
 
@@ -35,11 +42,22 @@ function CardMovieDetail(props) {
     moviesCart,
     removeMovie,
     addMovieToCart,
+    collection,
+    user,
+    isLoggined,
   } = props;
+
+  console.log(user);
 
   //check to see if movie is in cart or not
   const isAddedToCart =
     moviesCart.findIndex((_movie) => _movie.id === movie.id) !== -1;
+
+  //check to see if movie is in collection or not
+  const collectionArr = Object.values(user.collection);
+
+  const isAddToCollection =
+    collectionArr.findIndex((_movie) => _movie.id === movie.id) !== -1;
 
   return (
     <>
@@ -126,7 +144,7 @@ function CardMovieDetail(props) {
 
             {isAddedToCart && (
               <>
-                {!showDeleteBtn && (
+                {!showRemoveFromCartBtn && (
                   <Button
                     onMouseEnter={() => setShowDeleteBtn(true)}
                     isDarkblue>
@@ -136,9 +154,8 @@ function CardMovieDetail(props) {
                   </Button>
                 )}
 
-                {showDeleteBtn && (
+                {showRemoveFromCartBtn && (
                   <Button
-                    isFull
                     onMouseLeave={() => setShowDeleteBtn(false)}
                     onClick={() => removeMovie(movie)}
                     onMouseEnter={() => setShowLoginRequired(true)}
@@ -153,17 +170,40 @@ function CardMovieDetail(props) {
 
             <div
               onClick={() => props.addMovieToCollection(movie)}
-              className='btn-add-to-collection'>
+              className={`btn-add-to-collection ${
+                isAddToCollection ? 'is-added-to-collection' : ''
+              }`}>
               <div
-                onClick={() =>
-                  (auth.user.collection[movie.id] = { isDone: false })
+                onMouseLeave={() => setShowRemoveFromCollectionBtn(false)}
+                onMouseEnter={
+                  isLoggined
+                    ? () => setShowRemoveFromCollectionBtn(true)
+                    : () => setShowLoginRequired(true)
                 }
-                onMouseEnter={() => setShowLoginRequired(true)}
+                // onClick={() =>
+                //   (auth.user.collection[movie.id] = { isDone: false })
+                // }
                 className='icon-heart'>
-                <i className='fa fa-heart'></i>
+                {(!isAddToCollection || !showRemoveFromCollectionBtn) && (
+                  <i className='fa fa-heart'></i>
+                )}
+
+                {isAddToCollection && showRemoveFromCollectionBtn && (
+                  <i class='fa fa-heart-broken'></i>
+                )}
+                {/* <i class='fa fa-heart-broken'></i> */}
               </div>
-              <div className='add-to-collection-text'>
-                Thêm vào danh sách thích
+              <div
+                onMouseLeave={() => setShowRemoveFromCollectionBtn(false)}
+                onMouseEnter={
+                  isLoggined
+                    ? () => setShowRemoveFromCollectionBtn(true)
+                    : () => setShowLoginRequired(true)
+                }
+                className='add-to-collection-text'>
+                {isAddToCollection
+                  ? 'Đã thích phim này'
+                  : 'Thêm vào danh sách thích'}
               </div>
             </div>
 
@@ -182,6 +222,8 @@ function CardMovieDetail(props) {
 const mapStateToProps = (state) => {
   return {
     moviesCart: state.moviesCartReducer.moviesCart,
+    user: state.userReducer.user,
+    isLoggined: state.userReducer.isLoggined,
   };
 };
 
@@ -190,6 +232,8 @@ const mapDispatchToProps = (dispatch) => {
     addMovieToCart: (movie) => dispatch(actAddMovieToCart(movie)),
     removeMovie: (movie) => dispatch(actRemoveMovie(movie)),
     addMovieToCollection: (movie) => dispatch(actAddMovieToCollection(movie)),
+    removeMovieFromCollection: (movieId) =>
+      dispatch(actRemoveMovieFromCollection(movieId)),
   };
 };
 

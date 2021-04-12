@@ -53,12 +53,17 @@ const userReducer = (state = initialState, action) => {
     }
 
     case REMOVIE_MOVIE_FROM_COLLECTION: {
+      const { movieId } = action.payload;
+      let updateCollection = { ...state.user.collection };
+
+      delete updateCollection[movieId];
+
       return {
         ...state,
-        token: null,
-        user: null,
-        isLoggined: false,
-        collection: [],
+        user: {
+          ...state.user,
+          collection: updateCollection,
+        },
       };
     }
 

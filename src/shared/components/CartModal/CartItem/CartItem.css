@@ -39,18 +39,26 @@
 .cart-modal .item-price {
   width: 15%;
   font-style: italic;
+  position: relative;
 }
 
 .cart-modal .price-original {
   text-decoration: line-through;
   font-weight: 700;
   font-size: 0.8rem;
+  margin-top: 0.5rem;
+  position: absolute;
+  left: 30%;
 }
 
 .cart-modal .price-promotion {
-  font-size: 1.3rem;
-  color: #ff4b2b;
+  font-size: 1.2rem;
   font-weight: 700;
+  font-size: 1rem;
+  padding: 0.5rem;
+  color: #fff;
+  border-radius: 5px;
+  background: linear-gradient(to top right, #f12711 35%, #f5af19);
 }
 
 .cart-modal .item-quantity {
@@ -88,9 +96,10 @@
   display: inline-block;
   font-weight: 700;
   font-size: 1rem;
-  padding: 0.4rem;
+  padding: 0.5rem;
+  color: #fff;
   border-radius: 5px;
-  background-color: #bdc3c7;
+  background: linear-gradient(to top right, #c471ed 45%, #12c2e9);
 }
 
 .cart-modal .item-delete {
