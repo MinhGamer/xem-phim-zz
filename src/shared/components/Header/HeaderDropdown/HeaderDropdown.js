@@ -4,8 +4,11 @@ import { NavLink } from 'react-router-dom';
 import './HeaderDropdown.css';
 
 import { AuthContext } from '../../../context/AuthContext';
+import { connect } from 'react-redux';
 
-export default function HeaderDropdown(props) {
+import { actLogoutUser } from '../../../../redux/actionCreator/userActions';
+
+function HeaderDropdown(props) {
   const auth = useContext(AuthContext);
 
   return (
@@ -27,10 +30,18 @@ export default function HeaderDropdown(props) {
         <span>Tài khoản</span>
       </NavLink>
 
-      <div onClick={auth.logout} className='header-dropdown__item'>
+      <div onClick={() => props.logoutUser()} className='header-dropdown__item'>
         <i className='fa fa-sign-out-alt'></i>
         <span>Thoát</span>
       </div>
     </div>
   );
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logoutUser: () => dispatch(actLogoutUser()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(HeaderDropdown);

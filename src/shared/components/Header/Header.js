@@ -18,6 +18,8 @@ import useHttp from '../../customHooks/useHttp';
 import CartModal from '../CartModal/CartModal';
 import { connect } from 'react-redux';
 
+import { actLoginUser } from '../../../redux/actionCreator/userActions';
+
 function Header(props) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showCartModal, setShowCartModal] = useState(false);
@@ -26,12 +28,12 @@ function Header(props) {
   const { sendUser } = useHttp();
   const history = useHistory();
 
-  const { moviesCart } = props;
+  const { moviesCart, user } = props;
 
-  const userCollectionArr = auth.user && Object.values(auth.user.collection);
+  const userCollectionArr = user && Object.values(user.collection);
 
   useEffect(() => {
-    const loginUser = async () => {
+    const loginUserAsync = async () => {
       const tokenId = localStorage.getItem(LOCAL_STORAGE_KEY);
 
       // console.log(sendToken);
@@ -44,10 +46,12 @@ function Header(props) {
 
       if (!token) return;
 
+      props.loginUser(token, user);
+
       auth.login(token, user);
     };
 
-    loginUser();
+    loginUserAsync();
   }, []);
 
   const renderLogin = () => {
@@ -57,7 +61,7 @@ function Header(props) {
           onClick={() => history.push('/collection')}
           className='user-collection user-icon'>
           <i class='fa fa-film '></i>
-          {userCollectionArr.length > 0 && (
+          {userCollectionArr && userCollectionArr.length > 0 && (
             <div className='user-message'>
               <p>{userCollectionArr.length}</p>
             </div>
@@ -75,16 +79,18 @@ function Header(props) {
           )}
         </div>
 
-        <NavLink
-          to='/user'
-          className='navlinks__item fixed'
-          onMouseLeave={() => setShowDropdown(false)}>
-          <div onMouseEnter={() => setShowDropdown(true)} to='/user'>
-            {auth.user.name} {auth.isAdmin ? '(Admin)' : ''}
-            <i class='fa fa-chevron-down arrow-expand'></i>
-          </div>
-          {showDropdown && <HeaderDropdown username={'Minh'} />}
-        </NavLink>
+        {user && (
+          <NavLink
+            to='/user'
+            className='navlinks__item fixed'
+            onMouseLeave={() => setShowDropdown(false)}>
+            <div onMouseEnter={() => setShowDropdown(true)} to='/user'>
+              {user.name} {user.isAdmin ? '(Admin)' : ''}
+              <i class='fa fa-chevron-down arrow-expand'></i>
+            </div>
+            {showDropdown && <HeaderDropdown username={'Minh'} />}
+          </NavLink>
+        )}
       </>
     );
   };
@@ -145,7 +151,14 @@ function Header(props) {
 const mapStateToProps = (state) => {
   return {
     moviesCart: state.moviesCartReducer.moviesCart,
+    user: state.userReducer.user,
   };
 };
 
-export default connect(mapStateToProps, null)(Header);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (token, user) => dispatch(actLoginUser(token, user)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

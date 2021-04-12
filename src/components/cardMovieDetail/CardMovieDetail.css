@@ -15,7 +15,7 @@
 }
 
 .card-movie-detail.overview-full {
-  width: 450px;
+  width: 500px;
   height: 100%;
 }
 
@@ -140,9 +140,9 @@
   margin: 0;
 }
 
-.card-movie-detail.overview-full .movie-cart .button {
-  display: inline-block;
-  width: 80%;
+.card-movie-detail.overview-full .movie-action .button {
+  width: 40%;
+  margin-top: 0.3rem;
 }
 
 .card-movie-detail.overview-full .item-like {
@@ -175,45 +175,86 @@
   color: #23d160;
 }
 
-.card-movie-detail .movie-cart .icon-heart {
-  display: inline-block;
+.card-movie-detail.overview-full .movie-action {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-movie-detail.overview-full .btn-add-to-collection {
+  width: 57%;
+  margin: 0;
+}
+
+.card-movie-detail .movie-action .button {
+  font-size: 1rem;
+}
+
+.card-movie-detail .btn-add-to-collection {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.card-movie-detail .add-to-collection-text {
+  background-color: #ff4b2b;
+  border-radius: 5px;
+  padding: 0.5rem;
+  padding-left: 1rem;
+  position: absolute;
+  left: 2.3rem;
+  top: 0.5rem;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+}
+
+.card-movie-detail .btn-add-to-collection:hover .add-to-collection-text {
+  color: #ff4b2b;
+  background-color: transparent;
+  border: 1px solid #ff4b2b;
+}
+
+.card-movie-detail .btn-add-to-collection:hover .icon-heart i {
+  color: #ff4b2b;
+  transform: scale(1.2);
+}
+
+.card-movie-detail .btn-add-to-collection:hover .icon-heart {
+  border: 1px solid #ff4b2b;
+  background-color: #fff;
+}
+
+.card-movie-detail .movie-action .icon-heart {
   cursor: pointer;
   color: #fff;
-  margin-left: 1rem;
   width: 50px;
   height: 50px;
   line-height: 50px;
   text-align: center;
   border-radius: 50%;
-  border: 1px solid #fff;
+  border: 1px solid transparent;
+  position: absolute;
+  left: 0;
+  top: 0.2rem;
+  z-index: 2;
+  background-color: #ff4b2b;
 }
 
-.card-movie-detail .movie-cart .icon-heart i {
+.card-movie-detail .movie-action .icon-heart i {
   color: #fff;
   transition: all 0.3s;
 }
 
-.card-movie-detail .movie-cart .icon-heart:hover i {
-  color: #ff4b2b;
-  transform: scale(1.2);
-}
-.card-movie-detail .movie-cart .icon-heart:hover {
-  border: 1px solid #ff4b2b;
-}
-
-.card-movie-detail .movie-cart .button {
-  font-size: 1rem;
-}
-
-.card-movie-detail .movie-cart .button:hover .fa-shopping-cart {
+.card-movie-detail .movie-action .button:hover .fa-shopping-cart {
   color: #23d160;
 }
 
-.card-movie-detail .movie-cart .button:hover .fa-check {
+.card-movie-detail .movie-action .button:hover .fa-check {
   color: #3273dc;
 }
 
-.card-movie-detail .movie-cart .button:hover .fa-trash {
+.card-movie-detail .movie-action .button:hover .fa-trash {
   color: #ff4b2b;
 }
 

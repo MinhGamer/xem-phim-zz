@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -17,6 +17,8 @@ import { AuthContext } from '../../shared/context/AuthContext';
 
 import refreshToken from '../../shared/util/refreshToken';
 
+import { actLoginUser } from '../../redux/actionCreator/userActions';
+
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
@@ -26,8 +28,9 @@ import {
 import { LOCAL_STORAGE_KEY, OAUTH_CLIENT_KEY } from '../../shared/util/config';
 
 import './Auth.css';
+import { connect } from 'react-redux';
 
-export default function Auth() {
+function Auth(props) {
   const auth = useContext(AuthContext);
 
   const history = useHistory();
@@ -66,10 +69,6 @@ export default function Auth() {
         'POST',
         JSON.stringify(loginedUser)
       );
-
-      console.log(user);
-
-      auth.login(token, user);
     } else {
       //sign up
       const newUser = {
@@ -90,10 +89,6 @@ export default function Auth() {
     }
   };
 
-  // const saveTokenLocalStorage = (token) => {
-  //   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(token));
-  // };
-
   const onLoginGoogleSuccess = async (res) => {
     //token from google sign-in
     const { tokenId } = res;
@@ -109,9 +104,11 @@ export default function Auth() {
 
     auth.login(token, user);
 
+    props.loginUser(token, user);
+
     localStorage.setItem(LOCAL_STORAGE_KEY, tokenId);
 
-    refreshToken(res);
+    // refreshToken(res);
   };
 
   const onLoginGoogleFail = (res) => {
@@ -258,3 +255,11 @@ export default function Auth() {
     </div>
   );
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (token, user) => dispatch(actLoginUser(token, user)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Auth);

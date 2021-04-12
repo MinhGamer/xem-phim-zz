@@ -105,9 +105,10 @@ function CardMovieDetail(props) {
           </div>
           <div
             onMouseLeave={() => setShowLoginRequired(false)}
-            className='movie-cart'>
+            className='movie-action'>
             {!isAddedToCart && (
               <Button
+                isFull
                 onClick={
                   auth.isLoggedIn
                     ? () => props.addMovieToCart(movie)
@@ -135,6 +136,7 @@ function CardMovieDetail(props) {
 
                 {showDeleteBtn && (
                   <Button
+                    isFull
                     onMouseLeave={() => setShowDeleteBtn(false)}
                     onClick={() => removeMovie(movie)}
                     onMouseEnter={() => setShowLoginRequired(true)}
@@ -147,13 +149,18 @@ function CardMovieDetail(props) {
               </>
             )}
 
-            <div
-              onClick={() =>
-                (auth.user.collection[movie.id] = { isDone: false })
-              }
-              onMouseEnter={() => setShowLoginRequired(true)}
-              className='icon-heart'>
-              <i className='fa fa-heart'></i>
+            <div className='btn-add-to-collection'>
+              <div
+                onClick={() =>
+                  (auth.user.collection[movie.id] = { isDone: false })
+                }
+                onMouseEnter={() => setShowLoginRequired(true)}
+                className='icon-heart'>
+                <i className='fa fa-heart'></i>
+              </div>
+              <div className='add-to-collection-text'>
+                Thêm vào danh sách thích
+              </div>
             </div>
 
             {!auth.isLoggedIn && showLoginRequired && (
