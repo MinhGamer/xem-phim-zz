@@ -10,12 +10,14 @@ import CartItem from './CartItem/CartItem';
 
 import ContactForm from '../../../components/contactForm/ContactForm';
 
+import LoadingSpinner from '../../components/UI/LoadingSpinner';
+
 function CartModal(props) {
   const [activeId, setActiveId] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
   const { showed, backdropClick, closeCartModal } = props;
 
-  const { totalOrderAmount, user } = props;
+  const { totalOrderAmount, user, isLoading } = props;
 
   const cartArr = (user && Object.values(user.cart)) || [];
 
@@ -76,18 +78,16 @@ function CartModal(props) {
         )}
 
         {showContactForm && (
-          <ContactForm onBackToCartClick={() => setShowContactForm(false)} />
+          <>
+            {isLoading && <LoadingSpinner />}
+            {!isLoading && (
+              <ContactForm
+                onBackToCartClick={() => setShowContactForm(false)}
+              />
+            )}
+          </>
         )}
       </Modal>
-
-      {/* {showContactForm && (
-        <Modal
-          className='modal-contact-form'
-          backdropClick={backdropClick}
-          showed={true}>
-          <ContactForm onBackToCartClick={() => setShowContactForm(false)} />
-        </Modal>
-      )} */}
     </>
   );
 }
@@ -96,6 +96,7 @@ const mapStateToProps = (state) => {
   return {
     totalOrderAmount: state.userReducer.totalOrderAmount,
     user: state.userReducer.user,
+    isLoading: state.userReducer.isLoading,
   };
 };
 

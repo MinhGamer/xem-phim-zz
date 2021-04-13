@@ -208,6 +208,42 @@ export const actUpdateMovieCart = (type, movie) => {
   };
 };
 
+export const actPurchaseItemInCart = (deliveryInfo) => {
+  return async (dispatch, getState) => {
+    dispatch(sendApiStart());
+
+    const { token, user } = getState().userReducer;
+
+    const { cart, orderHistory } = user;
+
+    const date = new Date().toISOString();
+
+    orderHistory[date] = cart;
+
+    try {
+      await sendUser(
+        'user/order-history',
+        'PATCH',
+        JSON.stringify({ orderHistory, deliveryInfo }),
+        {
+          Authorization: 'Bearer ' + token,
+        }
+      );
+
+      dispatch({
+        type: actionTypes.PURCHASE_ITEM_IN_CART,
+        payload: {
+          orderHistory,
+          deliveryInfo,
+        },
+      });
+      dispatch(sendApiSuccess());
+    } catch (err) {
+      dispatch(sendApiFail());
+    }
+  };
+};
+
 export const actLogoutUser = () => {
   return {
     type: actionTypes.LOGOUT_USER,

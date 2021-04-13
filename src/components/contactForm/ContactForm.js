@@ -11,9 +11,11 @@ import {
 import Button from '../../shared/components/UI/Button';
 
 import './ContactForm.css';
+import { connect } from 'react-redux';
 
-export default function ContactForm(props) {
-  const { onBackToCartClick } = props;
+import { actPurchaseItemInCart } from '../../redux/actionCreator/userActions';
+
+function ContactForm(props) {
   const { formState, inputHandler, setFormData } = useForm(
     {
       address: {
@@ -35,7 +37,17 @@ export default function ContactForm(props) {
   const submitHandler = (e) => {
     e.preventDefault();
 
-    console.log(formState);
+    // console.log(formState.inputs);
+
+    const { address, city, phone } = formState.inputs;
+
+    const deliveryInfo = {
+      address: address.value,
+      city: city.value,
+      phone: phone.value,
+    };
+
+    props.purchaseOrder(deliveryInfo);
   };
 
   return (
@@ -66,12 +78,19 @@ export default function ContactForm(props) {
         label='Số điện thoại'
       />
 
-      <Button onClick={onBackToCartClick} isPrimary>
-        Quay lại giỏ hàng
-      </Button>
+      <Button isPrimary>Quay lại giỏ hàng</Button>
       <Button disabled={!formState.isValid} onClick={submitHandler} isSecondary>
         Mua
       </Button>
     </form>
   );
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    purchaseOrder: (deliveryInfo) =>
+      dispatch(actPurchaseItemInCart(deliveryInfo)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ContactForm);

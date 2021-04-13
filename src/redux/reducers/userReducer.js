@@ -90,6 +90,16 @@ const userReducer = (state = initialState, action) => {
       };
     }
 
+    case actionTypes.PURCHASE_ITEM_IN_CART: {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          orderHistory: action.payload.orderHistory,
+        },
+      };
+    }
+
     default:
       return {
         ...state,
