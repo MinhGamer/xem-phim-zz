@@ -54,7 +54,9 @@ function Auth(props) {
     false
   );
 
-  const { isLoading, error, clearError, sendUser } = useHttp();
+  const { error, clearError, sendUser } = useHttp();
+
+  const { isLoading, isLoggined } = props;
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -152,7 +154,7 @@ function Auth(props) {
   const renderFormLogin = () => {
     let formCard;
 
-    if (auth.isLoggedIn) {
+    if (isLoggined) {
       formCard = (
         <>
           <h1 className='auth-title__success-login'>
@@ -250,6 +252,13 @@ function Auth(props) {
   );
 }
 
+const mapStateToProps = (state) => {
+  return {
+    user: state.userReducer.user,
+    isLoggined: state.userReducer.isLoggined,
+    isLoading: state.userReducer.isLoading,
+  };
+};
 const mapDispatchToProps = (dispatch) => {
   return {
     loginWithGoogle: (token, user) => dispatch(actLoginWithGoogle(token, user)),
@@ -257,10 +266,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-// const mapStateToProps = (dispatch) => {
-//   return {
-//     isLoadingUser: (token, user) => dispatch(actLoginUser(token, user)),
-//   };
-// };
-
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

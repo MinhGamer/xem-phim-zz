@@ -58,17 +58,6 @@ const loginUser = (token, user) => {
   };
 };
 
-// const signUpUser = (name, email, password) => {
-//   return {
-//     type: actionTypes.LOGIN_USER,
-//     payload: {
-//       name,
-//       email,
-//       password,
-//     },
-//   };
-// };
-
 export const actLoginUser = (tokenId, user) => {
   return async (dispatch) => {
     dispatch(sendApiStart());
@@ -103,21 +92,112 @@ export const actLoginWithGoogle = (tokenId, user) => {
   };
 };
 
-export const actAddMovieToCollection = (movie) => {
+export const actUpdateMovieCollection = (type, movie) => {
+  return async (dispatch, getState) => {
+    dispatch(sendApiStart());
+    const { token, user } = getState().userReducer;
+    const updateCollection = { ...user.collection };
+
+    switch (type) {
+      case actionTypes.ADD_MOVIE_TO_COLLECTION:
+        updateCollection[movie.id] = { ...movie, isDone: false };
+        break;
+
+      case actionTypes.REMOVIE_MOVIE_FROM_COLLECTION:
+        delete updateCollection[movie.id];
+        break;
+
+      case actionTypes.TOGGLE_MOVIE_IN_COLLECTION:
+        updateCollection[movie.id].isDone = !updateCollection[movie.id].isDone;
+        break;
+
+      default:
+        return;
+    }
+
+    try {
+      await sendUser(
+        'user/collection',
+        'PATCH',
+        JSON.stringify({ collection: updateCollection }),
+        {
+          Authorization: 'Bearer ' + token,
+        }
+      );
+
+      dispatch(updateMovieToCollection(updateCollection));
+      dispatch(sendApiSuccess());
+    } catch (err) {
+      dispatch(sendApiFail());
+    }
+  };
+};
+
+const updateMovieToCollection = (collection) => {
   return {
-    type: actionTypes.ADD_MOVIE_TO_COLLECTION,
+    type: actionTypes.UPDATE_MOVIE_COLLECTION,
     payload: {
-      movie,
+      collection,
     },
   };
 };
 
-export const actRemoveMovieFromCollection = (movieId) => {
+const updateMovieCart = (cart, totalOrderAmount) => {
   return {
-    type: actionTypes.REMOVIE_MOVIE_FROM_COLLECTION,
+    type: actionTypes.UPDATE_MOVIE_CART,
     payload: {
-      movieId,
+      cart,
+      totalOrderAmount,
     },
+  };
+};
+
+export const actUpdateMovieCart = (type, movie) => {
+  return async (dispatch, getState) => {
+    dispatch(sendApiStart());
+    let { token, user, totalOrderAmount } = getState().userReducer;
+    const updateCart = { ...user.cart };
+
+    switch (type) {
+      case actionTypes.ADD_MOVIE_TO_CART:
+        updateCart[movie.id] = { ...movie, quantity: 1 };
+        totalOrderAmount += movie.vote_average;
+        break;
+
+      case actionTypes.REMOVE_MOVIE_FROM_CART:
+        delete updateCart[movie.id];
+        break;
+
+      case actionTypes.MINUS_MOVIE_BY_ONE_FROM_CART:
+        if (updateCart[movie.id].quantity === 1) {
+          //remove
+          delete updateCart[movie.id];
+        } else {
+          //minus by one
+          updateCart[movie.id].quantity -= 1;
+        }
+        totalOrderAmount -= movie.vote_average;
+        break;
+
+      default:
+        return;
+    }
+
+    try {
+      await sendUser(
+        'user/cart',
+        'PATCH',
+        JSON.stringify({ cart: updateCart }),
+        {
+          Authorization: 'Bearer ' + token,
+        }
+      );
+
+      dispatch(updateMovieCart(updateCart, totalOrderAmount));
+      dispatch(sendApiSuccess());
+    } catch (err) {
+      dispatch(sendApiFail());
+    }
   };
 };
 

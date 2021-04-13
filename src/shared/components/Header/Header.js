@@ -104,7 +104,6 @@ function Header(props) {
         backdropClick={() => setShowCartModal(false)}
         showed={showCartModal}
       />
-
       <div className='header--wrapper'>
         <NavLink to='/' className='logo'>
           <img src={logo} alt='logo' />
@@ -126,17 +125,15 @@ function Header(props) {
         </nav>
       </div>
 
-      {user && (
-        <div className='login'>
-          {!isLoggined && (
-            <NavLink to='/auth'>
-              <Button isPrimary>Đăng nhập</Button>
-            </NavLink>
-          )}
+      <div className='login'>
+        {!isLoggined && (
+          <NavLink to='/auth'>
+            <Button isPrimary>Đăng nhập</Button>
+          </NavLink>
+        )}
 
-          {isLoggined && renderLogin()}
-        </div>
-      )}
+        {isLoggined && renderLogin()}
+      </div>
     </header>
   );
 }

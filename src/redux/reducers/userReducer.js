@@ -55,92 +55,32 @@ const userReducer = (state = initialState, action) => {
       };
     }
 
-    case actionTypes.ADD_MOVIE_TO_COLLECTION: {
-      const { movie } = action.payload;
-      const updateCollection = { ...state.user.collection };
+    case actionTypes.UPDATE_MOVIE_COLLECTION: {
+      const { collection } = action.payload;
+      // const updateCollection = { ...state.user.collection };
 
-      //isDone: false => add to whislist
-      updateCollection[movie.id] = { ...movie, isDone: false };
+      // //isDone: false => add to whislist
+      // updateCollection[movie.id] = { ...movie, isDone: false };
 
       return {
         ...state,
         user: {
           ...state.user,
-          collection: updateCollection,
+          collection,
         },
       };
     }
 
-    case actionTypes.REMOVIE_MOVIE_FROM_COLLECTION: {
-      const { movieId } = action.payload;
-      let updateCollection = { ...state.user.collection };
-
-      delete updateCollection[movieId];
+    case actionTypes.UPDATE_MOVIE_CART: {
+      const { cart, totalOrderAmount } = action.payload;
 
       return {
         ...state,
         user: {
           ...state.user,
-          collection: updateCollection,
+          cart: cart,
         },
-      };
-    }
-
-    case actionTypes.ADD_MOVIE_TO_CART: {
-      const { movie } = action.payload;
-      const updateCart = { ...state.user.cart };
-
-      if (updateCart[movie.id]) {
-        //movie is already in cart
-        updateCart[movie.id].quantity += 1;
-      } else {
-        //movie is NOT in cart
-        updateCart[movie.id] = { ...movie, quantity: 1 };
-      }
-
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          cart: updateCart,
-        },
-        totalOrderAmount: state.totalOrderAmount + movie.vote_average,
-      };
-    }
-
-    case actionTypes.REMOVE_MOVIE_FROM_CART: {
-      const { movie } = action.payload;
-      const updateCart = { ...state.user.cart };
-
-      delete updateCart[movie.id];
-
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          cart: updateCart,
-        },
-        totalOrderAmount: state.totalOrderAmount - movie.vote_average,
-      };
-    }
-
-    case actionTypes.MINUS_MOVIE_BY_ONE_FROM_CART: {
-      const { movie } = action.payload;
-      const updateCart = { ...state.user.cart };
-
-      if (updateCart[movie.id].quantity === 1) {
-        delete updateCart[movie.id];
-      } else {
-        updateCart[movie.id].quantity -= 1;
-      }
-
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          cart: updateCart,
-        },
-        totalOrderAmount: state.totalOrderAmount - movie.vote_average,
+        totalOrderAmount,
       };
     }
 

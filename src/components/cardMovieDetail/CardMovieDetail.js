@@ -2,17 +2,12 @@ import React, { useState, useContext } from 'react';
 
 import { API_MOVIE_IMAGE } from '../../shared/util/config';
 
-// import {
-//   actAddMovieToCart,
-//   actRemoveMovie,
-// } from '../../redux/actionCreator/moviesCartAction';
-
 import {
-  actAddMovieToCollection,
-  actRemoveMovieFromCollection,
-  actAddMovieToCart,
-  actRemoveMovieFromCart,
+  actUpdateMovieCollection,
+  actUpdateMovieCart,
 } from '../../redux/actionCreator/userActions';
+
+import * as actionTypes from '../../redux/actionTypes/actionTypes';
 
 import './CardMovieDetail.css';
 
@@ -37,7 +32,7 @@ function CardMovieDetail(props) {
     setShowRemoveFromCollectionBtn,
   ] = useState(false);
 
-  const { sendUser, isLoading, error } = useHttp();
+  const { sendUser, error } = useHttp();
 
   const history = useHistory();
 
@@ -49,11 +44,11 @@ function CardMovieDetail(props) {
     onBackdropClick,
     user,
     isLoggined,
-    userToken,
     addMovieToCart,
     removeMovieFromCart,
     addMovieToCollection,
     removeMovieFromCollection,
+    isLoading,
   } = props;
 
   //check to see if movie is in cart or not
@@ -67,54 +62,15 @@ function CardMovieDetail(props) {
   const isAddToCollection =
     collectionArr.findIndex((_movie) => _movie.id === movie.id) !== -1;
 
-  const addMovieToCollectionHandler = async (movie) => {
-    user.collection[movie.id] = movie;
-
-    try {
-      const data = await sendUser(
-        'user/collection',
-        'PATCH',
-        JSON.stringify({ collection: user.collection }),
-        {
-          Authorization: 'Bearer ' + userToken,
-        }
-      );
-
-      addMovieToCollection(movie);
-      console.log(data);
-    } catch (err) {}
-  };
-
-  const removeMovieFromCollectionHandler = async (movieId) => {
-    delete user.collection[movieId];
-
-    try {
-      const data = await sendUser(
-        'user/collection',
-        'PATCH',
-        JSON.stringify({ collection: user.collection }),
-        {
-          Authorization: 'Bearer ' + userToken,
-        }
-      );
-
-      removeMovieFromCollection(movie);
-      console.log(data);
-    } catch (err) {}
-  };
-
-  const addMovieToCartHandler = async (movie) => {
+  const addMovieToCartHandler = (movie) => {
     // if (user.cart[movie.id]) {
     //   //movie is already in cart
     //   user.cart[movie.id].quantity += 1;
     // } else {
     //   //movie is NOT in cart
-
     //   user.cart[movie.id] = { ...movie, quantity: 1 };
     // }
-
-    addMovieToCart(movie);
-
+    // addMovieToCart(movie);
     //call api to store data
     // try {
     //   const data = await sendUser(
@@ -125,7 +81,6 @@ function CardMovieDetail(props) {
     //       Authorization: 'Bearer ' + userToken,
     //     }
     //   );
-
     //   //then set redux store
     //   addMovieToCart(movie);
     //   console.log(data);
@@ -133,21 +88,19 @@ function CardMovieDetail(props) {
   };
 
   const removeMovieFromCartHandler = async (movie) => {
-    delete user.cart[movie.id];
-
-    try {
-      const data = await sendUser(
-        'user/cart',
-        'PATCH',
-        JSON.stringify({ cart: user.cart }),
-        {
-          Authorization: 'Bearer ' + userToken,
-        }
-      );
-
-      removeMovieFromCart(movie);
-      console.log(data);
-    } catch (err) {}
+    // delete user.cart[movie.id];
+    // try {
+    //   const data = await sendUser(
+    //     'user/cart',
+    //     'PATCH',
+    //     JSON.stringify({ cart: user.cart }),
+    //     {
+    //       Authorization: 'Bearer ' + userToken,
+    //     }
+    //   );
+    //   removeMovieFromCart(movie);
+    //   console.log(data);
+    // } catch (err) {}
   };
 
   return (
@@ -223,8 +176,8 @@ function CardMovieDetail(props) {
               <Button
                 isFull
                 onClick={
-                  auth.isLoggedIn
-                    ? () => addMovieToCartHandler(movie)
+                  isLoggined
+                    ? () => addMovieToCart(movie)
                     : () => history.push(`/auth`)
                 }
                 onMouseEnter={() => setShowLoginRequired(true)}
@@ -250,7 +203,7 @@ function CardMovieDetail(props) {
                 {showRemoveFromCartBtn && (
                   <Button
                     onMouseLeave={() => setShowDeleteBtn(false)}
-                    onClick={() => removeMovieFromCartHandler(movie)}
+                    onClick={() => removeMovieFromCart(movie)}
                     onMouseEnter={() => setShowLoginRequired(true)}
                     isPrimary>
                     <span>
@@ -265,7 +218,7 @@ function CardMovieDetail(props) {
               <>
                 {!isLoading && (
                   <div
-                    onClick={() => addMovieToCollectionHandler(movie)}
+                    onClick={() => addMovieToCollection(movie)}
                     className={`btn-add-to-collection`}>
                     <div className='icon-heart'>
                       <i className='fa fa-heart'></i>
@@ -283,7 +236,7 @@ function CardMovieDetail(props) {
               <>
                 {!isLoading && (
                   <div
-                    onClick={() => removeMovieFromCollectionHandler(movie.id)}
+                    onClick={() => removeMovieFromCollection(movie)}
                     className='btn-add-to-collection 
                  is-added-to-collection'>
                     <div
@@ -317,7 +270,7 @@ function CardMovieDetail(props) {
               </>
             )}
 
-            {!auth.isLoggedIn && showLoginRequired && (
+            {!isLoggined && showLoginRequired && (
               <div className='movie-login-require'>
                 Xin hãy <NavLink to='/auth'>Đăng nhập</NavLink> để tiếp tục
               </div>
@@ -334,16 +287,30 @@ const mapStateToProps = (state) => {
     user: state.userReducer.user,
     isLoggined: state.userReducer.isLoggined,
     userToken: state.userReducer.token,
+    isLoading: state.userReducer.isLoading,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addMovieToCart: (movie) => dispatch(actAddMovieToCart(movie)),
-    removeMovieFromCart: (movie) => dispatch(actRemoveMovieFromCart(movie)),
-    addMovieToCollection: (movie) => dispatch(actAddMovieToCollection(movie)),
-    removeMovieFromCollection: (movieId) =>
-      dispatch(actRemoveMovieFromCollection(movieId)),
+    addMovieToCart: (movie) =>
+      dispatch(actUpdateMovieCart(actionTypes.ADD_MOVIE_TO_CART, movie)),
+
+    removeMovieFromCart: (movie) =>
+      dispatch(actUpdateMovieCart(actionTypes.REMOVE_MOVIE_FROM_CART, movie)),
+
+    addMovieToCollection: (movie) =>
+      dispatch(
+        actUpdateMovieCollection(actionTypes.ADD_MOVIE_TO_COLLECTION, movie)
+      ),
+
+    removeMovieFromCollection: (movie) =>
+      dispatch(
+        actUpdateMovieCollection(
+          actionTypes.REMOVIE_MOVIE_FROM_COLLECTION,
+          movie
+        )
+      ),
   };
 };
 
