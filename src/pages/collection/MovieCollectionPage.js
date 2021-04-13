@@ -4,43 +4,36 @@ import './MovieCollectionPage.css';
 
 import MovieItem from '../../components/movieItem/MovieItem';
 
-import { AuthContext } from '../../shared/context/AuthContext';
-
-import ErrorModal from '../../shared/components/UI/ErrorModal';
-
-import useHttp from '../../shared/customHooks/useHttp';
-
 import { CSSTransition } from 'react-transition-group';
 
 import Slider from 'react-slick';
 import { connect } from 'react-redux';
 
+import * as actionTypes from '../../redux/actionTypes/actionTypes';
+
+import { actUpdateMovieCollection } from '../../redux/actionCreator/userActions';
+
 function MovieCollectionPage(props) {
-  const [collection, setCollection] = useState([]);
   const [activeId, setActiveId] = useState(null);
   const [deleteMovie, setDeleteMovie] = useState(false);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+
   const {
-    fetchMoviesByIdList,
+    user,
+    username,
     isLoading,
-    error,
-    clearError,
-    sendUser,
-  } = useHttp();
+    collection,
+    toggleMovieInCollection,
+    removeMovieFromCollection,
+  } = props;
 
-  const auth = useContext(AuthContext);
-
-  const { user, username } = props;
-
-  //set collection when load page
-  useEffect(() => {
-    setCollection(Object.values(user.collection));
-  }, []);
+  const collectionArr = Object.values(collection || user.collection);
 
   const settingsWhislist = {
     //fix bug when number of movies less than 4
     infinite:
-      collection && collection.filter((movie) => !movie.isDone).length > 4,
+      collectionArr &&
+      collectionArr.filter((movie) => !movie.isDone).length > 4,
     // infinite: false,
     speed: 200,
     slidesToShow: 4,
@@ -52,7 +45,7 @@ function MovieCollectionPage(props) {
   const settingsFinishlist = {
     //fix bug when number of movies less than 4
     infinite:
-      collection && collection.filter((movie) => movie.isDone).length > 4,
+      collectionArr && collectionArr.filter((movie) => movie.isDone).length > 4,
     // infinite: false,
     speed: 200,
     slidesToShow: 4,
@@ -74,13 +67,13 @@ function MovieCollectionPage(props) {
 
     return _collection.map((movie) => (
       <>
+        {/* animation enter */}
         {activeId === movie.id && !deleteMovie && (
           <CSSTransition
             in={true}
-            mountOnEnter
-            unmountOnExit
             timeout={800}
             appear
+            // onEntering={() => setDeleteMovie(false)}
             classNames={'fade-on-top'}>
             <MovieItem
               isEdit
@@ -93,13 +86,13 @@ function MovieCollectionPage(props) {
           </CSSTransition>
         )}
 
+        {/* animation exit */}
         {activeId === movie.id && deleteMovie && (
           <CSSTransition
-            unmountOnExit
-            in={true}
+            in={deleteMovie}
             timeout={800}
             appear
-            onEntered={() => deleveMovieHandler(movie.id)}
+            onEntered={() => deleteMovieHandler(movie)}
             classNames={'fade-on-top--delete'}>
             <MovieItem
               isEdit
@@ -112,6 +105,7 @@ function MovieCollectionPage(props) {
           </CSSTransition>
         )}
 
+        {/* other item */}
         {activeId !== movie.id && (
           <MovieItem
             isEdit
@@ -126,122 +120,57 @@ function MovieCollectionPage(props) {
     ));
   };
 
-  const onClickMovieHandler = async (movieId, action) => {
-    //when movie go to collection
-
-    // list of Ids
-    // authCollection = [
-    //  1771: {isDone: true}, => finish list
-    // 527774: {isDone: false} => wishlist
-    // ]
-
-    // list of movie obj use to render
-    //renderCollection = [
-    //       {
-    //         id: 399566
-    // imdb_id: "tt5034838"
-    // original_language: "en"
-    // original_title: "Godzilla vs. Kong"
-    // overview: "Khi
-    //       }, ...
-    //     ]
-
-    let renderCollection = [...collection];
-
-    const authCollection = auth.user.collection;
-
+  const onClickMovieHandler = async (movie, action) => {
     if (action === 'addFavorited' || action === 'addDone') {
-      authCollection[movieId] = {
-        isDone: action === 'addDone' ? true : false,
-      };
-
-      const index = renderCollection.findIndex((movie) => movie.id === movieId);
-
-      if (index === -1) return;
-
-      renderCollection[index].isDone = !renderCollection[index].isDone;
-
-      //add at the begin to see animation
-      renderCollection.unshift(renderCollection[index]);
-      renderCollection.splice(index + 1, 1);
-
-      setCollection(renderCollection);
+      setDeleteMovie(false);
+      toggleMovieInCollection(movie);
     }
 
     if (action === 'delete') {
-      // delete authCollection[movieId];
-
-      // renderCollection = renderCollection.filter(
-      //   (movie) => movie.id !== movieId
-      // );
-
-      console.log('delete');
-
-      //movie item enter exit phase
-      //dont' setCollection here
+      //create animation
       setDeleteMovie(true);
     }
 
-    setActiveId(movieId);
-
-    // const data = await sendUser(
-    //   'user',
-    //   'PATCH',
-    //   JSON.stringify({ collection: authCollection }),
-    //   {
-    //     Authorization: 'Bearer ' + auth.token,
-    //   }
-    // );
-
-    //if update collection success
-    //use to render base on the collection in authContent
+    setActiveId(movie.id);
   };
 
   //when user delete a movie =>
   //1. animate movie item first
   //2. then delete from list
   //-> because if we delete movie Id first there is no movie Id to attach to CSSTransition
-  const deleveMovieHandler = (movieId) => {
-    let renderCollection = [...collection];
-
-    console.log(movieId);
-
-    renderCollection = renderCollection.filter((movie) => movie.id !== movieId);
-
-    delete auth.user.collection[movieId];
-
-    setActiveId(null);
-    setDeleteMovie(false);
-    setCollection(renderCollection);
+  const deleteMovieHandler = (movie) => {
+    // setActiveId(null);
+    removeMovieFromCollection(movie);
+    // setDeleteMovie(false);
   };
 
   const navTab = [
     {
-      label: `Muốn xem (${collection.filter((movie) => !movie.isDone).length})`,
+      label: `Muốn xem (${
+        collectionArr.filter((movie) => !movie.isDone).length
+      })`,
       component: (
         <Slider {...settingsWhislist}>
-          {collection &&
-            renderMovies(collection.filter((movie) => !movie.isDone))}
+          {collectionArr &&
+            renderMovies(collectionArr.filter((movie) => !movie.isDone))}
         </Slider>
       ),
     },
     {
       label: `Đã xem (${
-        collection && collection.filter((movie) => movie.isDone).length
+        collectionArr && collectionArr.filter((movie) => movie.isDone).length
       })`,
       component: (
         <Slider {...settingsFinishlist}>
-          {renderMovies(collection.filter((movie) => movie.isDone))}
+          {renderMovies(collectionArr.filter((movie) => movie.isDone))}
         </Slider>
       ),
     },
   ];
 
   return (
-    collection && (
+    collectionArr && (
       <div className='movie-collection'>
-        {error && <ErrorModal error={error} clearError={clearError} />}
-
         <div className='collection-header'>
           Bộ sưu tập phim của <span>{username ? username : 'bạn'}</span>
         </div>
@@ -270,7 +199,28 @@ function MovieCollectionPage(props) {
 const mapStateToProps = (state) => {
   return {
     user: state.userReducer.user,
+    isLoading: state.userReducer.isLoading,
   };
 };
 
-export default connect(mapStateToProps, null)(MovieCollectionPage);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    toggleMovieInCollection: (movie) =>
+      dispatch(
+        actUpdateMovieCollection(actionTypes.TOGGLE_MOVIE_IN_COLLECTION, movie)
+      ),
+
+    removeMovieFromCollection: (movie) =>
+      dispatch(
+        actUpdateMovieCollection(
+          actionTypes.REMOVIE_MOVIE_FROM_COLLECTION,
+          movie
+        )
+      ),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MovieCollectionPage);

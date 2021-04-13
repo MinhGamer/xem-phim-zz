@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { useHistory } from 'react-router-dom';
-
 import Modal from '../UI/Modal';
-
-// import { API_MOVIE_IMAGE } from '../../util/config';
 
 import Button from '../UI/Button';
 
@@ -16,11 +12,15 @@ function CartModal(props) {
   const [activeId, setActiveId] = useState(false);
   const { showed, backdropClick, closeCartModal } = props;
 
-  const history = useHistory();
-
   const { totalOrderAmount, user } = props;
 
   const cartArr = (user && Object.values(user.cart)) || [];
+
+  const calcTotalItem = () => {
+    let total = 0;
+    cartArr.forEach((item) => (total += item.quantity));
+    return total;
+  };
 
   return (
     <>
@@ -57,7 +57,7 @@ function CartModal(props) {
         {cartArr.length > 0 && (
           <div className='cart-summary'>
             <div>Tổng đơn hàng: </div>
-            <div>{cartArr.length} phim</div>
+            <div>{calcTotalItem()} phim</div>
             <div>${totalOrderAmount.toFixed(1)}</div>
             <Button isPrimary>ĐẶT MUA</Button>
           </div>

@@ -79,10 +79,16 @@ export const actLoginWithGoogle = (tokenId, user) => {
   return async (dispatch) => {
     dispatch(sendApiStart());
 
+    console.log(tokenId);
+
     try {
       const { token, user } = await sendUser('user/g-login', 'POST', null, {
         Authorization: 'Bearer ' + tokenId,
       });
+
+      if (!token) {
+        dispatch(sendApiFail());
+      }
 
       dispatch(sendApiSuccess());
       dispatch(loginUser(token, user));
@@ -135,15 +141,6 @@ export const actUpdateMovieCollection = (type, movie) => {
     } catch (err) {
       dispatch(sendApiFail());
     }
-  };
-};
-
-const updateMovieToCollection = (collection) => {
-  return {
-    type: actionTypes.UPDATE_MOVIE_COLLECTION,
-    payload: {
-      collection,
-    },
   };
 };
 

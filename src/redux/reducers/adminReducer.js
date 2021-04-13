@@ -1,9 +1,4 @@
-import {
-  DELETE_USER,
-  GET_USER,
-  SET_ALL_USER,
-  SORT_USER,
-} from '../actionTypes/actionTypes';
+import * as actionTypes from '../actionTypes/actionTypes';
 
 import { ADMIN_EMAIL } from '../../shared/util/config';
 
@@ -15,19 +10,19 @@ const initialState = {
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_ALL_USER: {
+    case actionTypes.FETCH_ALL_USER: {
       // remove ADMIN_EMAIL from list
       delete action.payload.allUser[ADMIN_EMAIL];
 
-      const allUserArr = Object.values(action.payload.allUser);
+      // const allUserArr = Object.values(action.payload.allUser);
 
       return {
         ...state,
-        allUser: allUserArr,
+        allUser: action.payload.allUser,
       };
     }
 
-    case DELETE_USER: {
+    case actionTypes.DELETE_USER: {
       let updateAllUsers = [...state.allUser];
 
       updateAllUsers = updateAllUsers.filter(
@@ -40,18 +35,14 @@ const userReducer = (state = initialState, action) => {
       };
     }
 
-    case GET_USER: {
-      const user = state.allUser.find(
-        (user) => user.email === action.payload.userEmail
-      );
-
+    case actionTypes.GET_USER: {
       return {
         ...state,
-        userDetail: user,
+        userDetail: state.allUser[action.payload.userEmail],
       };
     }
 
-    case SORT_USER: {
+    case actionTypes.SORT_USER: {
       const sortUsers = [...state.allUser];
       let updateSortASC = !state.sortASC;
 

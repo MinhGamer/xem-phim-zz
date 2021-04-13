@@ -117,3 +117,8 @@
   transform: translateY(-3rem);
   transition: all 0.8s;
 }
+
+.fade-on-top--delete-appear-done {
+  opacity: 0;
+  display: none;
+}

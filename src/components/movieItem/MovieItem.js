@@ -54,7 +54,7 @@ function MovieItem(props) {
   const onClickMovieEdit = (e, action) => {
     e.stopPropagation();
 
-    clickMovieHandler(id, action);
+    clickMovieHandler(props.movie, action);
   };
 
   const mouseEnterMovieHandler = () => {

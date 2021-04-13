@@ -24,7 +24,7 @@ function Header(props) {
 
   const history = useHistory();
 
-  const { user, isLoggined } = props;
+  const { user, isLoggined, isAdmin } = props;
 
   const userCartArr = (user && user.cart && Object.values(user.cart)) || [];
 
@@ -76,7 +76,7 @@ function Header(props) {
             className='navlinks__item fixed'
             onMouseLeave={() => setShowDropdown(false)}>
             <div onMouseEnter={() => setShowDropdown(true)} to='/user'>
-              {user.name} {user.isAdmin ? '(Admin)' : ''}
+              {user.name} {isAdmin ? '(Admin)' : ''}
               <i class='fa fa-chevron-down arrow-expand'></i>
             </div>
             {showDropdown && <HeaderDropdown username={'Minh'} />}
@@ -142,6 +142,7 @@ const mapStateToProps = (state) => {
   return {
     user: state.userReducer.user,
     isLoggined: state.userReducer.isLoggined,
+    isAdmin: state.userReducer.isAdmin,
   };
 };
 

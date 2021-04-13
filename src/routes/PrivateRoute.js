@@ -1,30 +1,37 @@
 import React, { useContext } from 'react';
+import { connect } from 'react-redux';
 
-import { Route, Redirect } from 'react-router-dom';
-import HomePage from '../pages/homePage/HomePage';
+import { Route } from 'react-router-dom';
 
-import { AuthContext } from '../shared/context/AuthContext';
-
-export default function PrivateRoute({
+function PrivateRoute({
   component: Component,
   redirectTo,
+  isAdminMode,
   isAdmin,
+  isLoggined,
   ...otherProps
 }) {
-  const auth = useContext(AuthContext);
-
   //isAdmin: flag to decide the type of PrivateRoute
-  return isAdmin ? (
+  return isAdminMode ? (
     //admin route
     <Route
       {...otherProps}
-      render={(props) => (auth.isAdmin ? <Component {...props} /> : null)}
+      render={(props) => (isAdmin ? <Component {...props} /> : null)}
     />
   ) : (
     //pricate route
     <Route
       {...otherProps}
-      render={(props) => (auth.isLoggedIn ? <Component {...props} /> : null)}
+      render={(props) => (isLoggined ? <Component {...props} /> : null)}
     />
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    isLoggined: state.userReducer.isLoggined,
+    isAdmin: state.userReducer.isAdmin,
+  };
+};
+
+export default connect(mapStateToProps, null)(PrivateRoute);

@@ -2,7 +2,7 @@
 export const EDIT_USER = 'ADMIN/EDIT_USER';
 export const DELETE_USER = 'ADMIN/DELETE_USER';
 export const GET_USER = 'ADMIN/GET_USER';
-export const SET_ALL_USER = 'ADMIN/SET_ALL_USER';
+export const FETCH_ALL_USER = 'ADMIN/FETCH_ALL_USER';
 export const SHOW_USER_DETAIL = 'ADMIN/SHOW_USER_DETAIL';
 export const SORT_USER = 'ADMIN/SORT_USER';
 export const FILTER_USER = 'ADMIN/FILTER_USER';

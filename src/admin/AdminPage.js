@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './AdminPage.css';
 
 import AllUser from './components/allUser/AllUser';
-
-import { AuthContext } from '../shared/context/AuthContext';
 
 import LoadingSpinner from '../shared/components/UI/LoadingSpinner';
 
@@ -12,21 +10,17 @@ import useHttp from '../shared/customHooks/useHttp';
 
 import { connect } from 'react-redux';
 
-import { actSetAllUser } from '../redux/actionCreator/adminActions';
+import { actFetchAllUser } from '../redux/actionCreator/adminActions';
 import DashBoard from '../components/dashboard/DashBoard';
 
 function AdminPage(props) {
   const [navtabIndex, setNavtabIndex] = useState(0);
-  const auth = useContext(AuthContext);
-  const { sendUser, isLoading } = useHttp();
+
   const [confirmDelete, setConfirmDelete] = useState(null);
 
-  const ADMIN_NAVTAB_LIST = [
-    // { id: 'allUser', label: 'Thống kê' },
-    // { id: 'allUser', label: 'Quản lý người dùng' },
-    // { id: 'addUser', label: 'Thêm người dùng' },
-    // { id: 'addMovie', label: 'Quản lý phim' },
+  const { fetchAllUser } = props;
 
+  const ADMIN_NAVTAB_LIST = [
     {
       label: 'Thống kê',
       icon: <i class='fa fa-chart-line'></i>,
@@ -35,12 +29,7 @@ function AdminPage(props) {
     {
       label: 'Quản lý người dùng',
       icon: <i class='fa fa-users'></i>,
-      component: (
-        <>
-          {isLoading && <LoadingSpinner />}
-          {!isLoading && <AllUser />}
-        </>
-      ),
+      component: <AllUser />,
     },
     {
       label: 'Quản lý phim',
@@ -51,18 +40,18 @@ function AdminPage(props) {
 
   //get token from local storage to login
   useEffect(() => {
-    const fetchAllUser = async () => {
-      const data = await sendUser('user/all', 'GET', null, {
-        Authorization: 'Bearer ' + auth.token,
-      });
+    // const fetchAllUser = async () => {
+    //   const data = await sendUser('user/all', 'GET', null, {
+    //     Authorization: 'Bearer ' + token,
+    //   });
 
-      console.log(data);
+    //   console.log(data);
 
-      props.setAllUser(data.allUser);
-    };
+    //   // props.setAllUser(data.allUser);
+    // };
 
-    auth.isAdmin && fetchAllUser();
-  }, [auth.isAdmin]);
+    fetchAllUser();
+  }, []);
 
   const renderNavtabList = () =>
     ADMIN_NAVTAB_LIST.map((navtab, index) => (
@@ -91,9 +80,15 @@ function AdminPage(props) {
   );
 }
 
+// const mapStateToProps = (state) => {
+//   return {
+//     isLoading: state.adminReducer.isLoading,
+//   };
+// };
+
 const mapDispatchToProps = (dispatch) => {
   return {
-    setAllUser: (allUser) => dispatch(actSetAllUser(allUser)),
+    fetchAllUser: () => dispatch(actFetchAllUser()),
   };
 };
 

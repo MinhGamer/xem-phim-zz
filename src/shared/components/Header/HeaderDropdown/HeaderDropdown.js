@@ -1,19 +1,18 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import './HeaderDropdown.css';
 
-import { AuthContext } from '../../../context/AuthContext';
 import { connect } from 'react-redux';
 
 import { actLogoutUser } from '../../../../redux/actionCreator/userActions';
 
 function HeaderDropdown(props) {
-  const auth = useContext(AuthContext);
+  const { isAdmin } = props;
 
   return (
     <div className='header-dropdown__list'>
-      {auth.isAdmin && (
+      {isAdmin && (
         <NavLink className='header-dropdown__item' to='/admin'>
           <i class='fa fa-user-cog'></i>
           <span>Quản lý người dùng</span>
@@ -38,10 +37,16 @@ function HeaderDropdown(props) {
   );
 }
 
+const mapStateToProps = (state) => {
+  return {
+    isAdmin: state.userReducer.isAdmin,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     logoutUser: () => dispatch(actLogoutUser()),
   };
 };
 
-export default connect(null, mapDispatchToProps)(HeaderDropdown);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderDropdown);

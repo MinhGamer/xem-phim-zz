@@ -16,11 +16,15 @@ import { connect } from 'react-redux';
 
 import MovieCollectionPage from '../../../pages/collection/MovieCollectionPage';
 
+import LoadingSpinner from '../../../shared/components/UI/LoadingSpinner';
+
 function AllUser(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState('');
 
-  const { allUser } = props;
+  const { allUser, isLoading } = props;
+
+  const allUserArr = Object.values(allUser);
 
   //set current page to 1 when admin search
   useEffect(() => {
@@ -28,7 +32,7 @@ function AllUser(props) {
   }, [search]);
 
   const renderUserItem = () =>
-    pagination(filterUsersByName(allUser, search), currentPage).map(
+    pagination(filterUsersByName(allUserArr, search), currentPage).map(
       (user) =>
         user.email !== ADMIN_EMAIL && <UserItem key={user.userId} user={user} />
     );
@@ -172,11 +176,10 @@ function AllUser(props) {
     return users;
   };
 
-  console.log(props.userDetail);
-
   return (
     <>
-      {allUser && (
+      {isLoading && <LoadingSpinner />}
+      {allUserArr && (
         <div className='all-user-container'>
           <div className='search-user'>
             <span className='search-user__title'>Tìm kiếm </span>
@@ -188,10 +191,10 @@ function AllUser(props) {
 
           <table className='all-user-table'>
             <thead>{renderTableHead()}</thead>
-            <tbody>{allUser && renderUserItem()}</tbody>
+            <tbody>{allUserArr && renderUserItem()}</tbody>
           </table>
 
-          {renderPagination(filterUsersByName(allUser, search))}
+          {renderPagination(filterUsersByName(allUserArr, search))}
 
           <div className='user-collection'>
             {props.userDetail && (
@@ -211,6 +214,7 @@ const mapStateToProps = (state) => {
   return {
     allUser: state.adminReducer.allUser,
     userDetail: state.adminReducer.userDetail,
+    isLoading: state.adminReducer.isLoading,
   };
 };
 

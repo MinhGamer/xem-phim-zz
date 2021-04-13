@@ -39,7 +39,7 @@ function App() {
           {/* only for admin*/}
           {adminRoutes.map((route) => (
             <PrivateRoute
-              isAdmin
+              isAdminMode
               exact={route.exact}
               path={route.path}
               component={route.Component}
