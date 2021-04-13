@@ -125,7 +125,12 @@ export const actUpdateMovieCollection = (type, movie) => {
         }
       );
 
-      dispatch(updateMovieToCollection(updateCollection));
+      dispatch({
+        type: actionTypes.UPDATE_MOVIE_COLLECTION,
+        payload: {
+          updateCollection,
+        },
+      });
       dispatch(sendApiSuccess());
     } catch (err) {
       dispatch(sendApiFail());
@@ -142,29 +147,28 @@ const updateMovieToCollection = (collection) => {
   };
 };
 
-const updateMovieCart = (cart, totalOrderAmount) => {
-  return {
-    type: actionTypes.UPDATE_MOVIE_CART,
-    payload: {
-      cart,
-      totalOrderAmount,
-    },
-  };
-};
-
 export const actUpdateMovieCart = (type, movie) => {
   return async (dispatch, getState) => {
     dispatch(sendApiStart());
-    let { token, user, totalOrderAmount } = getState().userReducer;
+    const { token, user } = getState().userReducer;
     const updateCart = { ...user.cart };
+    let updateTotalOrderAmount = getState().userReducer.totalOrderAmount;
 
     switch (type) {
       case actionTypes.ADD_MOVIE_TO_CART:
-        updateCart[movie.id] = { ...movie, quantity: 1 };
-        totalOrderAmount += movie.vote_average;
+        if (updateCart[movie.id]) {
+          //movie is already in cart
+          updateCart[movie.id].quantity += 1;
+        } else {
+          //movie is NOT in cart
+          updateCart[movie.id] = { ...movie, quantity: 1 };
+        }
+        updateTotalOrderAmount += movie.vote_average;
         break;
 
       case actionTypes.REMOVE_MOVIE_FROM_CART:
+        updateTotalOrderAmount -=
+          updateCart[movie.id].quantity * movie.vote_average;
         delete updateCart[movie.id];
         break;
 
@@ -176,7 +180,7 @@ export const actUpdateMovieCart = (type, movie) => {
           //minus by one
           updateCart[movie.id].quantity -= 1;
         }
-        totalOrderAmount -= movie.vote_average;
+        updateTotalOrderAmount -= movie.vote_average;
         break;
 
       default:
@@ -193,7 +197,13 @@ export const actUpdateMovieCart = (type, movie) => {
         }
       );
 
-      dispatch(updateMovieCart(updateCart, totalOrderAmount));
+      dispatch({
+        type: actionTypes.UPDATE_MOVIE_CART,
+        payload: {
+          updateCart,
+          updateTotalOrderAmount,
+        },
+      });
       dispatch(sendApiSuccess());
     } catch (err) {
       dispatch(sendApiFail());

@@ -56,31 +56,25 @@ const userReducer = (state = initialState, action) => {
     }
 
     case actionTypes.UPDATE_MOVIE_COLLECTION: {
-      const { collection } = action.payload;
-      // const updateCollection = { ...state.user.collection };
-
-      // //isDone: false => add to whislist
-      // updateCollection[movie.id] = { ...movie, isDone: false };
-
       return {
         ...state,
         user: {
           ...state.user,
-          collection,
+          collection: action.payload.updateCollection,
         },
       };
     }
 
     case actionTypes.UPDATE_MOVIE_CART: {
-      const { cart, totalOrderAmount } = action.payload;
+      const { updateCart, updateTotalOrderAmount } = action.payload;
 
       return {
         ...state,
         user: {
           ...state.user,
-          cart: cart,
+          cart: updateCart,
         },
-        totalOrderAmount,
+        totalOrderAmount: updateTotalOrderAmount,
       };
     }
 

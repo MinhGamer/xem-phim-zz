@@ -3,16 +3,23 @@ import { connect } from 'react-redux';
 
 import { API_MOVIE_IMAGE } from '../../../util/config';
 
-import {
-  actMinusMovieByOneFromCart,
-  actRemoveMovieFromCart,
-  actAddMovieToCart,
-} from '../../../../redux/actionCreator/userActions';
+import { actUpdateMovieCart } from '../../../../redux/actionCreator/userActions';
+
+import * as actionTypes from '../../../../redux/actionTypes/actionTypes';
 
 import './CartItem.css';
 
+import LoadingSpinner from '../../UI/LoadingSpinner';
+
 function CartItem(props) {
-  const { movie, minusMovieByOne, removeMovie, addMovie, onClick } = props;
+  const {
+    movie,
+    minusMovieByOne,
+    removeMovie,
+    addMovie,
+    onClick,
+    isLoading,
+  } = props;
 
   return (
     <div>
@@ -40,7 +47,10 @@ function CartItem(props) {
             class='fa fa-minus icon-minus'></i>
         </div>
         <div className='item-total'>
-          <span>${(movie.quantity * movie.vote_average).toFixed(1)}</span>
+          {isLoading && <LoadingSpinner size='small' />}
+          {!isLoading && (
+            <span>${(movie.quantity * movie.vote_average).toFixed(1)}</span>
+          )}
         </div>
         <div className='item-delete'>
           <i onClick={() => removeMovie(movie)} class='fa fa-trash'></i>
@@ -50,12 +60,26 @@ function CartItem(props) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    minusMovieByOne: (movieId) => dispatch(actMinusMovieByOneFromCart(movieId)),
-    removeMovie: (movie) => dispatch(actRemoveMovieFromCart(movie)),
-    addMovie: (movie) => dispatch(actAddMovieToCart(movie)),
+    user: state.userReducer.user,
+    isLoading: state.userReducer.isLoading,
   };
 };
 
-export default connect(null, mapDispatchToProps)(CartItem);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    minusMovieByOne: (movie) =>
+      dispatch(
+        actUpdateMovieCart(actionTypes.MINUS_MOVIE_BY_ONE_FROM_CART, movie)
+      ),
+
+    removeMovie: (movie) =>
+      dispatch(actUpdateMovieCart(actionTypes.REMOVE_MOVIE_FROM_CART, movie)),
+
+    addMovie: (movie) =>
+      dispatch(actUpdateMovieCart(actionTypes.ADD_MOVIE_TO_CART, movie)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartItem);
