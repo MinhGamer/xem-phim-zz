@@ -17,7 +17,10 @@ import { AuthContext } from '../../shared/context/AuthContext';
 
 import refreshToken from '../../shared/util/refreshToken';
 
-import { actLoginUser } from '../../redux/actionCreator/userActions';
+import {
+  actLoginWithGoogle,
+  actSignUpUser,
+} from '../../redux/actionCreator/userActions';
 
 import {
   VALIDATOR_EMAIL,
@@ -51,7 +54,7 @@ function Auth(props) {
     false
   );
 
-  const { sendRequest, isLoading, error, clearError, sendUser } = useHttp();
+  const { isLoading, error, clearError, sendUser } = useHttp();
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -77,15 +80,17 @@ function Auth(props) {
         name: formState.inputs.name.value,
       };
 
-      const { token, user } = await sendUser(
-        'user/signup',
-        'POST',
-        JSON.stringify(newUser)
-      );
+      // const { token, user } = await sendUser(
+      //   'user/signup',
+      //   'POST',
+      //   JSON.stringify(newUser)
+      // );
 
-      console.log({ token, user });
+      props.signUpUser(newUser);
 
-      auth.login(token, user);
+      // console.log({ token, user });
+
+      // auth.login(token, user);
     }
   };
 
@@ -95,20 +100,9 @@ function Auth(props) {
     //after sign-in with google
     //-> send to back-end to login to fetch user movie list
 
-    //token from firebase
-    const { token, user } = await sendUser('user/g-login', 'POST', null, {
-      Authorization: 'Bearer ' + tokenId,
-    });
-
-    console.log(tokenId);
-
-    auth.login(token, user);
-
-    props.loginUser(token, user);
+    props.loginWithGoogle(tokenId);
 
     localStorage.setItem(LOCAL_STORAGE_KEY, tokenId);
-
-    // refreshToken(res);
   };
 
   const onLoginGoogleFail = (res) => {
@@ -258,8 +252,15 @@ function Auth(props) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: (token, user) => dispatch(actLoginUser(token, user)),
+    loginWithGoogle: (token, user) => dispatch(actLoginWithGoogle(token, user)),
+    signUpUser: (newUser) => dispatch(actSignUpUser(newUser)),
   };
 };
+
+// const mapStateToProps = (dispatch) => {
+//   return {
+//     isLoadingUser: (token, user) => dispatch(actLoginUser(token, user)),
+//   };
+// };
 
 export default connect(null, mapDispatchToProps)(Auth);

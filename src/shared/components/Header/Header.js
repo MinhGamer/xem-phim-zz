@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { NavLink, useHistory } from 'react-router-dom';
 
@@ -6,29 +6,25 @@ import './Header.css';
 
 import Button from '../UI/Button';
 
-import { AuthContext } from '../../context/AuthContext';
-
 import { LOCAL_STORAGE_KEY } from '../../util/config';
 
 import logo from '../../../assets/image/logo-full.png';
 import HeaderDropdown from './HeaderDropdown/HeaderDropdown';
 
-import useHttp from '../../customHooks/useHttp';
-
 import CartModal from '../CartModal/CartModal';
 import { connect } from 'react-redux';
 
-import { actLoginUser } from '../../../redux/actionCreator/userActions';
+import { actLoginWithGoogle } from '../../../redux/actionCreator/userActions';
 
 function Header(props) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showCartModal, setShowCartModal] = useState(false);
-  const auth = useContext(AuthContext);
+
   const [changeNavbarColor, setChangeNavbarColor] = useState(false);
-  const { sendUser } = useHttp();
+
   const history = useHistory();
 
-  const { user } = props;
+  const { user, isLoggined } = props;
 
   const userCartArr = (user && user.cart && Object.values(user.cart)) || [];
 
@@ -39,19 +35,11 @@ function Header(props) {
     const loginUserAsync = async () => {
       const tokenId = localStorage.getItem(LOCAL_STORAGE_KEY);
 
-      // console.log(sendToken);
-
       if (!tokenId) return;
 
-      const { token, user } = await sendUser('user/g-login', 'POST', null, {
-        Authorization: 'Bearer ' + tokenId,
-      });
+      props.loginWithGoogle(tokenId, user);
 
-      if (!token) return;
-
-      props.loginUser(token, user);
-
-      auth.login(token, user);
+      // if (!token) return;
     };
 
     loginUserAsync();
@@ -138,29 +126,31 @@ function Header(props) {
         </nav>
       </div>
 
-      <div className='login'>
-        {!auth.isLoggedIn && (
-          <NavLink to='/auth'>
-            <Button isPrimary>Đăng nhập</Button>
-          </NavLink>
-        )}
+      {user && (
+        <div className='login'>
+          {!isLoggined && (
+            <NavLink to='/auth'>
+              <Button isPrimary>Đăng nhập</Button>
+            </NavLink>
+          )}
 
-        {auth.isLoggedIn && renderLogin()}
-      </div>
+          {isLoggined && renderLogin()}
+        </div>
+      )}
     </header>
   );
 }
 
 const mapStateToProps = (state) => {
   return {
-    // moviesCart: state.moviesCartReducer.moviesCart,
     user: state.userReducer.user,
+    isLoggined: state.userReducer.isLoggined,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: (token, user) => dispatch(actLoginUser(token, user)),
+    loginWithGoogle: (token, user) => dispatch(actLoginWithGoogle(token, user)),
   };
 };
 

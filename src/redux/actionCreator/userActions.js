@@ -39,13 +39,67 @@ const sendApiFail = () => {
   };
 };
 
-export const actLoginUser = (token, user) => {
+const adddMovieToCart = (movie) => {
+  return {
+    type: actionTypes.ADD_MOVIE_TO_CART,
+    payload: {
+      movie,
+    },
+  };
+};
+
+const loginUser = (token, user) => {
   return {
     type: actionTypes.LOGIN_USER,
     payload: {
       token,
       user,
     },
+  };
+};
+
+// const signUpUser = (name, email, password) => {
+//   return {
+//     type: actionTypes.LOGIN_USER,
+//     payload: {
+//       name,
+//       email,
+//       password,
+//     },
+//   };
+// };
+
+export const actLoginUser = (tokenId, user) => {
+  return async (dispatch) => {
+    dispatch(sendApiStart());
+
+    try {
+      const { token, user } = await sendUser('user/login', 'POST', null, {
+        Authorization: 'Bearer ' + tokenId,
+      });
+
+      dispatch(sendApiSuccess());
+      dispatch(loginUser(token, user));
+    } catch (err) {
+      dispatch(sendApiFail());
+    }
+  };
+};
+
+export const actLoginWithGoogle = (tokenId, user) => {
+  return async (dispatch) => {
+    dispatch(sendApiStart());
+
+    try {
+      const { token, user } = await sendUser('user/g-login', 'POST', null, {
+        Authorization: 'Bearer ' + tokenId,
+      });
+
+      dispatch(sendApiSuccess());
+      dispatch(loginUser(token, user));
+    } catch (err) {
+      dispatch(sendApiFail());
+    }
   };
 };
 
@@ -73,12 +127,22 @@ export const actLogoutUser = () => {
   };
 };
 
-const adddMovieToCart = (movie) => {
-  return {
-    type: actionTypes.ADD_MOVIE_TO_CART,
-    payload: {
-      movie,
-    },
+export const actSignUpUser = (newUser) => {
+  return async (dispatch) => {
+    dispatch(sendApiStart());
+
+    try {
+      const { token, user } = await sendUser(
+        'user/signup',
+        'POST',
+        JSON.stringify(newUser)
+      );
+
+      dispatch(sendApiSuccess());
+      dispatch(loginUser(token, user));
+    } catch (err) {
+      dispatch(sendApiFail());
+    }
   };
 };
 
@@ -114,7 +178,7 @@ export const actAddMovieToCart = (movie) => {
       console.log(data);
     } catch (err) {
       console.log(err);
-      dispatch(adddMovieToCart(movie));
+
       dispatch(sendApiFail());
     }
   };
