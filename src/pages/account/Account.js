@@ -1,26 +1,21 @@
-import React, { useContext } from 'react';
-
-import { AuthContext } from '../../shared/context/AuthContext';
+import React from 'react';
+import { connect } from 'react-redux';
 
 import './Account.css';
 
-export default function Account() {
-  const auth = useContext(AuthContext);
-
-  const { name, email, createdAt } = auth.user;
-
-  console.log(auth.user);
+function Account(props) {
+  const { user } = props;
 
   return (
     <div className='account-container'>
       <div className='account-info text-center'>
-        <div className='account-info__name'>{name}</div>
+        <div className='account-info__name'>{user.name}</div>
         <p>
-          Email: <span className='account-info__email'>{email}</span>
+          Email: <span className='account-info__email'>{user.email}</span>
         </p>
         <p>
           Ngày gia nhập:
-          <span className='account-info__join-date'>{createdAt}</span>
+          <span className='account-info__join-date'>{user.createdAt}</span>
         </p>
 
         <div className='account-info__diveded'></div>
@@ -28,3 +23,13 @@ export default function Account() {
     </div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.userReducer.user,
+    isLoggined: state.userReducer.isLoggined,
+    isAdmin: state.userReducer.isAdmin,
+  };
+};
+
+export default connect(mapStateToProps)(Account);

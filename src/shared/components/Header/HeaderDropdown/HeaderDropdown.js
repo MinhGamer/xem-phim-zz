@@ -25,8 +25,8 @@ function HeaderDropdown(props) {
       </NavLink>
 
       <NavLink className='header-dropdown__item' to='/account'>
-        <i className='fa fa-user'></i>
-        <span>Tài khoản</span>
+        <i class='fa fa-history'></i>
+        <span>Lịch sử mua hàng</span>
       </NavLink>
 
       <div onClick={() => props.logoutUser()} className='header-dropdown__item'>

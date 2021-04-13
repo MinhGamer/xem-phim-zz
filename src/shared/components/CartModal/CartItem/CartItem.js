@@ -20,26 +20,30 @@ function CartItem(props) {
     minusMovieByOne,
     removeMovie,
     addMovie,
-    onClick,
     isLoading,
     activeId,
     setActiveId,
+    onCloseCartModal,
   } = props;
+
+  const gotoMovieDetailPage = () => {
+    history.push(`/movie/${movie.id}`);
+
+    onCloseCartModal();
+  };
 
   return (
     <div>
       <div onClick={() => setActiveId(movie.id)} className='cart-item'>
         <div className='item-img'>
           <img
-            onClick={() => history.push(`/movie/${movie.id}`)}
+            onClick={gotoMovieDetailPage}
             src={`${API_MOVIE_IMAGE}/${movie.poster_path}`}
             alt={movie.title}
           />
         </div>
         <div className='item-title'>
-          <p onClick={() => history.push(`/movie/${movie.id}`)}>
-            {movie.title}
-          </p>
+          <p onClick={gotoMovieDetailPage}>{movie.title}</p>
         </div>
 
         <div className='item-price'>

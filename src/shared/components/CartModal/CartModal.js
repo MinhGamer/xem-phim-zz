@@ -8,8 +8,11 @@ import Button from '../UI/Button';
 import './CartModal.css';
 import CartItem from './CartItem/CartItem';
 
+import ContactForm from '../../../components/contactForm/ContactForm';
+
 function CartModal(props) {
   const [activeId, setActiveId] = useState(false);
+  const [showContactForm, setShowContactForm] = useState(false);
   const { showed, backdropClick, closeCartModal } = props;
 
   const { totalOrderAmount, user } = props;
@@ -24,45 +27,67 @@ function CartModal(props) {
 
   return (
     <>
+      {/* cart modal */}
+
       <Modal
         className='cart-modal'
         backdropClick={backdropClick}
         showed={showed}>
-        <div className='cart-header'>
-          <div className='cart-header--title'>Giỏ hàng của bạn</div>
-          <div>
-            <i onClick={closeCartModal} class='fa fa-times'></i>
-          </div>
-        </div>
-        <div
-          className={`cart-list ${
-            cartArr.length > 0 ? 'cart-list-scrollable' : ''
-          }`}>
-          {cartArr.length > 0 &&
-            cartArr.map((movie) => (
-              <CartItem
-                setActiveId={setActiveId}
-                activeId={activeId}
-                movie={movie}
-              />
-            ))}
-
-          {cartArr.length === 0 && (
-            <div className='cart-empty'>
-              Bạn chưa có phim nào trong giỏ hàng !!
+        {!showContactForm && (
+          <>
+            <div className='cart-header'>
+              <div className='cart-header--title'>Giỏ hàng của bạn</div>
+              <div>
+                <i onClick={closeCartModal} class='fa fa-times'></i>
+              </div>
             </div>
-          )}
-        </div>
+            <div
+              className={`cart-list ${
+                cartArr.length > 0 ? 'cart-list-scrollable' : ''
+              }`}>
+              {cartArr.length > 0 &&
+                cartArr.map((movie) => (
+                  <CartItem
+                    onCloseCartModal={closeCartModal}
+                    setActiveId={setActiveId}
+                    activeId={activeId}
+                    movie={movie}
+                  />
+                ))}
 
-        {cartArr.length > 0 && (
-          <div className='cart-summary'>
-            <div>Tổng đơn hàng: </div>
-            <div>{calcTotalItem()} phim</div>
-            <div>${totalOrderAmount.toFixed(1)}</div>
-            <Button isPrimary>ĐẶT MUA</Button>
-          </div>
+              {cartArr.length === 0 && (
+                <div className='cart-empty'>
+                  Bạn chưa có phim nào trong giỏ hàng !!
+                </div>
+              )}
+            </div>
+
+            {cartArr.length > 0 && (
+              <div className='cart-summary'>
+                <div>Tổng đơn hàng: </div>
+                <div>{calcTotalItem()} phim</div>
+                <div>${totalOrderAmount.toFixed(1)}</div>
+                <Button onClick={() => setShowContactForm(true)} isPrimary>
+                  ĐẶT MUA
+                </Button>
+              </div>
+            )}
+          </>
+        )}
+
+        {showContactForm && (
+          <ContactForm onBackToCartClick={() => setShowContactForm(false)} />
         )}
       </Modal>
+
+      {/* {showContactForm && (
+        <Modal
+          className='modal-contact-form'
+          backdropClick={backdropClick}
+          showed={true}>
+          <ContactForm onBackToCartClick={() => setShowContactForm(false)} />
+        </Modal>
+      )} */}
     </>
   );
 }

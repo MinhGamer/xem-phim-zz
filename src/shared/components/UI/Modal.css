@@ -47,6 +47,7 @@
 /* modal-confirm-delete */
 .modal-confirm-delete {
   font-size: 1.3rem;
+  background-color: #fff;
 }
 
 .modal-confirm-delete .modal-header {
@@ -62,3 +63,5 @@
 .modal-confirm-delete .modal-footer button {
   margin: 0.5rem;
 }
+
+/* modal-contact-form */
