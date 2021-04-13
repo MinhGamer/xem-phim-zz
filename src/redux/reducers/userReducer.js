@@ -37,12 +37,24 @@ const userReducer = (state = initialState, action) => {
 
     case actionTypes.LOGIN_USER: {
       const { token, user } = action.payload;
+
+      const userCartArr = Object.values(user.cart);
+
+      let totalOrderAmount = 0;
+
+      if (userCartArr.length > 0) {
+        userCartArr.forEach((movie) => {
+          totalOrderAmount += movie.quantity * movie.vote_average;
+        });
+      }
+
       return {
         ...state,
         token,
         user,
         isLoggined: token !== null,
         isAdmin: user.email === ADMIN_EMAIL,
+        totalOrderAmount,
       };
     }
 

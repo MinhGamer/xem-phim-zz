@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
@@ -9,34 +9,18 @@ import Modal from '../UI/Modal';
 
 import Button from '../UI/Button';
 
-import {
-  actAddMovieToCart,
-  actRemoveMovieFromCart,
-} from '../../../redux/actionCreator/userActions';
-
 import './CartModal.css';
 import CartItem from './CartItem/CartItem';
 
 function CartModal(props) {
+  const [activeId, setActiveId] = useState(false);
   const { showed, backdropClick, closeCartModal } = props;
 
   const history = useHistory();
 
-  const {
-    totalOrderAmount,
-    minusMovieByOne,
-    removeMovie,
-    addMovie,
-    user,
-  } = props;
+  const { totalOrderAmount, user } = props;
 
   const cartArr = (user && Object.values(user.cart)) || [];
-
-  const gotoMovieDetailPage = (movieId) => {
-    history.push(`/movie/${movieId}`);
-
-    closeCartModal();
-  };
 
   return (
     <>
@@ -57,7 +41,8 @@ function CartModal(props) {
           {cartArr.length > 0 &&
             cartArr.map((movie) => (
               <CartItem
-                onClick={() => gotoMovieDetailPage(movie.id)}
+                setActiveId={setActiveId}
+                activeId={activeId}
                 movie={movie}
               />
             ))}
@@ -82,14 +67,6 @@ function CartModal(props) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    minusMovieByOne: (movieId) => dispatch(actAddMovieToCart(movieId)),
-    removeMovie: (movie) => dispatch(actRemoveMovieFromCart(movie)),
-    addMovie: (movie) => dispatch(actAddMovieToCart(movie)),
-  };
-};
-
 const mapStateToProps = (state) => {
   return {
     totalOrderAmount: state.userReducer.totalOrderAmount,
@@ -97,4 +74,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartModal);
+export default connect(mapStateToProps, null)(CartModal);

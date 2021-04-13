@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
+
+import { useHistory } from 'react-router-dom';
 
 import { API_MOVIE_IMAGE } from '../../../util/config';
 
@@ -12,6 +14,7 @@ import './CartItem.css';
 import LoadingSpinner from '../../UI/LoadingSpinner';
 
 function CartItem(props) {
+  const history = useHistory();
   const {
     movie,
     minusMovieByOne,
@@ -19,20 +22,24 @@ function CartItem(props) {
     addMovie,
     onClick,
     isLoading,
+    activeId,
+    setActiveId,
   } = props;
 
   return (
     <div>
-      <div className='cart-item'>
+      <div onClick={() => setActiveId(movie.id)} className='cart-item'>
         <div className='item-img'>
           <img
-            onClick={onClick}
+            onClick={() => history.push(`/movie/${movie.id}`)}
             src={`${API_MOVIE_IMAGE}/${movie.poster_path}`}
             alt={movie.title}
           />
         </div>
         <div className='item-title'>
-          <p onClick={onClick}>{movie.title}</p>
+          <p onClick={() => history.push(`/movie/${movie.id}`)}>
+            {movie.title}
+          </p>
         </div>
 
         <div className='item-price'>
@@ -47,8 +54,11 @@ function CartItem(props) {
             class='fa fa-minus icon-minus'></i>
         </div>
         <div className='item-total'>
-          {isLoading && <LoadingSpinner size='small' />}
-          {!isLoading && (
+          {isLoading && activeId === movie.id && (
+            <LoadingSpinner size='small' />
+          )}
+
+          {(!isLoading || activeId !== movie.id) && (
             <span>${(movie.quantity * movie.vote_average).toFixed(1)}</span>
           )}
         </div>
