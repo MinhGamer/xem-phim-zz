@@ -10,6 +10,7 @@ const movieReducer = (state = initialState, action) => {
     case actionTypes.ALLOW_MOVIE_TO_DISPLAY: {
       return {
         ...state,
+        displayedMovieList: action.payload.displayedMovieList,
       };
     }
 
