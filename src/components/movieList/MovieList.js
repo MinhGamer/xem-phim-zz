@@ -96,7 +96,7 @@ function MovieList(props) {
       <div className='movie-list'>
         {pagination(movies, currentPage).map((movie) => (
           <MovieItem
-            noCardDetails
+            noCardDetails={noCardDetails}
             clickMovieHandler={clickMovieHandler}
             type={type}
             key={movie.id}

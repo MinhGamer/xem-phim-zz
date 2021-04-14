@@ -1,0 +1,51 @@
+.toogle-switch .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* The slider */
+.toogle-switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.toogle-switch .slider:before {
+  position: absolute;
+  content: '';
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.toogle-switch .slider.checked {
+  background-color: #2196f3;
+}
+
+/* animation */
+.toogle-switch .slider.checked:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.toogle-switch .slider.round {
+  border-radius: 34px;
+}
+
+.toogle-switch .slider.round:before {
+  border-radius: 50%;
+}

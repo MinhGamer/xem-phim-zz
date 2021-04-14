@@ -19,6 +19,8 @@ import { connect } from 'react-redux';
 
 import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
 
+import ToggleSwitch from '../../shared/components/UI/ToggleSwitch';
+
 function CardMovieDetail(props) {
   const [showFullOverview, setShowFullOverview] = useState(false);
   const [showLoginRequired, setShowLoginRequired] = useState(false);
@@ -54,7 +56,6 @@ function CardMovieDetail(props) {
   const isAddToCollection =
     collectionArr.findIndex((_movie) => _movie.id === movie.id) !== -1;
 
-  console.log(movie);
   return (
     <>
       {showFullOverview && <Backdrop onClick={onBackdropClick} />}
@@ -123,6 +124,11 @@ function CardMovieDetail(props) {
             onMouseLeave={() => setShowLoginRequired(false)}
             className='movie-action'>
             {isLoading && <LoadingSpinner />}
+
+            <div>
+              <span>Cho phép hiển thị</span>
+              <ToggleSwitch isChecked={true} onClick={() => {}} />
+            </div>
 
             {!isLoading && !isAddedToCart && (
               <Button
@@ -269,4 +275,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardMovieDetail);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(React.memo(CardMovieDetail));

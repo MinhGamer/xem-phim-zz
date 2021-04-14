@@ -5,6 +5,7 @@
 .movie-collection-list {
   width: 75%;
   margin: auto;
+  position: relative;
 }
 
 .movie-collection-navtab {

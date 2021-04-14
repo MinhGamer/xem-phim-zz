@@ -76,6 +76,7 @@ function MovieCollectionPage(props) {
             // onEntering={() => setDeleteMovie(false)}
             classNames={'fade-on-top'}>
             <MovieItem
+              noCardDetails
               isEdit
               clickMovieHandler={onClickMovieHandler}
               isAlreadyWatchced={movie.isDone}
@@ -95,6 +96,7 @@ function MovieCollectionPage(props) {
             onEntered={() => deleteMovieHandler(movie)}
             classNames={'fade-on-top--delete'}>
             <MovieItem
+              noCardDetails
               isEdit
               clickMovieHandler={onClickMovieHandler}
               isAlreadyWatchced={movie.isDone}
@@ -108,6 +110,7 @@ function MovieCollectionPage(props) {
         {/* other item */}
         {activeId !== movie.id && (
           <MovieItem
+            noCardDetails
             isEdit
             clickMovieHandler={onClickMovieHandler}
             isAlreadyWatchced={movie.isDone}
