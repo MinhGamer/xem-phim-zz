@@ -60,8 +60,8 @@
 
 .collection-dropdown {
   border-radius: 5px;
-  background-color: #fff;
-  color: #000;
+  background-color: #0f2027;
+  color: #fff;
   top: 2.2rem;
   left: -2rem;
   position: absolute;
@@ -75,7 +75,7 @@
 }
 
 .collection-dropdown--item:hover {
-  background-color: wheat;
+  background-color: #2c5364;
 }
 
 .collection-dropdown--item span {

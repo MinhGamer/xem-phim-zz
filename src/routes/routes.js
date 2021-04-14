@@ -1,5 +1,5 @@
 import AdminPage from '../admin/AdminPage';
-import Account from '../pages/account/Account';
+import AccountPage from '../pages/account/AccountPage';
 import MovieCollectionPage from '../pages/collection/MovieCollectionPage';
 import FAQPage from '../pages/FAQ/FAQPage';
 import HomePage from '../pages/homePage/HomePage';
@@ -29,7 +29,7 @@ export const commonRoutes = [
 ];
 
 export const privateRoutes = [
-  { path: '/account', exact: true, Component: Account },
+  { path: '/account', exact: true, Component: AccountPage },
   { path: '/collection', exact: true, Component: MovieCollectionPage },
 ];
 

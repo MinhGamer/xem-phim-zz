@@ -39,15 +39,6 @@ const sendApiFail = () => {
   };
 };
 
-const adddMovieToCart = (movie) => {
-  return {
-    type: actionTypes.ADD_MOVIE_TO_CART,
-    payload: {
-      movie,
-    },
-  };
-};
-
 const loginUser = (token, user) => {
   return {
     type: actionTypes.LOGIN_USER,
@@ -58,14 +49,18 @@ const loginUser = (token, user) => {
   };
 };
 
-export const actLoginUser = (tokenId, user) => {
+export const actLoginUser = ({ email, password }) => {
   return async (dispatch) => {
     dispatch(sendApiStart());
 
     try {
-      const { token, user } = await sendUser('user/login', 'POST', null, {
-        Authorization: 'Bearer ' + tokenId,
-      });
+      const { token, user } = await sendUser(
+        'user/login',
+        'POST',
+        JSON.stringify({ email, password })
+      );
+
+      // console.log(token, user);
 
       dispatch(sendApiSuccess());
       dispatch(loginUser(token, user));
@@ -150,6 +145,8 @@ export const actUpdateMovieCart = (type, movie) => {
     const { token, user } = getState().userReducer;
     const updateCart = { ...user.cart };
     let updateTotalOrderAmount = getState().userReducer.totalOrderAmount;
+
+    console.log(movie);
 
     switch (type) {
       case actionTypes.ADD_MOVIE_TO_CART:
@@ -266,61 +263,5 @@ export const actSignUpUser = (newUser) => {
     } catch (err) {
       dispatch(sendApiFail());
     }
-  };
-};
-
-export const actAddMovieToCart = (movie) => {
-  return async (dispatch, getState) => {
-    dispatch(sendApiStart());
-
-    const { user, token } = getState().userReducer;
-
-    console.log({ user, token });
-
-    if (user.cart[movie.id]) {
-      //movie is already in cart
-      user.cart[movie.id].quantity += 1;
-    } else {
-      //movie is NOT in cart
-
-      user.cart[movie.id] = { ...movie, quantity: 1 };
-    }
-
-    try {
-      const data = await sendUser(
-        'user/cart',
-        'PATCH',
-        JSON.stringify({ cart: user.cart }),
-        {
-          Authorization: 'Bearer ' + token,
-        }
-      );
-
-      dispatch(adddMovieToCart(movie));
-      dispatch(sendApiSuccess);
-      console.log(data);
-    } catch (err) {
-      console.log(err);
-
-      dispatch(sendApiFail());
-    }
-  };
-};
-
-export const actRemoveMovieFromCart = (movie) => {
-  return {
-    type: actionTypes.REMOVE_MOVIE_FROM_CART,
-    payload: {
-      movie,
-    },
-  };
-};
-
-export const actMinusMovieByOneFromCart = (movie) => {
-  return {
-    type: actionTypes.MINUS_MOVIE_BY_ONE_FROM_CART,
-    payload: {
-      movie,
-    },
   };
 };

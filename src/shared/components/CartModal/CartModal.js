@@ -30,7 +30,6 @@ function CartModal(props) {
   return (
     <>
       {/* cart modal */}
-
       <Modal
         className='cart-modal'
         backdropClick={backdropClick}

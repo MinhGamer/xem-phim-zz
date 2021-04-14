@@ -24,17 +24,20 @@ function CartItem(props) {
     activeId,
     setActiveId,
     onCloseCartModal,
+    noAction,
   } = props;
 
   const gotoMovieDetailPage = () => {
     history.push(`/movie/${movie.id}`);
 
-    onCloseCartModal();
+    !noAction && onCloseCartModal();
   };
 
   return (
     <div>
-      <div onClick={() => setActiveId(movie.id)} className='cart-item'>
+      <div
+        onClick={noAction ? () => {} : () => setActiveId(movie.id)}
+        className='cart-item'>
         <div className='item-img'>
           <img
             onClick={gotoMovieDetailPage}
@@ -51,11 +54,15 @@ function CartItem(props) {
           <p className='price-original'>$29.99</p>
         </div>
         <div className='item-quantity'>
-          <i onClick={() => addMovie(movie)} class='fa fa-plus icon-plus'></i>
+          {!noAction && (
+            <i onClick={() => addMovie(movie)} class='fa fa-plus icon-plus'></i>
+          )}
           <span> {movie.quantity}</span>
-          <i
-            onClick={() => minusMovieByOne(movie)}
-            class='fa fa-minus icon-minus'></i>
+          {!noAction && (
+            <i
+              onClick={() => minusMovieByOne(movie)}
+              class='fa fa-minus icon-minus'></i>
+          )}
         </div>
         <div className='item-total'>
           {isLoading && activeId === movie.id && (
@@ -67,7 +74,9 @@ function CartItem(props) {
           )}
         </div>
         <div className='item-delete'>
-          <i onClick={() => removeMovie(movie)} class='fa fa-trash'></i>
+          {!noAction && (
+            <i onClick={() => removeMovie(movie)} class='fa fa-trash'></i>
+          )}
         </div>
       </div>
     </div>

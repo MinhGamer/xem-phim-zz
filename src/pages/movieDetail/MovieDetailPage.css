@@ -126,7 +126,7 @@
 }
 
 .movie-detail__IMDb {
-  margin-top: 1rem;
+  margin: 1rem 0;
 }
 
 .IMDb--icon {
@@ -148,7 +148,9 @@
 } */
 
 .movie-detail__share {
-  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  /* margin: 0.5rem; */
 }
 
 .movie-detail__share span {
@@ -157,17 +159,33 @@
   border-radius: 5px;
 }
 
-.movie-detail__share--facebook {
+.movie-detail__share .fa {
+  margin-right: 0.8rem;
+}
+
+.movie-detail__share .icon-cart {
   background-color: rgba(50, 115, 220, 0.93);
-  border-color: transparent;
+  border: 1px solid transparent;
 }
 
-.movie-detail__share--facebook .fa-facebook {
-  margin-right: 1rem;
-  font-size: 1.3rem;
+.movie-detail__share .icon-cart:hover {
+  color: rgba(50, 115, 220, 0.93);
+  background-color: transparent;
+  border: 1px solid rgba(50, 115, 220, 0.93);
 }
 
-.movie-detail__share--bookmark .fa-bookmark {
+.movie-detail__share .icon-delete {
+  background-color: #ff4b2b;
+  border: 1px solid transparent;
+}
+
+.movie-detail__share .icon-delete:hover {
+  color: #ff4b2b;
+  background-color: transparent;
+  border: 1px solid#ff4b2b;
+}
+
+.movie-detail__share--facebook .cart {
   margin-right: 1rem;
   font-size: 1.3rem;
 }

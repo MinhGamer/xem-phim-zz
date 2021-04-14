@@ -20,6 +20,7 @@ import refreshToken from '../../shared/util/refreshToken';
 import {
   actLoginWithGoogle,
   actSignUpUser,
+  actLoginUser,
 } from '../../redux/actionCreator/userActions';
 
 import {
@@ -64,35 +65,17 @@ function Auth(props) {
 
     if (isLoginMode) {
       //login
-      const loginedUser = {
+      props.loginUser({
         email: email.value,
         password: password.value,
-      };
-
-      const { token, user } = await sendUser(
-        'user/login',
-        'POST',
-        JSON.stringify(loginedUser)
-      );
+      });
     } else {
       //sign up
-      const newUser = {
+      props.signUpUser({
         email: email.value,
         password: password.value,
         name: formState.inputs.name.value,
-      };
-
-      // const { token, user } = await sendUser(
-      //   'user/signup',
-      //   'POST',
-      //   JSON.stringify(newUser)
-      // );
-
-      props.signUpUser(newUser);
-
-      // console.log({ token, user });
-
-      // auth.login(token, user);
+      });
     }
   };
 
@@ -263,6 +246,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loginWithGoogle: (token, user) => dispatch(actLoginWithGoogle(token, user)),
     signUpUser: (newUser) => dispatch(actSignUpUser(newUser)),
+    loginUser: (user) => dispatch(actLoginUser(user)),
   };
 };
 

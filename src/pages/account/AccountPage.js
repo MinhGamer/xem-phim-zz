@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import OrderHistory from '../../components/orderHistory/OrderHistory';
 
-import './Account.css';
+import './AccountPage.css';
 
 function Account(props) {
   const { user } = props;
@@ -20,6 +21,8 @@ function Account(props) {
 
         <div className='account-info__diveded'></div>
       </div>
+
+      <OrderHistory />
     </div>
   );
 }

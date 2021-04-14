@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 
 import { NavLink, useHistory } from 'react-router-dom';
 
 import './Collection.css';
 
-export default function Collection(props) {
-  const { status, isLoggedIn } = props;
+import { actUpdateMovieCollection } from '../../redux/actionCreator/userActions';
+import * as actionTypes from '../../redux/actionTypes/actionTypes';
+
+import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
+
+function Collection(props) {
+  const { status, isLoggined, isLoading } = props;
   const [show, setShow] = useState(false);
   const history = useHistory();
 
@@ -57,7 +63,7 @@ export default function Collection(props) {
         {show && (
           <div className='collection-dropdown'>
             {/* user did not login */}
-            {!isLoggedIn && (
+            {!isLoggined && (
               <p className='collection-require-login'>
                 Xin hãy <NavLink to='/auth'>đăng nhập</NavLink> để thêm phim vào
                 bộ sưu tập
@@ -65,10 +71,10 @@ export default function Collection(props) {
             )}
 
             {/* user already logined */}
-            {isLoggedIn && (
+            {isLoggined && (
               <>
                 {/* user did not take action on collection */}
-
+                {!isLoading && <LoadingSpinner size='small' />}
                 <p
                   //arg: movieIsDone
                   onClick={() => props.onClick('addDone')}
@@ -87,7 +93,7 @@ export default function Collection(props) {
         )}
       </span>
 
-      {isLoggedIn && status && (
+      {isLoggined && status && (
         <>
           <span
             onClick={() => props.onClick('delete')}
@@ -107,3 +113,31 @@ export default function Collection(props) {
     </>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.userReducer.user,
+    isLoggined: state.userReducer.isLoggined,
+    isAdmin: state.userReducer.isAdmin,
+    isLoading: state.userReducer.isLoading,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addMovieToCart: (movie) =>
+      dispatch(
+        actUpdateMovieCollection(actionTypes.ADD_MOVIE_TO_COLLECTION, movie)
+      ),
+
+    removeMovieFromCart: (movie) =>
+      dispatch(
+        actUpdateMovieCollection(
+          actionTypes.REMOVIE_MOVIE_FROM_COLLECTION,
+          movie
+        )
+      ),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Collection);

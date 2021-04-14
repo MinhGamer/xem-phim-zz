@@ -10,6 +10,7 @@ const initialState = {
   totalOrderAmount: 0,
   isLoading: false,
   isError: false,
+  isPurchased: false,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -87,6 +88,7 @@ const userReducer = (state = initialState, action) => {
           cart: updateCart,
         },
         totalOrderAmount: updateTotalOrderAmount,
+        isPurchased: false,
       };
     }
 
@@ -96,7 +98,10 @@ const userReducer = (state = initialState, action) => {
         user: {
           ...state.user,
           orderHistory: action.payload.orderHistory,
+          deliveryInfo: action.payload.deliveryInfo,
+          cart: {},
         },
+        isPurchased: true,
       };
     }
 

@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 import { LANGUAGE_LIST_VN } from '../../shared/util/config';
 
@@ -6,17 +6,30 @@ import { useHistory } from 'react-router-dom';
 
 import useHttp from '../../shared/customHooks/useHttp';
 
-import { AuthContext } from '../../shared/context/AuthContext';
-
 import Collection from '../collection/Collection';
+import { connect } from 'react-redux';
+
+import { actUpdateMovieCart } from '../../shared/../redux/actionCreator/userActions';
+
+import * as actionTypes from '../../redux/actionTypes/actionTypes';
+
+import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
 
 function MovieInfo(props) {
-  const { movie, movieId } = props;
+  const {
+    movie,
+    movieId,
+    user,
+    token,
+    addMovieToCart,
+    removeMovieFromCart,
+    isLoading,
+  } = props;
   const history = useHistory();
   const type = history.location.pathname.split('/')[1];
   const { sendUser } = useHttp();
 
-  const auth = useContext(AuthContext);
+  const isAddedToCart = user && user.cart[movieId];
 
   const convertMovieLength = useCallback((runtime) => {
     let minutes = +runtime % 60;
@@ -92,7 +105,7 @@ function MovieInfo(props) {
     // 527774: {isDone: false} => wishlist
     // ]
 
-    const { collection } = auth.user;
+    const { collection } = user;
 
     if (action === 'addFavorited' || action === 'addDone') {
       collection[movieId] = { isDone: action === 'addDone' ? true : false };
@@ -107,7 +120,7 @@ function MovieInfo(props) {
       'PATCH',
       JSON.stringify({ collection }),
       {
-        Authorization: 'Bearer ' + auth.token,
+        Authorization: 'Bearer ' + token,
       }
     );
     console.log(data);
@@ -163,18 +176,30 @@ function MovieInfo(props) {
       </div>
 
       <div className='movie-detail__share'>
-        <span className='movie-detail__share--facebook'>
-          <i className='fab fa-facebook'></i>
-          Chia sẻ
-        </span>
-        {type !== 'tv' && (
-          <span className='movie-detail__share--bookmark'>
-            <Collection
-              isLoggedIn={auth.isLoggedIn}
-              status={(auth.user && auth.user.collection[movieId]) || null}
-              onClick={clickCollectionHandler}
-            />
+        {isLoading && <LoadingSpinner size='small' />}
+        {!isAddedToCart && !isLoading && (
+          <span
+            onClick={() => addMovieToCart({ ...movie, id: movieId })}
+            className='movie-detail__share icon-cart'>
+            <i class='fa fa-shopping-cart'></i>
+            Thêm vào giỏ hàng
           </span>
+        )}
+
+        {isAddedToCart && !isLoading && (
+          <span
+            onClick={() => removeMovieFromCart({ ...movie, id: movieId })}
+            className='movie-detail__share icon-delete'>
+            <i class='fa fa-minus'></i>
+            Xóa khỏi giỏ hàng
+          </span>
+        )}
+
+        {type !== 'tv' && (
+          <Collection
+            status={(user && user.collection[movieId]) || null}
+            onClick={clickCollectionHandler}
+          />
         )}
       </div>
 
@@ -216,5 +241,24 @@ function MovieInfo(props) {
     </div>
   );
 }
+const mapStateToProps = (state) => {
+  return {
+    user: state.userReducer.user,
+    isLoggined: state.userReducer.isLoggined,
+    isAdmin: state.userReducer.isAdmin,
+    token: state.userReducer.token,
+    isLoading: state.userReducer.isLoading,
+  };
+};
 
-export default React.memo(MovieInfo);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addMovieToCart: (movie) =>
+      dispatch(actUpdateMovieCart(actionTypes.ADD_MOVIE_TO_CART, movie)),
+
+    removeMovieFromCart: (movie) =>
+      dispatch(actUpdateMovieCart(actionTypes.REMOVE_MOVIE_FROM_CART, movie)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieInfo);

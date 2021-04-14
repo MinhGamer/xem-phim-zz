@@ -34,6 +34,8 @@ function ContactForm(props) {
     false
   );
 
+  const { isPurchased, onBackToCartClick } = props;
+
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -51,40 +53,61 @@ function ContactForm(props) {
   };
 
   return (
-    <form className='contact-form'>
-      <h1 className='form-title'>Thông tin nhận hàng</h1>
-      <Input
-        id='address'
-        initialValue=''
-        validators={[VALIDATOR_REQUIRE()]}
-        onInput={inputHandler}
-        type='text'
-        label='Địa chỉ'
-      />
-      <Input
-        id='city'
-        initialValue=''
-        validators={[VALIDATOR_REQUIRE()]}
-        onInput={inputHandler}
-        type='text'
-        label='Thành phố'
-      />
-      <Input
-        id='phone'
-        initialValue=''
-        validators={[VALIDATOR_REQUIRE(), VALIDATOR_NUMBER_ONLY()]}
-        onInput={inputHandler}
-        type='text'
-        label='Số điện thoại'
-      />
+    <>
+      {!isPurchased && (
+        <form className='contact-form'>
+          <h1 className='form-title'>Thông tin nhận hàng</h1>
+          <Input
+            id='address'
+            initialValue=''
+            validators={[VALIDATOR_REQUIRE()]}
+            onInput={inputHandler}
+            type='text'
+            label='Địa chỉ'
+          />
+          <Input
+            id='city'
+            initialValue=''
+            validators={[VALIDATOR_REQUIRE()]}
+            onInput={inputHandler}
+            type='text'
+            label='Thành phố'
+          />
+          <Input
+            id='phone'
+            initialValue=''
+            validators={[VALIDATOR_REQUIRE(), VALIDATOR_NUMBER_ONLY()]}
+            onInput={inputHandler}
+            type='text'
+            label='Số điện thoại'
+          />
 
-      <Button isPrimary>Quay lại giỏ hàng</Button>
-      <Button disabled={!formState.isValid} onClick={submitHandler} isSecondary>
-        Mua
-      </Button>
-    </form>
+          <Button onClick={onBackToCartClick} isPrimary>
+            Quay lại giỏ hàng
+          </Button>
+          <Button
+            disabled={!formState.isValid}
+            onClick={submitHandler}
+            isSecondary>
+            Mua
+          </Button>
+        </form>
+      )}
+
+      {isPurchased && (
+        <div className=''>
+          Bạn đã thanh toán thành công, xin hãy tiếp tục mua sắm
+        </div>
+      )}
+    </>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    isPurchased: state.userReducer.isPurchased,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -93,4 +116,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(ContactForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
