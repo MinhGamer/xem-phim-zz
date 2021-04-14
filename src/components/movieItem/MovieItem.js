@@ -16,6 +16,14 @@ import { connect } from 'react-redux';
 
 function MovieItem(props) {
   const {
+    type,
+    clickMovieHandler,
+    isAlreadyWatchced,
+    isEdit,
+    noCardDetails,
+  } = props;
+
+  const {
     id,
     original_title,
     title,
@@ -31,8 +39,6 @@ function MovieItem(props) {
 
   const [showCardMovie, setShowCardMovie] = useState(false);
   const [cardMovieRight, setCardMovieRight] = useState(false);
-
-  const { type, clickMovieHandler, isAlreadyWatchced, isEdit } = props;
 
   const history = useHistory();
 
@@ -78,18 +84,20 @@ function MovieItem(props) {
         className={`${!isEdit ? '' : 'movie-item'}`}>
         {/* when user hover to movie Item at homepage */}
 
-        <CSSTransition
-          in={showCardMovie}
-          timeout={500}
-          mountOnEnter
-          unmountOnExit
-          classNames={'fade-on-left'}>
-          <CardMovieDetail
-            onBackdropClick={() => setShowCardMovie(false)}
-            cardMovieRight={cardMovieRight}
-            movie={props.movie}
-          />
-        </CSSTransition>
+        {!noCardDetails && (
+          <CSSTransition
+            in={showCardMovie}
+            timeout={500}
+            mountOnEnter
+            unmountOnExit
+            classNames={'fade-on-left'}>
+            <CardMovieDetail
+              onBackdropClick={() => setShowCardMovie(false)}
+              cardMovieRight={cardMovieRight}
+              movie={props.movie}
+            />
+          </CSSTransition>
+        )}
 
         <div
           onClick={() => onClickMovieHandler()}

@@ -99,9 +99,15 @@ export const actUpdateMovieCollection = (type, movie) => {
     const { token, user } = getState().userReducer;
     const updateCollection = { ...user.collection };
 
+    console.log(movie);
+
     switch (type) {
-      case actionTypes.ADD_MOVIE_TO_COLLECTION:
+      case actionTypes.ADD_MOVIE_TO_COLLECTION_WHISLIST:
         updateCollection[movie.id] = { ...movie, isDone: false };
+        break;
+
+      case actionTypes.ADD_MOVIE_TO_COLLECTION_FINISHED:
+        updateCollection[movie.id] = { ...movie, isDone: true };
         break;
 
       case actionTypes.REMOVIE_MOVIE_FROM_COLLECTION:
@@ -145,8 +151,6 @@ export const actUpdateMovieCart = (type, movie) => {
     const { token, user } = getState().userReducer;
     const updateCart = { ...user.cart };
     let updateTotalOrderAmount = getState().userReducer.totalOrderAmount;
-
-    console.log(movie);
 
     switch (type) {
       case actionTypes.ADD_MOVIE_TO_CART:

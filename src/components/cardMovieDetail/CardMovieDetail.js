@@ -11,15 +11,11 @@ import * as actionTypes from '../../redux/actionTypes/actionTypes';
 
 import './CardMovieDetail.css';
 
-import { AuthContext } from '../../shared/context/AuthContext';
-
 import Button from '../../shared/components/UI/Button';
 import { NavLink, useHistory } from 'react-router-dom';
 
 import Backdrop from '../../shared/components/UI/Backdrop';
 import { connect } from 'react-redux';
-
-import useHttp from '../../shared/customHooks/useHttp';
 
 import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
 
@@ -32,11 +28,7 @@ function CardMovieDetail(props) {
     setShowRemoveFromCollectionBtn,
   ] = useState(false);
 
-  const { sendUser, error } = useHttp();
-
   const history = useHistory();
-
-  const auth = useContext(AuthContext);
 
   const {
     movie,
@@ -62,47 +54,7 @@ function CardMovieDetail(props) {
   const isAddToCollection =
     collectionArr.findIndex((_movie) => _movie.id === movie.id) !== -1;
 
-  const addMovieToCartHandler = (movie) => {
-    // if (user.cart[movie.id]) {
-    //   //movie is already in cart
-    //   user.cart[movie.id].quantity += 1;
-    // } else {
-    //   //movie is NOT in cart
-    //   user.cart[movie.id] = { ...movie, quantity: 1 };
-    // }
-    // addMovieToCart(movie);
-    //call api to store data
-    // try {
-    //   const data = await sendUser(
-    //     'user/cart',
-    //     'PATCH',
-    //     JSON.stringify({ cart: user.cart }),
-    //     {
-    //       Authorization: 'Bearer ' + userToken,
-    //     }
-    //   );
-    //   //then set redux store
-    //   addMovieToCart(movie);
-    //   console.log(data);
-    // } catch (err) {}
-  };
-
-  const removeMovieFromCartHandler = async (movie) => {
-    // delete user.cart[movie.id];
-    // try {
-    //   const data = await sendUser(
-    //     'user/cart',
-    //     'PATCH',
-    //     JSON.stringify({ cart: user.cart }),
-    //     {
-    //       Authorization: 'Bearer ' + userToken,
-    //     }
-    //   );
-    //   removeMovieFromCart(movie);
-    //   console.log(data);
-    // } catch (err) {}
-  };
-
+  console.log(movie);
   return (
     <>
       {showFullOverview && <Backdrop onClick={onBackdropClick} />}
@@ -301,7 +253,10 @@ const mapDispatchToProps = (dispatch) => {
 
     addMovieToCollection: (movie) =>
       dispatch(
-        actUpdateMovieCollection(actionTypes.ADD_MOVIE_TO_COLLECTION, movie)
+        actUpdateMovieCollection(
+          actionTypes.ADD_MOVIE_TO_COLLECTION_WHISLIST,
+          movie
+        )
       ),
 
     removeMovieFromCollection: (movie) =>

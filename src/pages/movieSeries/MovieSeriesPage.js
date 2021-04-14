@@ -99,6 +99,7 @@ export default function MovieSeriesPage() {
           {/* render series list */}
           {!seriesId && (
             <MovieList
+              noCardDetails
               clickMovieHandler={clickMovieHandler}
               type='series'
               movies={series}

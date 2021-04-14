@@ -88,7 +88,7 @@ export default function useHttp() {
       setIsLoading(true);
       try {
         //get details in vietnamese
-        const resDetails = await fetch(
+        const resDetailsVn = await fetch(
           `${API_MOVIE}/${uri}?api_key=${API_KEY}&language=vi`,
           {
             method,
@@ -100,7 +100,7 @@ export default function useHttp() {
           }
         );
 
-        const resVideosAndCast = await fetch(
+        const resDetailEn = await fetch(
           `${API_MOVIE}/${uri}?api_key=${API_KEY}&language=en&append_to_response=credits,videos,images`,
           {
             method,
@@ -113,15 +113,15 @@ export default function useHttp() {
         );
 
         //vietnamese
-        const resDataDetails = await resDetails.json();
+        const resDataVn = await resDetailsVn.json();
 
-        const resDataVideosAndCast = await resVideosAndCast.json();
+        const resDataEn = await resDetailEn.json();
 
-        if (!resDetails.ok) {
-          throw resDetails;
+        if (!resDetailsVn.ok) {
+          throw resDetailsVn;
         }
 
-        const { crew } = resDataVideosAndCast.credits;
+        const { crew } = resDataEn.credits;
 
         let directors = [];
         for (let i = 0; i < crew.length; i++) {
@@ -133,29 +133,20 @@ export default function useHttp() {
           }
         }
 
-        console.log(resDataDetails);
+        console.log(resDataVn);
 
-        console.log(resDataVideosAndCast);
+        console.log(resDataEn);
 
         const resData = {
-          backdrop_path: resDataVideosAndCast.backdrop_path,
-          credits: resDataVideosAndCast.credits,
-          genres: resDataDetails.genres,
-          vote_average: resDataVideosAndCast.vote_average,
-          original_title: resDataDetails.original_title,
-          overview: resDataDetails.overview,
-          poster_path: resDataVideosAndCast.poster_path,
-          release_date: resDataVideosAndCast.release_date,
-          runtime: resDataVideosAndCast.runtime,
-          title: resDataDetails.title,
-          videos: resDataVideosAndCast.videos,
+          ...resDataEn,
+          genres: resDataVn.genres,
+          original_title: resDataVn.original_title,
+          overview: resDataVn.overview,
+          title: resDataVn.title,
           directors,
-          name: resDataDetails.name,
-          seasons: resDataDetails.seasons,
-          original_language: resDataVideosAndCast.original_language,
-          images: resDataVideosAndCast.images.posters,
-          belongs_to_collection: resDataVideosAndCast.belongs_to_collection,
-          production_companies: resDataVideosAndCast.production_companies,
+          name: resDataVn.name,
+          seasons: resDataVn.seasons,
+          images: resDataEn.images.posters,
         };
 
         setIsLoading(false);
@@ -182,21 +173,6 @@ export default function useHttp() {
       const data = await res.json();
 
       console.log(data);
-
-      // //fix issue with db
-      // //some movieId must be search with &language=en-US
-      // if (data.results.length === 0) {
-      //   const anotherUrl = `${API_MOVIE}/movie/${movieId}/recommendations?api_key=${API_KEY}&language=en-US`;
-      //   //make request to api
-      //   const res = await fetch(anotherUrl, {
-      //     method,
-      //   });
-
-      //   const anotheData = await res.json();
-      //   console.log(anotheData);
-      //   return anotheData.results;
-      // }
-      // console.log('Herh');
 
       setIsLoading(false);
 
@@ -228,57 +204,48 @@ export default function useHttp() {
       setIsLoading(true);
       try {
         //get details in vietnamese
-        const resDetails = await fetch(
+        const resDetailsVn = await fetch(
           `${API_MOVIE}/tv/${tvId}?api_key=${API_KEY}&language=vi`
         );
 
-        const resVideosAndCast = await fetch(
-          `${API_MOVIE}/tv/${tvId}?api_key=${API_KEY}&append_to_response=credits,videos`
+        const resDetailEn = await fetch(
+          `${API_MOVIE}/tv/${tvId}?api_key=${API_KEY}&append_to_response=credits,videos,images`
         );
 
         //vietnamese
-        const resDataDetails = await resDetails.json();
+        const resDataVn = await resDetailsVn.json();
 
-        const resDataVideosAndCast = await resVideosAndCast.json();
+        const resDataEn = await resDetailEn.json();
 
-        if (!resDetails.ok) {
-          throw resDetails;
+        if (!resDetailsVn.ok) {
+          throw resDetailsVn;
         }
 
         let resData;
 
-        const { created_by } = resDataVideosAndCast;
+        const { created_by } = resDataEn;
 
         let directors = [];
         created_by.forEach((creater) => {
           directors.push(creater);
         });
 
-        console.log(created_by);
+        // console.log(created_by);
 
         // console.log(resDataDetails);
 
-        console.log(resDataVideosAndCast);
+        console.log(resDataEn);
 
         resData = {
-          backdrop_path: resDataVideosAndCast.backdrop_path,
-          credits: resDataVideosAndCast.credits,
-          genres: resDataDetails.genres,
-          vote_average: resDataVideosAndCast.vote_average,
-          overview: resDataDetails.overview || resDataVideosAndCast.overview,
-          poster_path: resDataVideosAndCast.poster_path,
-          release_date: resDataVideosAndCast.first_air_date,
-          videos: resDataVideosAndCast.videos,
+          ...resDataEn,
+          genres: resDataVn.genres,
+          overview: resDataVn.overview || resDataEn.overview,
           directors,
-          name: resDataDetails.name,
-          original_name: resDataDetails.original_name,
-          seasons: resDataDetails.seasons,
-          episode_run_time: resDataDetails.episode_run_time[0],
-          origin_country: resDataVideosAndCast.origin_country,
-          first_air_date: resDataVideosAndCast.first_air_date,
-          number_of_episodes: resDataVideosAndCast.number_of_episodes,
-          number_of_seasons: resDataVideosAndCast.number_of_seasons,
-          production_companies: resDataVideosAndCast.production_companies,
+          name: resDataVn.name,
+          original_name: resDataVn.original_name,
+          seasons: resDataVn.seasons,
+          episode_run_time: resDataVn.episode_run_time[0],
+          images: resDataEn.images.posters,
         };
 
         //if fetch tv season details:

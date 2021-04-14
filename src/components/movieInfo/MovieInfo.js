@@ -20,7 +20,6 @@ function MovieInfo(props) {
     movie,
     movieId,
     user,
-    token,
     addMovieToCart,
     removeMovieFromCart,
     isLoading,
@@ -98,34 +97,6 @@ function MovieInfo(props) {
     history.push(`/person/${personId}`);
   };
 
-  const clickCollectionHandler = async (action) => {
-    //when movie go to collection
-    // colletec: array = [
-    //  1771: {isDone: true}, => finish list
-    // 527774: {isDone: false} => wishlist
-    // ]
-
-    const { collection } = user;
-
-    if (action === 'addFavorited' || action === 'addDone') {
-      collection[movieId] = { isDone: action === 'addDone' ? true : false };
-    }
-
-    if (action === 'delete') {
-      delete collection[movieId];
-    }
-
-    const data = await sendUser(
-      'user',
-      'PATCH',
-      JSON.stringify({ collection }),
-      {
-        Authorization: 'Bearer ' + token,
-      }
-    );
-    console.log(data);
-  };
-
   const renderLanguge = (langugeId) => {
     const index = LANGUAGE_LIST_VN.findIndex(
       (languge) => languge.id === langugeId
@@ -136,6 +107,8 @@ function MovieInfo(props) {
     return LANGUAGE_LIST_VN[index].name;
   };
 
+  console.log(movie);
+
   return (
     <div>
       <div className='movie-detail__title-eng'>
@@ -145,10 +118,13 @@ function MovieInfo(props) {
         {movie.title || movie.name} (
         <span
           onClick={() =>
-            gotoHomePageToFilter('year', movie.release_date.split('-')[0])
+            gotoHomePageToFilter(
+              'year',
+              (movie.release_date || movie.first_air_date).split('-')[0]
+            )
           }
           className='movie-detail__title--year'>
-          {movie.release_date.split('-')[0]}
+          {(movie.release_date || movie.first_air_date).split('-')[0]}
           {/*release year */}
         </span>
         )
@@ -197,8 +173,8 @@ function MovieInfo(props) {
 
         {type !== 'tv' && (
           <Collection
+            movie={{ ...movie, id: movieId }}
             status={(user && user.collection[movieId]) || null}
-            onClick={clickCollectionHandler}
           />
         )}
       </div>

@@ -12,7 +12,7 @@ import {
 import Button from '../../shared/components/UI/Button';
 
 function MovieList(props) {
-  const { movies, type, clickMovieHandler } = props;
+  const { movies, type, clickMovieHandler, noCardDetails } = props;
   const [currentPage, setCurrentPage] = useState(1);
 
   const MOVIE_ITEM_PER_PAGE =
@@ -96,6 +96,7 @@ function MovieList(props) {
       <div className='movie-list'>
         {pagination(movies, currentPage).map((movie) => (
           <MovieItem
+            noCardDetails
             clickMovieHandler={clickMovieHandler}
             type={type}
             key={movie.id}
