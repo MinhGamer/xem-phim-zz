@@ -7,6 +7,8 @@ import {
   actUpdateMovieCart,
 } from '../../redux/actionCreator/userActions';
 
+import { actUpdateMovieDisplay } from '../../redux/actionCreator/movieActions';
+
 import * as actionTypes from '../../redux/actionTypes/actionTypes';
 
 import './CardMovieDetail.css';
@@ -42,7 +44,10 @@ function CardMovieDetail(props) {
     removeMovieFromCart,
     addMovieToCollection,
     removeMovieFromCollection,
+    allowMovieToDisplay,
     isLoading,
+    displayedMovieList,
+    isAdmin,
   } = props;
 
   //check to see if movie is in cart or not
@@ -55,6 +60,14 @@ function CardMovieDetail(props) {
     (user && user.collection && Object.values(user.collection)) || [];
   const isAddToCollection =
     collectionArr.findIndex((_movie) => _movie.id === movie.id) !== -1;
+
+  //check to see if movie is allow to display  or not
+  //only visible with admin
+  let foundMovie =
+    displayedMovieList &&
+    displayedMovieList.find((_movie) => +_movie.id === movie.id);
+
+  let isAllowedToDisplay = !foundMovie ? true : foundMovie.allowedToDisplay;
 
   return (
     <>
@@ -125,10 +138,15 @@ function CardMovieDetail(props) {
             className='movie-action'>
             {isLoading && <LoadingSpinner />}
 
-            <div>
-              <span>Cho phép hiển thị</span>
-              <ToggleSwitch isChecked={true} onClick={() => {}} />
-            </div>
+            {isAdmin && (
+              <div className='admin-show-display'>
+                <span>Cho phép hiển thị</span>
+                <ToggleSwitch
+                  defaultChecked={isAllowedToDisplay}
+                  onClick={() => allowMovieToDisplay(movie)}
+                />
+              </div>
+            )}
 
             {!isLoading && !isAddedToCart && (
               <Button
@@ -246,6 +264,8 @@ const mapStateToProps = (state) => {
     isLoggined: state.userReducer.isLoggined,
     userToken: state.userReducer.token,
     isLoading: state.userReducer.isLoading,
+    isAdmin: state.userReducer.isAdmin,
+    displayedMovieList: state.movieReducer.displayedMovieList,
   };
 };
 
@@ -272,6 +292,8 @@ const mapDispatchToProps = (dispatch) => {
           movie
         )
       ),
+
+    allowMovieToDisplay: (movie) => dispatch(actUpdateMovieDisplay(movie)),
   };
 };
 

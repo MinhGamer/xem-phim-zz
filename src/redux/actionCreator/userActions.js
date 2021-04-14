@@ -2,7 +2,7 @@ import * as actionTypes from '../actionTypes/actionTypes';
 
 import { API_USER } from '../../shared/util/config';
 
-const sendUser = async (uri, method = 'GET', body = null, headers) => {
+const sendApi = async (uri, method = 'GET', body = null, headers) => {
   try {
     const res = await fetch(`${API_USER}/${uri}`, {
       method,
@@ -23,19 +23,19 @@ const sendUser = async (uri, method = 'GET', body = null, headers) => {
 
 const sendApiStart = () => {
   return {
-    type: actionTypes.USER_SEND_API_START,
+    type: actionTypes.SEND_API_START,
   };
 };
 
 const sendApiSuccess = () => {
   return {
-    type: actionTypes.USER_SEND_API_SUCCESS,
+    type: actionTypes.SEND_API_SUCCESS,
   };
 };
 
 const sendApiFail = () => {
   return {
-    type: actionTypes.USER_SEND_API_FAIL,
+    type: actionTypes.SEND_API_FAIL,
   };
 };
 
@@ -54,13 +54,12 @@ export const actLoginUser = ({ email, password }) => {
     dispatch(sendApiStart());
 
     try {
-      const { token, user } = await sendUser(
+      //get user info
+      const { token, user } = await sendApi(
         'user/login',
         'POST',
         JSON.stringify({ email, password })
       );
-
-      // console.log(token, user);
 
       dispatch(sendApiSuccess());
       dispatch(loginUser(token, user));
@@ -74,10 +73,8 @@ export const actLoginWithGoogle = (tokenId, user) => {
   return async (dispatch) => {
     dispatch(sendApiStart());
 
-    console.log(tokenId);
-
     try {
-      const { token, user } = await sendUser('user/g-login', 'POST', null, {
+      const { token, user } = await sendApi('user/g-login', 'POST', null, {
         Authorization: 'Bearer ' + tokenId,
       });
 
@@ -123,7 +120,7 @@ export const actUpdateMovieCollection = (type, movie) => {
     }
 
     try {
-      await sendUser(
+      await sendApi(
         'user/collection',
         'PATCH',
         JSON.stringify({ collection: updateCollection }),
@@ -186,7 +183,7 @@ export const actUpdateMovieCart = (type, movie) => {
     }
 
     try {
-      await sendUser(
+      await sendApi(
         'user/cart',
         'PATCH',
         JSON.stringify({ cart: updateCart }),
@@ -222,7 +219,7 @@ export const actPurchaseItemInCart = (deliveryInfo) => {
     orderHistory[date] = cart;
 
     try {
-      await sendUser(
+      await sendApi(
         'user/order-history',
         'PATCH',
         JSON.stringify({ orderHistory, deliveryInfo }),
@@ -256,7 +253,7 @@ export const actSignUpUser = (newUser) => {
     dispatch(sendApiStart());
 
     try {
-      const { token, user } = await sendUser(
+      const { token, user } = await sendApi(
         'user/signup',
         'POST',
         JSON.stringify(newUser)

@@ -15,21 +15,21 @@ const initialState = {
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.USER_SEND_API_START: {
+    case actionTypes.SEND_API_START: {
       return {
         ...state,
         isLoading: true,
       };
     }
 
-    case actionTypes.USER_SEND_API_SUCCESS: {
+    case actionTypes.SEND_API_SUCCESS: {
       return {
         ...state,
         isLoading: false,
       };
     }
 
-    case actionTypes.USER_SEND_API_FAIL: {
+    case actionTypes.SEND_API_FAIL: {
       return {
         ...state,
         isLoading: false,

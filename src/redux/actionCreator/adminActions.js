@@ -23,19 +23,19 @@ const sendUser = async (uri, method = 'GET', body = null, headers) => {
 
 const sendApiStart = () => {
   return {
-    type: actionTypes.USER_SEND_API_START,
+    type: actionTypes.SEND_API_START,
   };
 };
 
 const sendApiSuccess = () => {
   return {
-    type: actionTypes.USER_SEND_API_SUCCESS,
+    type: actionTypes.SEND_API_SUCCESS,
   };
 };
 
 const sendApiFail = () => {
   return {
-    type: actionTypes.USER_SEND_API_FAIL,
+    type: actionTypes.SEND_API_FAIL,
   };
 };
 

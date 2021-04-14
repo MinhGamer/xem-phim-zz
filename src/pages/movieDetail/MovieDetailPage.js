@@ -24,7 +24,10 @@ import MovieImageSlider from '../../components/movieImageSlider/MovieImageSlider
 import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
 import ProductionCompany from '../../components/productionCompany/ProductionCompany';
 
-function MovieDetailPage() {
+import Modal from '../../shared/components/UI/Modal';
+import { connect } from 'react-redux';
+
+function MovieDetailPage(props) {
   const history = useHistory();
   const type = history.location.pathname.split('/')[1];
   const { movieId, seasonNumber } = useParams();
@@ -35,12 +38,12 @@ function MovieDetailPage() {
 
   const {
     isLoading,
-    error,
-    clearError,
     fetchMovieDetails,
     fetchSimilarMovies,
     fetchTvDetails,
   } = useHttp();
+
+  const { displayedMovieList } = props;
 
   //fetch movie when load page
   useEffect(() => {
@@ -85,8 +88,23 @@ function MovieDetailPage() {
     //movie or tv
   }, [history.location.pathname]);
 
+  let foundMovie =
+    displayedMovieList &&
+    displayedMovieList.find((_movie) => _movie.id === movieId);
+
+  let isAllowedToDisplay = !foundMovie ? true : foundMovie.allowedToDisplay;
+
   return (
     <>
+      {/* show when admin un-displayed movie */}
+      {!isAllowedToDisplay && (
+        <Modal className='modal-control-display-movie' showed={true}>
+          <div>
+            Phim đang được quản trị viên xử lý, bạn vui lòng quay lại sau
+          </div>
+        </Modal>
+      )}
+
       {/* show trailer with backdrop */}
       {movie && trailer && (
         <MovieTrailer
@@ -185,4 +203,10 @@ function MovieDetailPage() {
   );
 }
 
-export default MovieDetailPage;
+const mapStateToProps = (state) => {
+  return {
+    displayedMovieList: state.movieReducer.displayedMovieList,
+  };
+};
+
+export default connect(mapStateToProps)(MovieDetailPage);

@@ -190,6 +190,13 @@
   width: 220px;
   font-size: 1rem;
 }
+.card-movie-detail .movie-action .admin-show-display {
+  display: flex;
+  align-items: center;
+}
+.card-movie-detail .movie-action .admin-show-display .toogle-switch {
+  margin-left: 0.5rem;
+}
 
 .card-movie-detail .btn-add-to-collection {
   margin-top: 0.5rem;

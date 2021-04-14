@@ -64,4 +64,11 @@
   margin: 0.5rem;
 }
 
-/* modal-contact-form */
+.modal-control-display-movie {
+  top: 40vh;
+  color: #fff;
+  font-size: 1.7rem;
+  font-weight: 700;
+  padding: 1rem;
+  box-shadow: 0 0 2px 2px #d4d3dd;
+}

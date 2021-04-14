@@ -16,6 +16,8 @@ import { connect } from 'react-redux';
 
 import { actLoginWithGoogle } from '../../../redux/actionCreator/userActions';
 
+import { actFetchDisplayedMovieList } from '../../../redux/actionCreator/movieActions';
+
 function Header(props) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showCartModal, setShowCartModal] = useState(false);
@@ -24,7 +26,13 @@ function Header(props) {
 
   const history = useHistory();
 
-  const { user, isLoggined, isAdmin } = props;
+  const {
+    user,
+    isLoggined,
+    isAdmin,
+    loginWithGoogle,
+    fetchDisplayedMovieList,
+  } = props;
 
   const userCartArr = (user && user.cart && Object.values(user.cart)) || [];
 
@@ -37,11 +45,12 @@ function Header(props) {
 
       if (!tokenId) return;
 
-      props.loginWithGoogle(tokenId, user);
+      loginWithGoogle(tokenId, user);
 
       // if (!token) return;
     };
 
+    fetchDisplayedMovieList();
     loginUserAsync();
   }, []);
 
@@ -149,6 +158,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loginWithGoogle: (token, user) => dispatch(actLoginWithGoogle(token, user)),
+    fetchDisplayedMovieList: () => dispatch(actFetchDisplayedMovieList()),
   };
 };
 
