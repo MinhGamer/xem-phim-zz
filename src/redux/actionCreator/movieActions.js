@@ -43,24 +43,24 @@ export const actUpdateMovieDisplay = (movie) => {
   return async (dispatch, getState) => {
     dispatch(sendApiStart());
 
-    console.log(movie);
-    let { displayedMovieList } = getState().movieReducer;
+    let updateDisplayedMovieList = [
+      ...getState().movieReducer.displayedMovieList,
+    ];
 
-    let index = displayedMovieList.findIndex(
+    let index = updateDisplayedMovieList.findIndex(
       (_movie) => +_movie.id === +movie.id
     );
-
-    console.log(index);
 
     let updateMovie;
     if (index === -1) {
       updateMovie = { ...movie, allowedToDisplay: false };
-      displayedMovieList = [...displayedMovieList, updateMovie];
+      updateDisplayedMovieList = [...updateDisplayedMovieList, updateMovie];
     } else {
-      displayedMovieList[index].allowedToDisplay = !displayedMovieList[index]
-        .allowedToDisplay;
+      updateMovie = { ...updateDisplayedMovieList[index] };
 
-      updateMovie = displayedMovieList[index];
+      updateMovie.allowedToDisplay = !updateMovie.allowedToDisplay;
+
+      updateDisplayedMovieList[index] = updateMovie;
     }
 
     try {
@@ -76,7 +76,7 @@ export const actUpdateMovieDisplay = (movie) => {
       dispatch({
         type: actionTypes.ALLOW_MOVIE_TO_DISPLAY,
         payload: {
-          displayedMovieList,
+          displayedMovieList: updateDisplayedMovieList,
         },
       });
     } catch (err) {

@@ -72,6 +72,8 @@ function CardMovieDetail(props) {
 
   let isAllowedToDisplay = !foundMovie ? true : foundMovie.allowedToDisplay;
 
+  console.log(isAllowedToDisplay);
+
   return (
     <>
       {showFullOverview && <Backdrop onClick={onBackdropClick} />}
@@ -142,11 +144,11 @@ function CardMovieDetail(props) {
             className='movie-action'>
             {isLoading && <LoadingSpinner />}
 
-            {isAdmin && (
+            {isAdmin && !isLoading && (
               <div className='admin-show-display'>
                 <span>Cho phép hiển thị</span>
                 <ToggleSwitch
-                  defaultChecked={isAllowedToDisplay}
+                  isChecked={isAllowedToDisplay}
                   onClick={() => allowMovieToDisplay(movie)}
                 />
               </div>

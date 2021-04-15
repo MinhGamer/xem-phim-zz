@@ -155,7 +155,7 @@ function MovieItem(props) {
       {poster_path && !isEdit && (
         <LazyLoad
           once
-          offset={[-100, -200]}
+          offset={[300, 300]}
           height={600}
           key={id}
           placeholder={<LoadingSpinner />}

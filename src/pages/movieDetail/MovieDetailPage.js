@@ -96,7 +96,7 @@ function MovieDetailPage(props) {
 
   let foundMovie =
     displayedMovieList &&
-    displayedMovieList.find((_movie) => _movie.id === movieId);
+    displayedMovieList.find((_movie) => +_movie.id === +movieId);
 
   let isAllowedToDisplay = !foundMovie ? true : foundMovie.allowedToDisplay;
 
@@ -213,7 +213,7 @@ function MovieDetailPage(props) {
               )}
             </div>
 
-            {series && (
+            {series && movie.belongs_to_collection && (
               <div className='movie-detail__series'>
                 {!showSeries && (
                   <Button onClick={() => setShowSeries(true)} isPrimary>

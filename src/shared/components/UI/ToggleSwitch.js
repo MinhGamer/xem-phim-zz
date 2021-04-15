@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import './ToggleSwitch.css';
 
 function ToggleSwitch(props) {
-  const [isChecked, setIsChecked] = useState(false);
+  // const [isChecked, setIsChecked] = useState(false);
 
-  const { defaultChecked, onClick } = props;
+  const { isChecked, onClick } = props;
 
-  const clickHanlder = () => {
-    setIsChecked(!isChecked);
-    onClick();
-  };
+  // const clickHanlder = () => {
+  //   setIsChecked(!isChecked);
+  //   onClick();
+  // };
 
-  useEffect(() => {
-    setIsChecked(defaultChecked);
-  }, []);
+  // useEffect(() => {
+  //   setIsChecked(defaultChecked);
+  // }, [defaultChecked]);
 
   return (
     <div className='toogle-switch'>
       <label className='switch'>
         <span
           className={`slider round ${isChecked ? 'checked' : ''}`}
-          onClick={clickHanlder}></span>
+          onClick={onClick}></span>
       </label>
     </div>
   );

@@ -52,7 +52,7 @@ function MoviesManagement(props) {
           <td className='management-item__year '>{movie.vote_average}</td>
           <td className='management-item__toggle-display'>
             <ToggleSwitch
-              defaultChecked={movie.allowedToDisplay}
+              isChecked={movie.allowedToDisplay}
               onClick={() => allowMovieToDisplay(movie)}
             />
           </td>
