@@ -2,7 +2,10 @@ import React, { useState, useRef } from 'react';
 
 import Slider from 'react-slick';
 
-import { API_MOVIE_IMAGE } from '../../shared/util/config';
+import {
+  API_MOVIE_IMAGE,
+  API_MOVIE_IMAGE_CUSTOM,
+} from '../../shared/util/config';
 
 import { CSSTransition } from 'react-transition-group';
 
@@ -67,7 +70,7 @@ export default function MovieImageSlider(props) {
                     (image, index) =>
                       activeIndex === index && (
                         <img
-                          src={`${API_MOVIE_IMAGE}/${image.file_path}`}
+                          src={`${API_MOVIE_IMAGE_CUSTOM}/w342/${image.file_path}`}
                           alt='slider'
                         />
                       )
@@ -89,7 +92,9 @@ export default function MovieImageSlider(props) {
                         : ''
                     }`}>
                     <img
-                      src={`${API_MOVIE_IMAGE}/${image.file_path}`}
+                      src={`${[API_MOVIE_IMAGE_CUSTOM]}/w342/${
+                        image.file_path
+                      }`}
                       alt='slider'
                     />
                   </div>
@@ -120,7 +125,7 @@ export default function MovieImageSlider(props) {
                         : ''
                     }`}>
                     <img
-                      src={`${API_MOVIE_IMAGE}/${image.file_path}`}
+                      src={`${API_MOVIE_IMAGE_CUSTOM}/w342/${image.file_path}`}
                       alt='slider'
                     />
                   </div>

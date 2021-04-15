@@ -51,13 +51,9 @@ export const actUpdateMovieDisplay = (movie) => {
 
     let updateMovie;
     if (index === -1) {
-      updateMovie = { id: movie.id.toString(), allowedToDisplay: false };
+      updateMovie = { ...movie, allowedToDisplay: false };
       displayedMovieList = [...displayedMovieList, updateMovie];
     } else {
-      // updateMovie = {
-      //   ...displayedMovieList[index],
-      //   allowedToDisplay: !displayedMovieList[index].allowedToDisplay,
-      // };
       displayedMovieList[index].allowedToDisplay = !displayedMovieList[index]
         .allowedToDisplay;
 

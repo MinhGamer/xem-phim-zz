@@ -1,0 +1,60 @@
+.movie-management-container table {
+  border-collapse: collapse;
+  width: 95%;
+  margin: auto;
+  table-layout: auto;
+}
+
+.movie-management-container table tr {
+  text-align: center;
+  height: 80px;
+  vertical-align: middle;
+}
+
+.movie-management-container .movie-management-item .management-item__img {
+  width: 15%;
+}
+
+.movie-management-container .movie-management-item img {
+  border-radius: 5px;
+  width: 150px;
+  padding: 0.5rem;
+}
+
+.movie-management-container .movie-management-item.item-is-blue {
+  background-color: rgba(109, 213, 237, 0.2);
+}
+
+.movie-management-container .management-item__title {
+  padding: 0 0.5rem;
+  width: 20%;
+}
+
+.movie-management-container .management-item__title .title-vn {
+  font-size: 1.1rem;
+}
+
+.movie-management-container .management-item__title .title-en {
+  font-size: 0.9rem;
+  color: #7a7a7a;
+}
+
+.movie-management-container .management-item__year {
+  width: 10%;
+}
+
+.movie-management-container .management-item__toggle-display {
+  width: 15%;
+}
+
+.movie-management-container .movie-management-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.movie-management-container .movie-management-pagination .all-users-pagination {
+  border: none;
+}
+
+/*  */

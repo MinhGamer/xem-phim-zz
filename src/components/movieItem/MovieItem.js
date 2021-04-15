@@ -4,7 +4,10 @@ import { useHistory } from 'react-router-dom';
 
 import LazyLoad from 'react-lazyload';
 
-import { API_MOVIE_IMAGE } from '../../shared/util/config';
+import {
+  API_MOVIE_IMAGE,
+  API_MOVIE_IMAGE_CUSTOM,
+} from '../../shared/util/config';
 
 import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
 
@@ -12,7 +15,6 @@ import './MovieItem.css';
 import CardMovieDetail from '../cardMovieDetail/CardMovieDetail';
 
 import { CSSTransition } from 'react-transition-group';
-import { connect } from 'react-redux';
 
 function MovieItem(props) {
   const {
@@ -42,7 +44,9 @@ function MovieItem(props) {
 
   const history = useHistory();
 
-  const imageUrl = `${API_MOVIE_IMAGE}/${poster_path || backdrop_path}`;
+  const imageUrl = `${API_MOVIE_IMAGE_CUSTOM}/w342/${
+    poster_path || backdrop_path
+  }`;
 
   const gotoMovieDetailPage = () => {
     history.push(`/${type}/${id}`);

@@ -11,6 +11,12 @@ export const API_MOVIE = 'https://api.themoviedb.org/3';
 
 export const API_MOVIE_IMAGE = 'https://image.tmdb.org/t/p/original';
 
+export const API_MOVIE_IMAGE_CUSTOM = 'https://image.tmdb.org/t/p/';
+
+export const ADMIN_MOVIES_PER_PAGE = 6;
+
+export const ADMIN_MOVIES_PAGINATION_RANGE = 3;
+
 export const USERS_PER_PAGE = 3;
 
 export const USERS_PAGINATION_RANGE = 3;

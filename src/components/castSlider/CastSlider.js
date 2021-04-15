@@ -8,7 +8,10 @@ import 'slick-carousel/slick/slick-theme.css';
 
 import './CastSlider.css';
 
-import { API_MOVIE_IMAGE } from '../../shared/util/config';
+import {
+  API_MOVIE_IMAGE,
+  API_MOVIE_IMAGE_CUSTOM,
+} from '../../shared/util/config';
 
 function CastSlider(props) {
   const history = useHistory();
@@ -47,7 +50,7 @@ function CastSlider(props) {
               <div className='cast-slider-item'>
                 <img
                   onClick={() => gotoPersonPage(actor.id)}
-                  src={`${API_MOVIE_IMAGE}/${actor.profile_path}`}
+                  src={`${API_MOVIE_IMAGE_CUSTOM}/w92/${actor.profile_path}`}
                   alt='title'
                 />
                 <div

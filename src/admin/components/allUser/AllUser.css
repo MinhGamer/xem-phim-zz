@@ -67,7 +67,7 @@
   width: 220px;
 }
 
-.all-user-container .arrow-page {
+.all-users-pagination .arrow-page {
   font-size: 1.3rem;
   cursor: pointer;
   width: 40px;
@@ -75,17 +75,17 @@
   line-height: 40px;
 }
 
-.all-user-container .arrow-page:hover {
+.all-users-pagination .arrow-page:hover {
   color: #dcf836;
   display: inline-block;
 }
 
-.all-user-container .arrow-page.disabled {
+.all-users-pagination .arrow-page.disabled {
   cursor: not-allowed;
   opacity: 0.3;
 }
 
-.all-user-container .all-users-pagination {
+.all-users-pagination {
   text-align: center;
   border-bottom: 1px solid #fff;
   padding-bottom: 0.5rem;

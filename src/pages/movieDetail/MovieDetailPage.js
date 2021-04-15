@@ -8,7 +8,10 @@ import useHttp from '../../shared/customHooks/useHttp';
 
 import MovieTrailer from '../../components/movieTrailer/MovieTrailer';
 
-import { API_MOVIE_IMAGE } from '../../shared/util/config';
+import {
+  API_MOVIE_IMAGE,
+  API_MOVIE_IMAGE_CUSTOM,
+} from '../../shared/util/config';
 
 import './MovieDetailPage.css';
 
@@ -130,7 +133,7 @@ function MovieDetailPage(props) {
             {isLoading && <LoadingSpinner />}
             <div
               style={{
-                backgroundImage: `url("${API_MOVIE_IMAGE}/${movie.backdrop_path}")`,
+                backgroundImage: `url("${API_MOVIE_IMAGE_CUSTOM}/w1280/${movie.backdrop_path}")`,
               }}
               className='movie-detail__background-image'></div>
 

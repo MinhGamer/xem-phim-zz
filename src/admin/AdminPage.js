@@ -13,10 +13,10 @@ import { connect } from 'react-redux';
 import { actFetchAllUser } from '../redux/actionCreator/adminActions';
 import DashBoard from '../components/dashboard/DashBoard';
 
+import MoviesManagement from './components/moviesManagement/MoviesManagement';
+
 function AdminPage(props) {
   const [navtabIndex, setNavtabIndex] = useState(0);
-
-  const [confirmDelete, setConfirmDelete] = useState(null);
 
   const { fetchAllUser } = props;
 
@@ -34,22 +34,11 @@ function AdminPage(props) {
     {
       label: 'Quản lý phim',
       icon: <i class='fa fa-film'></i>,
-      component: DashBoard,
+      component: <MoviesManagement />,
     },
   ];
 
-  //get token from local storage to login
   useEffect(() => {
-    // const fetchAllUser = async () => {
-    //   const data = await sendUser('user/all', 'GET', null, {
-    //     Authorization: 'Bearer ' + token,
-    //   });
-
-    //   console.log(data);
-
-    //   // props.setAllUser(data.allUser);
-    // };
-
     fetchAllUser();
   }, []);
 
@@ -79,12 +68,6 @@ function AdminPage(props) {
     </>
   );
 }
-
-// const mapStateToProps = (state) => {
-//   return {
-//     isLoading: state.adminReducer.isLoading,
-//   };
-// };
 
 const mapDispatchToProps = (dispatch) => {
   return {

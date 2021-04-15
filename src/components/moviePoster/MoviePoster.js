@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { API_MOVIE_IMAGE } from '../../shared/util/config';
+import {
+  API_MOVIE_IMAGE,
+  API_MOVIE_IMAGE_CUSTOM,
+} from '../../shared/util/config';
 
 function MoviePoster(props) {
   const { onClick } = props;
@@ -8,7 +11,7 @@ function MoviePoster(props) {
   return (
     <img
       onClick={onClick}
-      src={`${API_MOVIE_IMAGE}/${props.poster_path}`}
+      src={`${API_MOVIE_IMAGE_CUSTOM}/w342/${props.poster_path}`}
       alt={props.original_title}
     />
   );

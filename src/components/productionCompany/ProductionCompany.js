@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { API_MOVIE_IMAGE } from '../../shared/util/config';
+import {
+  API_MOVIE_IMAGE,
+  API_MOVIE_IMAGE_CUSTOM,
+} from '../../shared/util/config';
 
 import { useHistory } from 'react-router-dom';
 
@@ -25,7 +28,7 @@ export default function ProductionCompany(props) {
               onClick={() => gotoHomepageToFilter(company.id)}
               className='production-company--item'>
               <img
-                src={`${API_MOVIE_IMAGE}/${company.logo_path}`}
+                src={`${API_MOVIE_IMAGE_CUSTOM}/w92/${company.logo_path}`}
                 alt={company.name}
               />
             </div>

@@ -24,7 +24,7 @@ function AllUser(props) {
 
   const { allUser, isLoading } = props;
 
-  const allUserArr = Object.values(allUser);
+  const allUserArr = (allUser && Object.values(allUser)) || [];
 
   //set current page to 1 when admin search
   useEffect(() => {
