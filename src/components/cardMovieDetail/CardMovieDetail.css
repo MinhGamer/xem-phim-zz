@@ -43,12 +43,23 @@
   font-size: 1.2rem;
 }
 
+.card-movie-poster .title-vn:hover {
+  font-size: 1.2rem;
+  color: #dcf836;
+}
+
 .card-movie-poster .title-en {
   font-size: 1.1rem;
   color: #7a7a7a;
 }
 
 .card-movie-poster img {
+  width: 100%;
+  border: 2px solid transparent;
+}
+
+.card-movie-poster img:hover {
+  border: 2px solid #dcf836;
   width: 100%;
 }
 

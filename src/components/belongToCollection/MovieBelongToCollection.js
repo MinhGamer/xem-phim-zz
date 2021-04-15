@@ -23,7 +23,7 @@ function MovieBelongToCollection(props) {
         />
         <Button onClick={onClick} isFull isSecondary>
           <i class='fa fa-play'></i>
-          Xem Bộ sưu tập
+          Xem Series
         </Button>
       </div>
     )

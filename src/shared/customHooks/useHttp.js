@@ -141,7 +141,7 @@ export default function useHttp() {
           ...resDataEn,
           genres: resDataVn.genres,
           original_title: resDataVn.original_title,
-          overview: resDataVn.overview,
+          overview: resDataVn.overview || resDataEn.overview,
           title: resDataVn.title,
           directors,
           name: resDataVn.name,

@@ -110,6 +110,7 @@ function MovieDetailPage(props) {
       behavior: 'smooth',
     });
     setSeries(data[0]);
+    setShowSeries(true);
   };
 
   return (
@@ -215,12 +216,9 @@ function MovieDetailPage(props) {
             {series && (
               <div className='movie-detail__series'>
                 {!showSeries && (
-                  <div
-                    onClick={() => setShowSeries(true)}
-                    className='movie-detail__series icon-config'>
-                    <span className='movie-detail__series '>Mở</span>
-                    <i class='fa fa-less-than'></i>
-                  </div>
+                  <Button onClick={() => setShowSeries(true)} isPrimary>
+                    Chi tiết series
+                  </Button>
                 )}
                 {showSeries && (
                   <div

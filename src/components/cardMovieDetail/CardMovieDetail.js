@@ -78,6 +78,7 @@ function CardMovieDetail(props) {
 
       {showFullOverview && (
         <div
+          onClick={() => history.push(`/movie/${movie.id}`)}
           className={`card-movie-poster ${
             cardMovieRight ? 'card-right' : 'card-left'
           }`}>

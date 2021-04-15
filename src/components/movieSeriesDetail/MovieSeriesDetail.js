@@ -10,6 +10,8 @@ export default function MovieSeriesDetail(props) {
   const history = useHistory();
   const { series } = props;
 
+  console.log(series);
+
   const gotoHomePageToFilter = (genresId) => {
     history.push(`/?with_genres=${genresId}`);
   };

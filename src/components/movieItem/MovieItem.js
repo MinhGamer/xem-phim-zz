@@ -4,10 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import LazyLoad from 'react-lazyload';
 
-import {
-  API_MOVIE_IMAGE,
-  API_MOVIE_IMAGE_CUSTOM,
-} from '../../shared/util/config';
+import { API_MOVIE_IMAGE_CUSTOM } from '../../shared/util/config';
 
 import LoadingSpinner from '../../shared/components/UI/LoadingSpinner';
 
