@@ -13,8 +13,6 @@ export default function ProductionCompany(props) {
   const history = useHistory();
   const { companies } = props;
 
-  console.log(companies);
-
   const gotoHomepageToFilter = (companyId) => {
     history.push(`/?with_companies=${companyId}`);
   };

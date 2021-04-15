@@ -78,9 +78,11 @@
 
 .fade-exit {
   opacity: 1;
+  transform: translateY(0rem);
 }
 
 .fade-exit-active {
-  opacity: 1;
-  transition: all 0.1s;
+  opacity: 0;
+  transform: translateY(-2rem);
+  transition: all 0.5s;
 }

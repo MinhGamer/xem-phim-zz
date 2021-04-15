@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+
+import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import {
@@ -9,40 +11,54 @@ import {
 
 import './MoviesManagement.css';
 
+import { actUpdateMovieDisplay } from '../../../redux/actionCreator/movieActions';
+
 import ToggleSwitch from '../../../shared/components/UI/ToggleSwitch';
 
 function MoviesManagement(props) {
+  const history = useHistory();
   const { displayedMovieList } = props;
+  const { allowMovieToDisplay } = props;
   const [currentPage, setCurrentPage] = useState(1);
 
   const renderMovieTbody = () => {
-    return pagination(displayedMovieList, currentPage).map((movie, index) => (
-      <tr
-        className={`movie-management-item ${
-          index % 2 === 0 ? 'item-is-blue' : ''
-        }`}>
-        <td className='management-item__img '>
-          <img
-            src={`${API_MOVIE_IMAGE_CUSTOM}/w300/${movie.backdrop_path}`}
-            alt={movie.original_title}
-          />
-        </td>
-        <td className='management-item__title '>
-          <p className='title-vn'>{movie.title}</p>
-          <p className='title-en'>{movie.original_title}</p>
-        </td>
-        <td className='management-item__year '>{movie.release_date}</td>
-        <td className='management-item__year '>{movie.vote_count}</td>
-        <td className='management-item__year '>
-          {' '}
-          {movie.popularity.toFixed(0)}
-        </td>
-        <td className='management-item__year '>{movie.vote_average}</td>
-        <td className='management-item__toggle-display'>
-          <ToggleSwitch onClick={() => {}} />
-        </td>
-      </tr>
-    ));
+    return pagination(displayedMovieList, currentPage).map((movie, index) => {
+      return (
+        <tr
+          className={`movie-management-item ${
+            index % 2 === 0 ? 'item-is-blue' : ''
+          }`}>
+          <td className='management-item__img '>
+            <img
+              onClick={() => history.push(`/movie/${movie.id}`)}
+              src={`${API_MOVIE_IMAGE_CUSTOM}/w300/${movie.backdrop_path}`}
+              alt={movie.original_title}
+            />
+          </td>
+          <td className='management-item__title '>
+            <p
+              onClick={() => history.push(`/movie/${movie.id}`)}
+              className='title-vn'>
+              {movie.title}
+            </p>
+            <p className='title-en'>{movie.original_title}</p>
+          </td>
+          <td className='management-item__year '>{movie.release_date}</td>
+          <td className='management-item__year '>{movie.vote_count}</td>
+          <td className='management-item__year '>
+            {' '}
+            {movie.popularity.toFixed(0)}
+          </td>
+          <td className='management-item__year '>{movie.vote_average}</td>
+          <td className='management-item__toggle-display'>
+            <ToggleSwitch
+              defaultChecked={movie.allowedToDisplay}
+              onClick={() => allowMovieToDisplay(movie)}
+            />
+          </td>
+        </tr>
+      );
+    });
   };
 
   const pagination = (users, pageNumber) => {
@@ -185,4 +201,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(MoviesManagement);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    allowMovieToDisplay: (movie) => dispatch(actUpdateMovieDisplay(movie)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MoviesManagement);

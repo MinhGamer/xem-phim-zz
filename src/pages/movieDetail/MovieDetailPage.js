@@ -6,12 +6,11 @@ import Button from '../../shared/components/UI/Button';
 
 import useHttp from '../../shared/customHooks/useHttp';
 
+import { CSSTransition } from 'react-transition-group';
+
 import MovieTrailer from '../../components/movieTrailer/MovieTrailer';
 
-import {
-  API_MOVIE_IMAGE,
-  API_MOVIE_IMAGE_CUSTOM,
-} from '../../shared/util/config';
+import { API_MOVIE_IMAGE_CUSTOM } from '../../shared/util/config';
 
 import './MovieDetailPage.css';
 
@@ -29,12 +28,15 @@ import ProductionCompany from '../../components/productionCompany/ProductionComp
 
 import Modal from '../../shared/components/UI/Modal';
 import { connect } from 'react-redux';
+import MovieSeriesDetail from '../../components/movieSeriesDetail/MovieSeriesDetail';
 
 function MovieDetailPage(props) {
   const history = useHistory();
   const type = history.location.pathname.split('/')[1];
   const { movieId, seasonNumber } = useParams();
   const [movie, setMovie] = useState(null);
+  const [series, setSeries] = useState(null);
+  const [showSeries, setShowSeries] = useState(true);
   const [similarMovies, setSimilarMovies] = useState(null);
   const [trailer, setTrailer] = useState('');
   const [movieImages, setMovieImages] = useState(null);
@@ -44,6 +46,7 @@ function MovieDetailPage(props) {
     fetchMovieDetails,
     fetchSimilarMovies,
     fetchTvDetails,
+    fetchSeries,
   } = useHttp();
 
   const { displayedMovieList } = props;
@@ -96,6 +99,18 @@ function MovieDetailPage(props) {
     displayedMovieList.find((_movie) => _movie.id === movieId);
 
   let isAllowedToDisplay = !foundMovie ? true : foundMovie.allowedToDisplay;
+
+  const clickSeriesHandler = async (seriesId) => {
+    let fetchedseries = [{ id: seriesId }];
+
+    const data = await fetchSeries(fetchedseries);
+
+    window.scrollTo({
+      top: 1500,
+      behavior: 'smooth',
+    });
+    setSeries(data[0]);
+  };
 
   return (
     <>
@@ -156,6 +171,9 @@ function MovieDetailPage(props) {
                 {movie.belongs_to_collection && (
                   <div className='movie-detail__collection'>
                     <MovieBelongToCollection
+                      onClick={() =>
+                        clickSeriesHandler(movie.belongs_to_collection.id)
+                      }
                       belongs_to_collection={movie.belongs_to_collection}
                     />
                   </div>
@@ -193,6 +211,38 @@ function MovieDetailPage(props) {
                 </div>
               )}
             </div>
+
+            {series && (
+              <div className='movie-detail__series'>
+                {!showSeries && (
+                  <div
+                    onClick={() => setShowSeries(true)}
+                    className='movie-detail__series icon-config'>
+                    <span className='movie-detail__series '>Mở</span>
+                    <i class='fa fa-less-than'></i>
+                  </div>
+                )}
+                {showSeries && (
+                  <div
+                    onClick={() => setShowSeries(false)}
+                    className='movie-detail__series icon-config'>
+                    <span>Đóng</span>
+                    <i class='fa fa-chevron-down'></i>
+                  </div>
+                )}
+
+                <CSSTransition
+                  mountOnEnter
+                  unmountOnExit
+                  in={showSeries}
+                  timeout={700}
+                  classNames='fade'>
+                  <div>
+                    <MovieSeriesDetail series={series.parts} />
+                  </div>
+                </CSSTransition>
+              </div>
+            )}
 
             {similarMovies && (
               <div className='movie-detail__similar-movies'>

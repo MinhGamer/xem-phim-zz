@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
 
-import { API_MOVIE_IMAGE } from '../../../util/config';
+import { API_MOVIE_IMAGE, API_MOVIE_IMAGE_CUSTOM } from '../../../util/config';
 
 import { actUpdateMovieCart } from '../../../../redux/actionCreator/userActions';
 
@@ -41,7 +41,7 @@ function CartItem(props) {
         <div className='item-img'>
           <img
             onClick={gotoMovieDetailPage}
-            src={`${API_MOVIE_IMAGE}/${movie.poster_path}`}
+            src={`${API_MOVIE_IMAGE_CUSTOM}/w300/${movie.backdrop_path}`}
             alt={movie.title}
           />
         </div>

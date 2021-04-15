@@ -1,9 +1,6 @@
 import React from 'react';
 
-import {
-  API_MOVIE_IMAGE,
-  API_MOVIE_IMAGE_CUSTOM,
-} from '../../shared/util/config';
+import { API_MOVIE_IMAGE_CUSTOM } from '../../shared/util/config';
 
 function MoviePoster(props) {
   const { onClick } = props;

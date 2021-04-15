@@ -1,18 +1,14 @@
 import React from 'react';
 import MoviePoster from '../moviePoster/MoviePoster';
 
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 
 import Button from '../../shared/components/UI/Button';
 
 import './MovieBelongToCollection.css';
 
 function MovieBelongToCollection(props) {
-  const { belongs_to_collection } = props;
-  const history = useHistory();
-
-  const gotoSeriesPage = () =>
-    history.push(`/series/${belongs_to_collection.id}`);
+  const { belongs_to_collection, onClick } = props;
 
   return (
     belongs_to_collection && (
@@ -21,11 +17,11 @@ function MovieBelongToCollection(props) {
           Phim này nằm trong series
         </h2>
         <MoviePoster
-          onClick={gotoSeriesPage}
+          onClick={onClick}
           poster_path={belongs_to_collection.poster_path}
           alt={belongs_to_collection.name}
         />
-        <Button onClick={gotoSeriesPage} isFull isSecondary>
+        <Button onClick={onClick} isFull isSecondary>
           <i class='fa fa-play'></i>
           Xem Bộ sưu tập
         </Button>

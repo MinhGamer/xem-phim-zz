@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 import './AdminPage.css';
 
+import { useParams, useHistory } from 'react-router-dom';
+
 import AllUser from './components/allUser/AllUser';
-
-import LoadingSpinner from '../shared/components/UI/LoadingSpinner';
-
-import useHttp from '../shared/customHooks/useHttp';
 
 import { connect } from 'react-redux';
 
@@ -16,7 +14,8 @@ import DashBoard from '../components/dashboard/DashBoard';
 import MoviesManagement from './components/moviesManagement/MoviesManagement';
 
 function AdminPage(props) {
-  const [navtabIndex, setNavtabIndex] = useState(0);
+  const { item } = useParams();
+  const history = useHistory();
 
   const { fetchAllUser } = props;
 
@@ -24,16 +23,19 @@ function AdminPage(props) {
     {
       label: 'Thống kê',
       icon: <i class='fa fa-chart-line'></i>,
+      item: 'dashboard',
       component: <DashBoard />,
     },
     {
       label: 'Quản lý người dùng',
       icon: <i class='fa fa-users'></i>,
+      item: 'users',
       component: <AllUser />,
     },
     {
       label: 'Quản lý phim',
       icon: <i class='fa fa-film'></i>,
+      item: 'movies',
       component: <MoviesManagement />,
     },
   ];
@@ -43,11 +45,11 @@ function AdminPage(props) {
   }, []);
 
   const renderNavtabList = () =>
-    ADMIN_NAVTAB_LIST.map((navtab, index) => (
+    ADMIN_NAVTAB_LIST.map((navtab) => (
       <div
-        onClick={() => setNavtabIndex(index)}
+        onClick={() => history.push(`/admin/${navtab.item}`)}
         className={`navtab-header--item ${
-          navtabIndex === index ? 'active' : ''
+          navtab.item === item ? 'active' : ''
         }`}
         key='navtab.id'>
         {navtab.icon} {navtab.label}
@@ -56,7 +58,7 @@ function AdminPage(props) {
 
   const renderNavtabItem = () =>
     ADMIN_NAVTAB_LIST.map(
-      (navItem, index) => navtabIndex === index && navItem.component
+      (navItem) => navItem.item === item && navItem.component
     );
 
   return (

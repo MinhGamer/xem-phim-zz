@@ -43,11 +43,14 @@ export const actUpdateMovieDisplay = (movie) => {
   return async (dispatch, getState) => {
     dispatch(sendApiStart());
 
+    console.log(movie);
     let { displayedMovieList } = getState().movieReducer;
 
     let index = displayedMovieList.findIndex(
-      (_movie) => +_movie.id === movie.id
+      (_movie) => +_movie.id === +movie.id
     );
+
+    console.log(index);
 
     let updateMovie;
     if (index === -1) {
@@ -61,7 +64,7 @@ export const actUpdateMovieDisplay = (movie) => {
     }
 
     try {
-      const data = await sendMovie(
+      await sendMovie(
         `/movie/${movie.id}`,
         'PATCH',
         JSON.stringify({

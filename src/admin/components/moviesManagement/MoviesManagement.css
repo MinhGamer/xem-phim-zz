@@ -7,8 +7,12 @@
 
 .movie-management-container table tr {
   text-align: center;
-  height: 80px;
+  height: 90px;
   vertical-align: middle;
+}
+
+.movie-management-container table tbody tr {
+  height: 110px;
 }
 
 .movie-management-container .movie-management-item .management-item__img {
@@ -18,7 +22,14 @@
 .movie-management-container .movie-management-item img {
   border-radius: 5px;
   width: 150px;
-  padding: 0.5rem;
+
+  border: 2px solid transparent;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.movie-management-container .movie-management-item img:hover {
+  border: 2px solid #dcf836;
 }
 
 .movie-management-container .movie-management-item.item-is-blue {
@@ -28,10 +39,17 @@
 .movie-management-container .management-item__title {
   padding: 0 0.5rem;
   width: 20%;
+  cursor: pointer;
+}
+
+.movie-management-container .management-item__title:hover .title-vn {
+  color: #dcf836;
+  text-decoration: underline;
 }
 
 .movie-management-container .management-item__title .title-vn {
   font-size: 1.1rem;
+  transition: all 0.3s;
 }
 
 .movie-management-container .management-item__title .title-en {

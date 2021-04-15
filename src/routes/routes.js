@@ -34,5 +34,6 @@ export const privateRoutes = [
 ];
 
 export const adminRoutes = [
-  { path: '/admin', exact: true, Component: AdminPage },
+  { path: '/admin/', exact: true, Component: AdminPage },
+  { path: '/admin/:item', exact: true, Component: AdminPage },
 ];

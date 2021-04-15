@@ -1,6 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 
-import { API_MOVIE_IMAGE } from '../../shared/util/config';
+import {
+  API_MOVIE_IMAGE,
+  API_MOVIE_IMAGE_CUSTOM,
+} from '../../shared/util/config';
 
 import {
   actUpdateMovieCollection,
@@ -79,7 +82,7 @@ function CardMovieDetail(props) {
             cardMovieRight ? 'card-right' : 'card-left'
           }`}>
           <img
-            src={`${API_MOVIE_IMAGE}/${movie.poster_path}`}
+            src={`${API_MOVIE_IMAGE_CUSTOM}/w342/${movie.poster_path}`}
             alt={movie.title}
           />
           <p className='title-vn'>{movie.title}</p>
@@ -93,7 +96,7 @@ function CardMovieDetail(props) {
         } ${cardMovieRight ? 'card-right' : 'card-left'}`}>
         <div
           style={{
-            backgroundImage: `url('${API_MOVIE_IMAGE}/${movie.backdrop_path}')`,
+            backgroundImage: `url('${API_MOVIE_IMAGE_CUSTOM}/w780/${movie.backdrop_path}')`,
           }}
           className='movie-content'>
           <div className={`movie-overview `}>{movie.overview}</div>

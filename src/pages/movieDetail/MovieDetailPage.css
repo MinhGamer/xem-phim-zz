@@ -281,8 +281,32 @@
   width: 100%;
 }
 
+.movie-detail-container .movie-detail__series {
+  width: 90%;
+  margin: auto;
+}
+
 .movie-detail__similar-movies {
   width: 100%;
+}
+
+.movie-detail-container .movie-detail__series .icon-config {
+  cursor: pointer;
+  margin-left: 1rem;
+  transition: all 0.3s;
+}
+
+.movie-detail-container .movie-detail__series .icon-config:hover {
+  color: #dcf836;
+}
+
+.movie-detail-container .movie-detail__series .icon-config span {
+  font-size: 1.2rem;
+}
+
+.movie-detail-container .movie-detail__series i {
+  cursor: pointer;
+  margin-left: 0.7rem;
 }
 
 @media screen and (max-width: 1216px) {
