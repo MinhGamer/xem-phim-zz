@@ -1,0 +1,84 @@
+.comments-container {
+}
+
+.comments-container .comments-header {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.comments-container .comments-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.comments-container .icon-star {
+  color: #f12711;
+  font-size: 1.5rem;
+}
+
+.comments-container .comment-item .comment-date {
+  color: #7a7a7a;
+  font-size: 0.9rem;
+  letter-spacing: 1.3px;
+}
+
+.comments-container .comment-item .comment-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #6dd5ed;
+}
+
+.comments-container .comment-item {
+  margin: 0.5rem;
+  display: inline-block;
+  background-color: #203a43;
+  border-radius: 5px;
+  padding: 0.7rem;
+}
+
+.comments-container .comment-input {
+  margin-top: 1rem;
+}
+
+.comments-container .comment-input .input-header {
+  font-size: 1.6rem;
+}
+
+.comments-container .comment-input textarea {
+  display: block;
+  font-size: 1.4rem;
+  border: none;
+  outline: none;
+  padding: 0.5rem;
+  border-radius: 5px;
+  width: 600px;
+  margin: 1rem 0;
+  border: 4px solid transparent;
+  transition: all 0.3s;
+}
+
+.comments-container .comment-input textarea:focus {
+  border: 4px solid #3273dc;
+}
+
+.comments-container .comment-input .input-rating span {
+  font-size: 1.2rem;
+}
+
+.comments-container .input-icon-stars {
+  display: inline-block;
+  margin-left: 1rem;
+}
+
+.comments-container .input-icon-stars .icon-star {
+  color: #fff;
+}
+
+.comments-container .comment-input .input-alert {
+  color: red;
+}
+
+.comments-container .input-icon-stars .icon-star.active {
+  cursor: pointer;
+  color: #f12711;
+}

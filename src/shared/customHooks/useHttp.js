@@ -133,9 +133,9 @@ export default function useHttp() {
           }
         }
 
-        console.log(resDataVn);
+        // console.log(resDataVn);
 
-        console.log(resDataEn);
+        // console.log(resDataEn);
 
         const resData = {
           ...resDataEn,

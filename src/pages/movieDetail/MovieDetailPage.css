@@ -309,6 +309,11 @@
   margin-left: 0.7rem;
 }
 
+.movie-detail-container .movie-detail__comments {
+  width: 90%;
+  margin: auto;
+}
+
 @media screen and (max-width: 1216px) {
   .movie-detail__image {
     width: 250px;

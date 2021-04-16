@@ -23,8 +23,6 @@ function Collection(props) {
   const [show, setShow] = useState(false);
   const history = useHistory();
 
-  console.log(movie);
-
   //status === null => user did not login
   //status.isDone === true => user add movie to finish collection
   //status.isDone === false => user add movie to wishlist collection

@@ -107,8 +107,6 @@ function MovieInfo(props) {
     return LANGUAGE_LIST_VN[index].name;
   };
 
-  console.log(movie);
-
   return (
     <div>
       <div className='movie-detail__title-eng'>

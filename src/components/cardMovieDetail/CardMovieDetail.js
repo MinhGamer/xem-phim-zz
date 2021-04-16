@@ -72,8 +72,6 @@ function CardMovieDetail(props) {
 
   let isAllowedToDisplay = !foundMovie ? true : foundMovie.allowedToDisplay;
 
-  console.log(isAllowedToDisplay);
-
   return (
     <>
       {showFullOverview && <Backdrop onClick={onBackdropClick} />}

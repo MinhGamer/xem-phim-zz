@@ -8,9 +8,24 @@ const initialState = {
 const movieReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ALLOW_MOVIE_TO_DISPLAY: {
+      const { updateMovie, displayedMovieList } = action.payload;
       return {
         ...state,
-        displayedMovieList: action.payload.displayedMovieList,
+        displayedMovieList,
+        movieDetail: updateMovie,
+      };
+    }
+
+    case actionTypes.GET_MOVIE_DETAIL: {
+      const { movieId } = action.payload;
+
+      const movieFound =
+        state.displayedMovieList &&
+        state.displayedMovieList.find((movie) => +movie.id === +movieId);
+
+      return {
+        ...state,
+        movieDetail: movieFound || null,
       };
     }
 
@@ -18,6 +33,15 @@ const movieReducer = (state = initialState, action) => {
       return {
         ...state,
         displayedMovieList: action.payload.movies,
+      };
+    }
+
+    case actionTypes.ADD_COMMENT_TO_MOVIE: {
+      const { movies, updateMovie } = action.payload;
+      return {
+        ...state,
+        displayedMovieList: movies,
+        movieDetail: updateMovie,
       };
     }
 

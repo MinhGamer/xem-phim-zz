@@ -29,6 +29,9 @@ import ProductionCompany from '../../components/productionCompany/ProductionComp
 import Modal from '../../shared/components/UI/Modal';
 import { connect } from 'react-redux';
 import MovieSeriesDetail from '../../components/movieSeriesDetail/MovieSeriesDetail';
+import Comments from '../../components/comments/Comments';
+
+import { actGetMovieDetail } from '../../redux/actionCreator/movieActions';
 
 function MovieDetailPage(props) {
   const history = useHistory();
@@ -49,11 +52,10 @@ function MovieDetailPage(props) {
     fetchSeries,
   } = useHttp();
 
-  const { displayedMovieList } = props;
+  const { movieDetail, getMovieDetail } = props;
 
   //fetch movie when load page
   useEffect(() => {
-    console.log('First call');
     const fetchMovie = async () => {
       let data;
 
@@ -77,28 +79,27 @@ function MovieDetailPage(props) {
 
         const similarM = await fetchSimilarMovies(movieId);
 
-        console.log(similarM);
         setSimilarMovies(similarM);
       }
       //season for tv show
 
-      console.log(data);
       setMovie(data);
 
       //scroll to top of page
     };
 
-    console.log('End call');
-
     fetchMovie();
     //movie or tv
   }, [history.location.pathname]);
 
-  let foundMovie =
-    displayedMovieList &&
-    displayedMovieList.find((_movie) => +_movie.id === +movieId);
+  useEffect(() => {
+    getMovieDetail(movieId);
+  }, []);
 
-  let isAllowedToDisplay = !foundMovie ? true : foundMovie.allowedToDisplay;
+  let isAllowedToDisplay =
+    !movieDetail || !movieDetail.allowedToDisplay
+      ? true
+      : movieDetail.allowedToDisplay;
 
   const clickSeriesHandler = async (seriesId) => {
     let fetchedseries = [{ id: seriesId }];
@@ -152,7 +153,6 @@ function MovieDetailPage(props) {
                 backgroundImage: `url("${API_MOVIE_IMAGE_CUSTOM}/w1280/${movie.backdrop_path}")`,
               }}
               className='movie-detail__background-image'></div>
-
             {/* content */}
             <div className='movie-detail__content'>
               <div className='movie-detail__image'>
@@ -241,12 +241,15 @@ function MovieDetailPage(props) {
                 </CSSTransition>
               </div>
             )}
-
             {similarMovies && (
               <div className='movie-detail__similar-movies'>
                 <SimilarMovies movies={similarMovies} />
               </div>
             )}
+
+            <div className='movie-detail__comments'>
+              <Comments movie={movie} />
+            </div>
           </div>
         </>
       )}
@@ -256,8 +259,14 @@ function MovieDetailPage(props) {
 
 const mapStateToProps = (state) => {
   return {
-    displayedMovieList: state.movieReducer.displayedMovieList,
+    movieDetail: state.movieReducer.movieDetail,
   };
 };
 
-export default connect(mapStateToProps)(MovieDetailPage);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getMovieDetail: (movieId) => dispatch(actGetMovieDetail(movieId)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieDetailPage);
